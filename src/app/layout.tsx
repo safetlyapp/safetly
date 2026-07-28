@@ -9,7 +9,7 @@ const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
 
 export const metadata: Metadata = {
-  title: "AirDroid",
+  title: "Safetly",
   description: "Secure remote access and parental control.",
 };
 

@@ -14,16 +14,12 @@ import {
 import { Menu, X, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const PRODUCT_LINKS = [
-  { label: "AirDroid Parental Control", href: "/products/parental-control", desc: "Screen time, apps, and location for kids" },
-  { label: "AirDroid Business", href: "/products/business", desc: "Remote device management for teams" },
-  { label: "AirDroid Personal", href: "/products/personal", desc: "Remote control and file transfer" },
-];
-
 const NAV_LINKS = [
-  { label: "Solutions", href: "/solutions" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Support", href: "/support" },
+  { label: "Download", href: "#download" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "How to install", href: "#how-to-install" },
+  { label: "Features", href: "#features" }, 
+  { label: "FAQ", href: "#faq" }, 
 ];
 
 export default function Header() {
@@ -36,38 +32,13 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2">
           <ShieldCheck className="h-6 w-6 text-blue-600" />
           <span className="text-lg font-semibold tracking-tight text-slate-900">
-            AirDroid
+            Safetly
           </span>
         </Link>
 
         {/* Desktop nav */}
         <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="text-sm font-medium">
-                Products
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[320px] gap-1 p-3">
-                  {PRODUCT_LINKS.map((item) => (
-                    <li key={item.href}>
-                      <NavigationMenuLink>
-                        <Link
-                          href={item.href}
-                          className="block rounded-md px-3 py-2 hover:bg-slate-50"
-                        >
-                          <p className="text-sm font-medium text-slate-900">
-                            {item.label}
-                          </p>
-                          <p className="text-xs text-slate-500">{item.desc}</p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
             {NAV_LINKS.map((link) => (
               <NavigationMenuItem key={link.href}>
                 <NavigationMenuLink >
@@ -87,9 +58,6 @@ export default function Header() {
         <div className="hidden items-center gap-2 lg:flex">
           <Button variant="ghost" >
             <Link href="/login">Sign in</Link>
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700" >
-            <Link href="/login?mode=signup">Get started</Link>
           </Button>
         </div>
 
@@ -115,15 +83,6 @@ export default function Header() {
         )}
       >
         <nav className="flex flex-col gap-1 px-4 py-3">
-          {PRODUCT_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
-            >
-              {item.label}
-            </Link>
-          ))}
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -136,9 +95,6 @@ export default function Header() {
           <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-3">
             <Button variant="outline" >
               <Link href="/login">Sign in</Link>
-            </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/login?mode=signup">Get started</Link>
             </Button>
           </div>
         </nav>

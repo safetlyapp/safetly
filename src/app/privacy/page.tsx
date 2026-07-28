@@ -4,10 +4,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { id: "eula", label: "EULA policy" },
   { id: "privacy", label: "Privacy Policy" },
   { id: "payment", label: "Payment terms" },
-  { id: "distribution", label: "Distribution agreement" },
   { id: "security", label: "Security Center" },
 ] as const;
 
@@ -64,7 +62,7 @@ function SecurityCenter() {
     <div className="space-y-8 text-sm leading-relaxed text-slate-600">
       <Section title="Data center and security infrastructure">
         <p>
-          At AirDroid, we use Amazon Web Services to host our cloud infrastructure,
+          At Safetly, we use Amazon Web Services to host our cloud infrastructure,
           products, and services, enabling us to provide our customers and users
           with a secure network and computing environment. These security measures
           include firewalls at the network, application, and instance layers, data
@@ -72,8 +70,8 @@ function SecurityCenter() {
           sensitive data are located in Silicon Valley (USA) and Germany.
         </p>
         <p>
-          All AirDroid servers are located in secure data centers that comply with
-          ISO 27001. The data centers used by AirDroid have implemented top-tier
+          All Safetly servers are located in secure data centers that comply with
+          ISO 27001. The data centers used by Safetly have implemented top-tier
           security controls, meaning that personal access control, video
           surveillance, motion detectors, 24/7 monitoring, and on-site security
           ensure that only authorized personnel can enter the data centers. The
@@ -87,20 +85,20 @@ function SecurityCenter() {
 
       <Section title="Session encryption and authentication">
         <p>
-          When establishing a session, AirDroid will determine the best connection
+          When establishing a session, Safetly will determine the best connection
           type. After the server completes the handshake, 80% of all connections
           will use the TLS tunnel (https or wss), while the rest will connect via
           TCP or UDP.
         </p>
         <p>
-          AirDroid communication uses RSA public/private keys, as well as AES
+          Safetly communication uses RSA public/private keys, as well as AES
           (256-bit) session encryption similar to https/SSL, which meet all
           current security standards.
         </p>
         <p>
           Since the private key never leaves the client&apos;s computer, this
-          process ensures that the system, including AirDroid&apos;s routing
-          server, cannot decrypt the data stream; therefore, not even AirDroid, as
+          process ensures that the system, including Safetly&apos;s routing
+          server, cannot decrypt the data stream; therefore, not even Safetly, as
           the server owner, can read the encrypted data.
         </p>
       </Section>
@@ -130,7 +128,7 @@ function SecurityCenter() {
         <ul className="list-disc space-y-2 pl-5">
           <li>
             Engaging in &quot;phishing&quot; or &quot;spoofing&quot;, falsifying
-            your identity or falsely suggesting any association with AirDroid.
+            your identity or falsely suggesting any association with Safetly.
           </li>
           <li>
             Using the services to violate the privacy of other people, including
@@ -155,7 +153,7 @@ function SecurityCenter() {
       </Section>
 
       <p className="text-slate-500">
-        In such cases, AirDroid will retain all its legal rights.
+        In such cases, Safetly will retain all its legal rights.
       </p>
     </div>
   );
