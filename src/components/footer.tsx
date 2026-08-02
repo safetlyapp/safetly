@@ -3,16 +3,19 @@ import Link from "next/link";
 const SAFETLY_LINKS = [
   { label: "About us", href: "/about" },
   { label: "Contact us", href: "/contact" },
-  { label: "Privacy Policy", href: "/terms#privacy" },
-  { label: "Terms and conditions", href: "/terms" },
-  { label: "Payment and Refund Policy", href: "/terms#payment" },
+  { label: "Privacy Policy", href: "/policy/privacy-policy" },
+  { label: "Terms of Service", href: "/policy/terms-of-service" },
+  { label: "Payment and Refund Policy", href: "/policy/payment-and-refund-policy" },
 ];
 
 const SOCIAL_LINKS = [
-  { label: "YouTube", href: "https://youtube.com", icon: YoutubeIcon, bg: "bg-red-600" },
-  { label: "Facebook", href: "https://facebook.com", icon: FacebookIcon, bg: "bg-slate-900" },
-  { label: "LinkedIn", href: "https://linkedin.com", icon: LinkedinIcon, bg: "bg-sky-500" },
-  { label: "Instagram", href: "https://instagram.com", icon: InstagramIcon, bg: "bg-slate-900" },
+  { label: "Facebook", href: "https://facebook.com", icon: FacebookIcon },
+  { label: "LinkedIn", href: "https://linkedin.com", icon: LinkedinIcon },
+  { label: "X", href: "https://x.com", icon: XIcon },
+  { label: "YouTube", href: "https://youtube.com", icon: YoutubeIcon },
+  { label: "Instagram", href: "https://instagram.com", icon: InstagramIcon },
+  { label: "Telegram", href: "https://telegram.org", icon: TelegramIcon },
+  { label: "Threads", href: "https://threads.net", icon: ThreadsIcon },
 ];
 
 export default function SafetlyFooter() {
@@ -50,18 +53,18 @@ export default function SafetlyFooter() {
         <div>
           <h3 className="text-lg font-semibold text-slate-900">Social media</h3>
           <div className="mt-2 h-px w-16 bg-slate-300" />
-          <div className="mt-4 flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ label, href, icon: Icon, bg }) => (
-              <a
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+              <Link
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={label}
-                className={`flex h-9 w-9 items-center justify-center rounded-full text-white ${bg}`}
+                className="group flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 transition-all duration-200 hover:-translate-y-0.5 hover:bg-success hover:text-white hover:shadow-md hover:shadow-success/30"
               >
-                <Icon className="h-4 w-4" />
-              </a>
+                <Icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+              </Link>
             ))}
           </div>
         </div>
@@ -111,6 +114,38 @@ function InstagramIcon({ className }: IconProps) {
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function XIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M18.9 3H22l-7.5 8.6L22.9 21h-6.7l-5.2-6.5L4.9 21H1.8l8-9.1L1.3 3h6.8l4.7 6z" />
+    </svg>
+  );
+}
+
+function TiktokIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M16.6 3h-3.1v12.4a2.7 2.7 0 1 1-2.7-2.7c.2 0 .5 0 .7.08V9.6a5.9 5.9 0 1 0 5.1 5.85V9.3a7.6 7.6 0 0 0 4.4 1.4V7.6a4.5 4.5 0 0 1-4.4-4.6Z" />
+    </svg>
+  );
+}
+
+function TelegramIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M21.4 4.4 2.8 11.6c-1 .4-1 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.9 1.4 1.1 2 .4l2.6-2.8 4.7 3.5c.8.6 2 .2 2.2-.8l3-16.4c.2-1.1-.9-2-1.9-1.6ZM8.5 14.4l8.4-6.9c.2-.2.4.1.2.3l-7 7.1-.3 3.3-1.3-3.8Z" />
+    </svg>
+  );
+}
+
+function ThreadsIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className} aria-hidden="true">
+      <path d="M12 21c4.5 0 7-2.6 7-7.3 0-.9-.1-1.9-.4-2.9-.6-2.5-2.3-4.6-6-4.8-3-.2-5 1.1-5.4 3.2-.2 1.1.5 2 1.6 2.1 1 .1 1.6-.5 1.8-1.2.2-.9 1-1.3 2-1.2 1.8.1 2.4 1.4 2.6 2.6.1.6.1 1.3.1 1.9-.6-.4-1.4-.6-2.4-.6-2.3 0-4 1.3-4 3.3 0 1.9 1.6 3.2 3.8 3.2 2 0 3.3-.9 3.9-2.4" />
     </svg>
   );
 }
