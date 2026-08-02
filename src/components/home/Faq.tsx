@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import Link from "next/link";
+import { Plus, ArrowRight } from "lucide-react";
 
 const FAQS = [
   {
@@ -87,6 +88,16 @@ export default function FAQ() {
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-4 flex justify-end">
+        <Link
+          href="/faq"
+          className="group flex items-center gap-1.5 text-sm font-medium text-violet-700 transition-colors hover:text-violet-800"
+        >
+          See more
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
       </div>
     </section>
   );
