@@ -21,9 +21,6 @@ const BACKGROUND_IMAGE = "/background.jpeg";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* top accent bar */}
-      <div className="relative z-10 h-1.5 w-full bg-gradient-to-r from-pink-400 via-orange-300 to-yellow-300" />
-
       {/* Full-section background image */}
       <div className="absolute inset-0">
         <Image
@@ -33,35 +30,35 @@ export default function Hero() {
           priority
           className="object-cover"
         />
-        {/* light overlay so text stays readable over any photo */}
-        <div className="absolute inset-0 bg-white/70" />
+        {/* dark overlay so white text stays readable over the photo */}
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-black/30" />
       </div>
 
       <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
         {/* Copy */}
         <div>
-          <h1 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
+          <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
             A safe child means being at peace at all times!
           </h1>
-          <p className="mt-4 max-w-md text-slate-600">
+          <p className="mt-4 max-w-md text-lg text-white/90">
             Keep your child away from obscene content, harmful sites, and
             unnecessary scrolling. Activate the Safetly app and keep your
             child&apos;s device 100% secure.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Button size="lg" className="bg-violet-600 hover:bg-violet-700" >
+            <Button size="lg" className="bg-primary hover:bg-primary/90" >
               <Link href="/checkout">Try it free</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-violet-600 text-violet-600 hover:bg-violet-50" >
+            <Button size="lg" variant="outline" className="border-primary text-white hover:text-white hover:bg-primary/10" >
               <Link href="/pricing">Get Premium</Link>
             </Button>
           </div>
 
-          <p className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+          <p className="mt-4 flex items-center gap-2 text-xs text-white/80">
             Available on:
-            <span className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 shadow-sm">
-              <AndroidIcon className="h-3.5 w-3.5 text-emerald-600" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-white text-black px-2 py-1 shadow-sm">
+              <AndroidIcon className="h-3.5 w-3.5 text-success" />
               Android
             </span>
           </p>
@@ -94,7 +91,7 @@ function HeroImageCarousel({
   }, [images.length, intervalMs]);
 
   return (
-    <div className="relative h-86 w-64 overflow-hidden rounded-2xl  md:h-96 md:w-72">
+    <div className="relative h-105 w-75 overflow-hidden rounded-3xl md:h-135 md:w-95">
       {images.map((src, i) => (
         <Image
           key={src}
@@ -106,8 +103,11 @@ function HeroImageCarousel({
         />
       ))}
 
+      {/* black shadow overlay so any text/dots on top stay readable */}
+      {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" /> */}
+
       {/* dots */}
-      <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
         {images.map((_, i) => (
           <span
             key={i}

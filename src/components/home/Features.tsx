@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, Smartphone, ImageIcon, Camera, MapPin, AlarmClock, MonitorSmartphone } from "lucide-react";
 
 const FEATURES_LEFT = [
-  "Live Screen Mirroring",
-  "Inappropriate Image & Video Detection",
-  "Remote Camera",
-  "Sound around Child",
+  // "Live Screen Mirroring",
+  // "Inappropriate Image & Video Detection",
+  // "Remote Camera",
+  // "Sound around Child",
   "Location & Route Tracking",
   "App/Game & Web Blocker",
   "Downtime App",
@@ -16,10 +16,10 @@ const FEATURES_LEFT = [
 const FEATURES_RIGHT = [
   "App Time Limits",
   "Geofencing",
-  "Calls & SMS Monitoring",
+  // "Calls & SMS Monitoring",
   "Social Content Monitoring",
   "View App Notifications",
-  "Browsing History",
+  // "Browsing History",
   "Usage Report",
 ];
 
@@ -27,10 +27,10 @@ export default function Features() {
   return (
     <section id="features" className="mx-auto max-w-6xl px-4 py-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">
           Our Advance Premium Features
         </h2>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-2 md:text-lg text-slate-600">
           Feature availability varies depending on whether your child is
           using the Android or iOS operating system.
         </p>
@@ -98,12 +98,12 @@ export default function Features() {
             {[...FEATURES_LEFT, ...FEATURES_RIGHT].map((feature) => (
               <div key={feature} className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                <span className="text-sm text-slate-700">{feature}</span>
+                <span className=" text-sm text-slate-700">{feature}</span>
               </div>
             ))}
           </div>
 
-          <Button className="mt-6 bg-violet-600 hover:bg-violet-700">
+          <Button className="mt-6 bg-violet-700/50  cursor-pointer hover:bg-violet-700 " >
             Try it free
           </Button>
         </div>

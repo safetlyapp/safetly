@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Menu, X, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,19 +16,52 @@ const NAV_LINKS = [
   { label: "Download", href: "#download" },
   { label: "Pricing", href: "#pricing" },
   { label: "How to install", href: "#how-to-install" },
-  { label: "Features", href: "#features" }, 
-  { label: "FAQ", href: "#faq" }, 
+  { label: "Features", href: "#features" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string>("");
+
+  // Scroll-spy: watch every section referenced in NAV_LINKS and mark
+  // whichever one is currently most visible as active.
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) =>
+      document.querySelector(link.href)
+    ).filter((el): el is Element => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // pick the entry that is most visible in the viewport right now
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]) {
+          setActiveHref(`#${visible[0].target.id}`);
+        }
+      },
+      {
+        // trigger a bit before the section hits the very top, and
+        // stop counting it a bit before it leaves the bottom
+        rootMargin: "-96px 0px -60% 0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur shadow-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <ShieldCheck className="h-6 w-6 text-blue-600" />
+          <ShieldCheck className="h-6 w-6 text-primary" />
           <span className="text-lg font-semibold tracking-tight text-slate-900">
             Safetly
           </span>
@@ -39,24 +70,38 @@ export default function Header() {
         {/* Desktop nav */}
         <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
-            {NAV_LINKS.map((link) => (
-              <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink >
-                  <Link
-                    href={link.href}
-                    className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-blue-600"
-                  >
-                    {link.label}
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = activeHref === link.href;
+              return (
+                <NavigationMenuItem key={link.href}>
+                  <NavigationMenuLink >
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "relative px-3 py-2 text-sm font-medium transition-colors",
+                        isActive
+                          ? "text-primary"
+                          : "text-slate-700 hover:text-primary"
+                      )}
+                    >
+                      {link.label}
+                      <span
+                        className={cn(
+                          "absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary transition-opacity",
+                          isActive ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              );
+            })}
           </NavigationMenuList>
         </NavigationMenu>
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost" >
+          <Button variant="ghost">
             <Link href="/login">Sign in</Link>
           </Button>
         </div>
@@ -83,15 +128,24 @@ export default function Header() {
         )}
       >
         <nav className="flex flex-col gap-1 px-4 py-3">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = activeHref === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "rounded-md px-3 py-2 text-sm transition-colors",
+                  isActive
+                    ? "bg-accent text-primary font-medium"
+                    : "text-slate-700 hover:bg-slate-50"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-3">
             <Button variant="outline" >
               <Link href="/login">Sign in</Link>
