@@ -2,21 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Menu, X, ShieldCheck } from "lucide-react";
+import { Menu, X, ShieldCheck, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
+  { label: "Features", href: "#features" },
   { label: "Download", href: "#download" },
   { label: "Pricing", href: "#pricing" },
-  { label: "How to install", href: "#how-to-install" },
-  { label: "Features", href: "#features" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -24,8 +22,6 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string>("");
 
-  // Scroll-spy: watch every section referenced in NAV_LINKS and mark
-  // whichever one is currently most visible as active.
   useEffect(() => {
     const sections = NAV_LINKS.map((link) =>
       document.querySelector(link.href)
@@ -35,7 +31,6 @@ export default function Header() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // pick the entry that is most visible in the viewport right now
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -45,8 +40,6 @@ export default function Header() {
         }
       },
       {
-        // trigger a bit before the section hits the very top, and
-        // stop counting it a bit before it leaves the bottom
         rootMargin: "-96px 0px -60% 0px",
         threshold: [0, 0.25, 0.5, 0.75, 1],
       }
@@ -74,7 +67,7 @@ export default function Header() {
               const isActive = activeHref === link.href;
               return (
                 <NavigationMenuItem key={link.href}>
-                  <NavigationMenuLink >
+                  <NavigationMenuLink>
                     <Link
                       href={link.href}
                       className={cn(
@@ -100,10 +93,10 @@ export default function Header() {
         </NavigationMenu>
 
         {/* Desktop actions */}
-        <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost">
-            <Link href="/login">Sign in</Link>
-          </Button>
+        <div className="hidden items-center lg:flex">
+          <Link href="/login">
+            <LoginButton />
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -147,12 +140,28 @@ export default function Header() {
             );
           })}
           <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-3">
-            <Button variant="outline" >
-              <Link href="/login">Sign in</Link>
-            </Button>
+            <Link href="/login" onClick={() => setMobileOpen(false)}>
+              <LoginButton className="w-full justify-center" />
+            </Link>
           </div>
         </nav>
       </div>
     </header>
+  );
+}
+
+function LoginButton({ className }: { className?: string }) {
+  return (
+    <button
+      className={cn(
+        "group relative inline-flex items-center gap-2 rounded-full bg-linear-to-r from-sky-500 to-sky-600 py-2 pl-11 pr-6 text-sm font-semibold text-white shadow-sm ring-1 ring-sky-600/20 transition-all duration-200 hover:shadow-md hover:shadow-sky-500/25 hover:-translate-y-0.5 hover:from-sky-600 hover:to-sky-700 active:translate-y-0",
+        className
+      )}
+    >
+      <span className="absolute left-1.5 top-0 flex h-full w-8 items-center justify-center rounded-full rounded-t-none bg-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+        <Lock className="h-3.5 w-3.5 text-sky-600" />
+      </span>
+      <span className="tracking-wide">Login</span>
+    </button>
   );
 }

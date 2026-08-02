@@ -11,7 +11,7 @@ export default function HowToInstall() {
   const [platform, setPlatform] = useState<"android" | "ios">("android");
 
   return (
-    <section id="how-to-install" className="mx-auto max-w-4xl px-4 py-16 text-center">
+    <section id="download" className="mx-auto max-w-4xl px-4 py-16 text-center">
       {/* Parents / Kids devices */}
       <div>
         <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">
