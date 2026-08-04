@@ -27,6 +27,7 @@ export default function Hero() {
           src={BACKGROUND_IMAGE}
           alt=""
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
           className="object-cover"
         />
@@ -98,6 +99,7 @@ function HeroImageCarousel({
           src={src}
           alt={`App screenshot ${i + 1}`}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-opacity duration-500 ease-in-out"
           style={{ opacity: i === active ? 1 : 0 }}
         />

@@ -54,15 +54,21 @@ const COUPONS: Record<string, number> = {
 
 type PaymentMethodId = "bkash" | "nagad" | "rocket";
 
+/**
+ * Single source of truth for each payment method's logo + brand color.
+ * Update the `logo` path here and every button picks it up automatically —
+ * no other code needs to change.
+ */
 const PAYMENT_METHODS: {
   id: PaymentMethodId;
   label: string;
+  logo: string;
   color: string;
   bg: string;
 }[] = [
-  { id: "bkash", label: "bKash", color: "#E2136E", bg: "#FDF2F8" },
-  { id: "nagad", label: "Nagad", color: "#F42B4E", bg: "#FEF1F3" },
-  { id: "rocket", label: "Rocket", color: "#8C3494", bg: "#F6F0FA" },
+  { id: "bkash", label: "bKash", logo: "/bKash.png", color: "#E2136E", bg: "#FDF2F8" },
+  { id: "nagad", label: "Nagad", logo: "/Nagad.png", color: "#F42B4E", bg: "#FEF1F3" },
+  { id: "rocket", label: "Rocket", logo: "/rocket.png", color: "#8C3494", bg: "#F6F0FA" },
 ];
 
 export default function CheckoutPage() {
@@ -80,7 +86,13 @@ function CheckoutContent() {
 
   const [agreed, setAgreed] = useState(false);
   const [accountId, setAccountId] = useState("");
-  const [logoError, setLogoError] = useState(false);
+
+  // per-method logo load state, so one missing image doesn't affect the others
+  const [logoErrors, setLogoErrors] = useState<Record<PaymentMethodId, boolean>>({
+    bkash: false,
+    nagad: false,
+    rocket: false,
+  });
 
   const [couponInput, setCouponInput] = useState("");
   const [couponStatus, setCouponStatus] = useState<"idle" | "valid" | "invalid">(
@@ -153,13 +165,13 @@ function CheckoutContent() {
               </div>
 
               <div className="mb-4 flex flex-row items-center justify-between gap-2">
-               <div>
-                 <p className="text-sm font-medium text-slate-900">{plan.name}</p>
-                <p className="text-xs text-slate-500">{plan.billing}</p>
-               </div>
-               <div>
-                <span className=" font-medium">৳{plan.price.toFixed(2)}</span>
-               </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-900">{plan.name}</p>
+                  <p className="text-xs text-slate-500">{plan.billing}</p>
+                </div>
+                <div>
+                  <span className="font-medium">৳{plan.price.toFixed(2)}</span>
+                </div>
               </div>
 
               <Separator className="my-4" />
@@ -232,7 +244,11 @@ function CheckoutContent() {
                     1. Account details
                   </h2>
                   <p className="mb-3 text-xs text-slate-500">
-                   Enter a valid email address, nickname, or kid’s ID <span className="text-[11px]">(which you received after installing the kid’s app)</span>.
+                    Enter a valid email address, nickname, or kid&apos;s ID{" "}
+                    <span className="text-[11px]">
+                      (which you received after installing the kid&apos;s app)
+                    </span>
+                    .
                   </p>
                   <Input
                     placeholder="Email, Nickname or kids ID"
@@ -246,15 +262,18 @@ function CheckoutContent() {
                     2. Payment details
                   </h2>
 
-                  {/* Payment method selector */}
+                  {/* Payment method selector — image only, driven by PAYMENT_METHODS above */}
                   <div className="mb-4 grid grid-cols-3 gap-2">
                     {PAYMENT_METHODS.map((method) => {
                       const isSelected = paymentMethod === method.id;
+                      const logoFailed = logoErrors[method.id];
+
                       return (
                         <button
                           key={method.id}
                           type="button"
                           onClick={() => setPaymentMethod(method.id)}
+                          aria-label={method.label}
                           style={
                             isSelected
                               ? {
@@ -264,31 +283,36 @@ function CheckoutContent() {
                               : undefined
                           }
                           className={cn(
-                            "flex h-14 items-center justify-center rounded-md border px-2 py-2 text-sm font-semibold transition-all duration-200",
+                            "flex h-14 items-center justify-center rounded-md border px-2 py-2 transition-all duration-200",
                             isSelected
                               ? "shadow-sm"
-                              : "border-slate-200 bg-white text-slate-400 hover:border-slate-300"
+                              : "border-slate-200 bg-white hover:border-slate-300"
                           )}
                         >
-                          {method.id === "bkash" ? (
-                            !logoError ? (
-                              <img
-                                src="/bkash.png"
-                                alt="bKash"
-                                width={80}
-                                height={20}
-                                className="h-5 w-auto"
-                                onError={() => setLogoError(true)}
-                              />
-                            ) : (
-                              <span style={{ color: method.color }}>bKash</span>
-                            )
-                          ) : (
+                          {logoFailed ? (
                             <span
-                              style={{ color: isSelected ? method.color : undefined }}
+                              className="text-sm font-semibold"
+                              style={{ color: isSelected ? method.color : "#94A3B8" }}
                             >
                               {method.label}
                             </span>
+                          ) : (
+                            <Image
+                              src={method.logo}
+                              alt={method.label}
+                              width={100}
+                              height={52}
+                              className={cn(
+                                "h-10 w-auto object-contain transition-opacity",
+                                !isSelected && "opacity-50"
+                              )}
+                              onError={() =>
+                                setLogoErrors((prev) => ({
+                                  ...prev,
+                                  [method.id]: true,
+                                }))
+                              }
+                            />
                           )}
                         </button>
                       );

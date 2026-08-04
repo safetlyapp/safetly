@@ -63,28 +63,26 @@ export default function Header() {
         {/* Desktop nav */}
         <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
-            {NAV_LINKS.map((link) => {
+            {NAV_LINKS.map((link, index) => {
               const isActive = activeHref === link.href;
               return (
-                <NavigationMenuItem key={link.href}>
-                  <NavigationMenuLink>
-                    <Link
-                      href={link.href}
+                <NavigationMenuItem key={index}>
+                  <NavigationMenuLink
+                    render={<Link href={link.href} />}
+                    className={cn(
+                      "relative px-3 py-2 text-sm font-medium transition-colors",
+                      isActive
+                        ? "text-primary"
+                        : "text-slate-700 hover:text-primary"
+                    )}
+                  >
+                    {link.label}
+                    <span
                       className={cn(
-                        "relative px-3 py-2 text-sm font-medium transition-colors",
-                        isActive
-                          ? "text-primary"
-                          : "text-slate-700 hover:text-primary"
+                        "absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary transition-opacity",
+                        isActive ? "opacity-100" : "opacity-0"
                       )}
-                    >
-                      {link.label}
-                      <span
-                        className={cn(
-                          "absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary transition-opacity",
-                          isActive ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                    </Link>
+                    />
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               );
@@ -94,9 +92,7 @@ export default function Header() {
 
         {/* Desktop actions */}
         <div className="hidden items-center lg:flex">
-          <Link href="/login">
-            <LoginButton />
-          </Link>
+          <LoginButton />
         </div>
 
         {/* Mobile toggle */}
@@ -140,9 +136,10 @@ export default function Header() {
             );
           })}
           <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-3">
-            <Link href="/login" onClick={() => setMobileOpen(false)}>
-              <LoginButton className="w-full justify-center" />
-            </Link>
+            <LoginButton
+              className="w-full justify-center"
+              onClick={() => setMobileOpen(false)}
+            />
           </div>
         </nav>
       </div>
@@ -150,9 +147,18 @@ export default function Header() {
   );
 }
 
-function LoginButton({ className }: { className?: string }) {
+function LoginButton({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
+  // This *is* the anchor — do not wrap it in another <Link>/<a> at the call site.
   return (
-    <button
+    <Link
+      href="/login"
+      onClick={onClick}
       className={cn(
         "group relative inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-sky-500 to-sky-600 py-2 pl-11 pr-6 text-sm font-semibold text-white shadow-sm ring-1 ring-sky-600/20 transition-all duration-200 hover:shadow-md hover:shadow-sky-500/25 hover:-translate-y-0.5 hover:from-sky-600 hover:to-sky-700 active:translate-y-0",
         className
@@ -162,6 +168,6 @@ function LoginButton({ className }: { className?: string }) {
         <Lock className="h-3.5 w-3.5 text-sky-600" />
       </span>
       <span className="tracking-wide">Login</span>
-    </button>
+    </Link>
   );
 }

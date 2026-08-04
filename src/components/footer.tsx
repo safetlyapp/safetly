@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const SAFETLY_LINKS = [
-  { label: "About us", href: "/about" },
-  { label: "Contact us", href: "/contact" },
+  { label: "About us", href: "/about-us" },
+  { label: "Contact us", href: "/contact-us" },
   { label: "Privacy Policy", href: "/policy/privacy-policy" },
   { label: "Terms of Service", href: "/policy/terms-of-service" },
   { label: "Payment and Refund Policy", href: "/policy/payment-and-refund-policy" },
