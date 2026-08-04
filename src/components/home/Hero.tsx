@@ -47,7 +47,7 @@ export default function Hero() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Button size="lg" className="bg-success/70 hover:bg-success" >
+            <Button size="lg" className="bg-blue-600/70 hover:bg-blue-800" >
               <Link href="/checkout">Try it free</Link>
             </Button>
             <Button size="lg" variant="outline" className="border-primary text-white hover:text-white hover:bg-primary" >
@@ -57,7 +57,7 @@ export default function Hero() {
 
           <p className="mt-4 flex items-center gap-2 text-xs text-white/80">
             Available on:
-            <span className="inline-flex items-center gap-1 rounded-full bg-success text-white px-2 py-1 shadow-sm">
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 text-white px-2 py-1 shadow-sm">
               <AndroidIcon className="h-3.5 w-3.5 text-white" />
               Android
             </span>

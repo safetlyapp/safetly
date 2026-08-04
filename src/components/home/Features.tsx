@@ -103,7 +103,7 @@ export default function Features() {
             ))}
           </div>
 
-          <Button className="mt-6 bg-violet-700/50  cursor-pointer hover:bg-violet-700 " >
+          <Button className="mt-6 bg-blue-600  cursor-pointer hover:bg-blue-800 " >
             Try it free
           </Button>
         </div>

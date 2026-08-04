@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Award, Sparkles, ShieldCheck, Lock, ReceiptText } from "lucide-react";
@@ -32,7 +33,7 @@ const PLANS = [
     strikeNote: "৳297",
     cta: "Subscribe for 90 days",
     accent: "#00A14B",
-    popular: false,
+    popular: true,
     features: [
       "3-month access to all features",
       "No auto-renew",
@@ -66,7 +67,7 @@ const PLANS = [
     strikeNote: "৳1,188",
     cta: "Subscribe for 360 days",
     accent: "#F16521",
-    popular: true,
+    popular: false,
     features: [
       "12-month access to all features",
       "No auto-renew",
@@ -83,12 +84,12 @@ const TRUST_BADGES = [
 ];
 
 export default function Pricing() {
-  // Default selected: 360-Day 
-  const [selectedId, setSelectedId] = useState("quarterly-360");
+  const router = useRouter();
+  // Default selected: 360-Day
+  const [selectedId, setSelectedId] = useState("quarterly-90");
 
   return (
     <section id="pricing" className="relative overflow-hidden">
-
       <div className="mx-auto max-w-6xl px-4 py-16">
         <p className="text-sm font-medium text-secondary">Pricing Plans</p>
         <h2 className="mt-1 text-2xl font-bold text-slate-900 md:text-3xl">
@@ -181,6 +182,7 @@ export default function Pricing() {
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedId(plan.id);
+                      router.push(`/checkout?plan=${plan.id}`);
                     }}
                     style={
                       isSelected

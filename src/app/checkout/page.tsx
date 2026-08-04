@@ -1,62 +1,226 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { CreditCard } from "lucide-react";
+import {
+  CreditCard,
+  Tag,
+  CheckCircle2,
+  XCircle,
+  AlertCircle,
+  ShieldCheck,
+} from "lucide-react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-const PLAN = {
-  name: "Safetly Parental Control",
-  billing: "Monthly",
-  price: 0,
+/** Mirrors the plan ids/prices used on the Pricing section. */
+const PLANS: Record<
+  string,
+  { name: string; billing: string; price: number }
+> = {
+  monthly: {
+    name: "Monthly/30-Day",
+    billing: "Billed every 30 days",
+    price: 99,
+  },
+  "quarterly-90": {
+    name: "Quarterly/90-Day",
+    billing: "Billed every 90 days",
+    price: 275,
+  },
+  "quarterly-180": {
+    name: "Quarterly/180-Day",
+    billing: "Billed every 180 days",
+    price: 540,
+  },
+  "quarterly-360": {
+    name: "Quarterly/360-Day",
+    billing: "Billed every 360 days",
+    price: 1050,
+  },
 };
 
+/** Example valid coupon codes -> percentage off. */
+const COUPONS: Record<string, number> = {
+  SAFE10: 10,
+  WELCOME15: 15,
+};
+
+type PaymentMethodId = "bkash" | "nagad" | "rocket";
+
+const PAYMENT_METHODS: {
+  id: PaymentMethodId;
+  label: string;
+  color: string;
+  bg: string;
+}[] = [
+  { id: "bkash", label: "bKash", color: "#E2136E", bg: "#FDF2F8" },
+  { id: "nagad", label: "Nagad", color: "#F42B4E", bg: "#FEF1F3" },
+  { id: "rocket", label: "Rocket", color: "#8C3494", bg: "#F6F0FA" },
+];
+
 export default function CheckoutPage() {
+  return (
+    <Suspense fallback={null}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
+
+function CheckoutContent() {
+  const searchParams = useSearchParams();
+  const planId = searchParams.get("plan") ?? "quarterly-360";
+  const plan = PLANS[planId] ?? PLANS["quarterly-360"];
+
   const [agreed, setAgreed] = useState(false);
   const [accountId, setAccountId] = useState("");
   const [logoError, setLogoError] = useState(false);
 
-  const canPay = agreed && accountId.trim().length > 0;
+  const [couponInput, setCouponInput] = useState("");
+  const [couponStatus, setCouponStatus] = useState<"idle" | "valid" | "invalid">(
+    "idle"
+  );
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId | null>(
+    null
+  );
+
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const discountAmount = useMemo(
+    () => Math.round(plan.price * discountPercent) / 100,
+    [plan.price, discountPercent]
+  );
+  const total = useMemo(
+    () => plan.price - (plan.price * discountPercent) / 100,
+    [plan.price, discountPercent]
+  );
+
+  function applyCoupon() {
+    const code = couponInput.trim().toUpperCase();
+    if (!code) return;
+    if (COUPONS[code]) {
+      setDiscountPercent(COUPONS[code]);
+      setCouponStatus("valid");
+    } else {
+      setDiscountPercent(0);
+      setCouponStatus("invalid");
+    }
+  }
+
+  function handlePay() {
+    const newErrors: string[] = [];
+    if (!accountId.trim()) {
+      newErrors.push("Please enter your email, nickname, or kids ID.");
+    }
+    if (!paymentMethod) {
+      newErrors.push("Please select a payment method (bKash, Nagad, or Rocket).");
+    }
+    if (!agreed) {
+      newErrors.push(
+        "Please agree to the Terms and Conditions, Privacy Policy, and Refund Policy."
+      );
+    }
+    setErrors(newErrors);
+
+    if (newErrors.length === 0) {
+      // TODO: wire up the actual payment redirect for the selected gateway
+      console.log("Proceeding to payment", { planId, paymentMethod, total });
+    }
+  }
+
+  const selectedMethod = PAYMENT_METHODS.find((m) => m.id === paymentMethod);
 
   return (
-    <div className="min-h-screen w-full bg-white px-4 py-10">
+    <div className="min-h-screen w-full bg-linear-to-b from-slate-50 to-white px-4 py-10">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-xl font-semibold text-slate-900">Checkout</h1>
+        <h1 className="mb-6 text-xl font-bold text-slate-900">Checkout</h1>
 
-        <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-sm">
+        <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr]">
             {/* Order summary */}
             <div className="bg-slate-50 p-6 md:border-r md:border-slate-200">
-              <div className="mb-4 flex items-center gap-2 text-sm font-medium text-slate-700">
+              <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-700">
                 <CreditCard className="h-4 w-4" />
                 Order summary
               </div>
 
+              <div className="mb-4 flex flex-row items-center justify-between gap-2">
+               <div>
+                 <p className="text-sm font-medium text-slate-900">{plan.name}</p>
+                <p className="text-xs text-slate-500">{plan.billing}</p>
+               </div>
+               <div>
+                <span className=" font-medium">৳{plan.price.toFixed(2)}</span>
+               </div>
+              </div>
+
+              <Separator className="my-4" />
+
+              {/* Coupon */}
               <div className="mb-4">
-                <p className="text-sm font-medium text-slate-900">{PLAN.name}</p>
-                <p className="text-xs text-slate-500">{PLAN.billing}</p>
+                <Label className="mb-2 flex items-center gap-1.5 text-xs font-medium text-slate-600">
+                  <Tag className="h-3.5 w-3.5" />
+                  Have a coupon?
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter coupon code"
+                    value={couponInput}
+                    onChange={(e) => {
+                      setCouponInput(e.target.value);
+                      setCouponStatus("idle");
+                    }}
+                    className="h-9 text-sm"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={applyCoupon}
+                    className="h-9 shrink-0 px-3 text-xs"
+                  >
+                    Apply
+                  </Button>
+                </div>
+
+                {couponStatus === "valid" && (
+                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-success">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Coupon applied — {discountPercent}% off
+                  </p>
+                )}
+                {couponStatus === "invalid" && (
+                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-destructive">
+                    <XCircle className="h-3.5 w-3.5" />
+                    Invalid coupon code
+                  </p>
+                )}
               </div>
 
               <Separator className="my-4" />
 
-              <button type="button" className="mb-4 text-sm text-slate-500 hover:text-slate-700">
-                I have a coupon
-              </button>
+              {discountPercent > 0 && (
+                <div className="mt-2 flex items-center justify-between text-sm text-success">
+                  <span>Discount ({discountPercent}%)</span>
+                  <span>−৳{discountAmount.toFixed(2)}</span>
+                </div>
+              )}
 
-              <Separator className="my-4" />
-
-              <div className="flex items-center justify-between text-sm text-slate-600">
-                <span>Subtotal</span>
-                <span>${PLAN.price.toFixed(2)}</span>
-              </div>
               <div className="mt-2 flex items-center justify-between text-base font-semibold text-slate-900">
                 <span>Order&apos;s total</span>
-                <span>${PLAN.price.toFixed(2)}</span>
+                <span>৳{total.toFixed(2)}</span>
+              </div>
+
+              <div className="mt-6 flex items-center gap-2 text-xs text-slate-500">
+                <ShieldCheck className="h-3.5 w-3.5 text-success" />
+                Secure checkout, cancel anytime
               </div>
             </div>
 
@@ -68,8 +232,7 @@ export default function CheckoutPage() {
                     1. Account details
                   </h2>
                   <p className="mb-3 text-xs text-slate-500">
-                    Enter a valid email address, Nickname or kids ID (that you provided
-                    when creating the account).
+                   Enter a valid email address, nickname, or kid’s ID <span className="text-[11px]">(which you received after installing the kid’s app)</span>.
                   </p>
                   <Input
                     placeholder="Email, Nickname or kids ID"
@@ -83,23 +246,68 @@ export default function CheckoutPage() {
                     2. Payment details
                   </h2>
 
-                  {/* bKash logo */}
-                  <div className="mb-4 flex h-14 items-center justify-center rounded-md border border-pink-200 bg-pink-50 px-3 py-2.5">
-                    {!logoError ? (
-                      <img
-                        src="/bkash.png"
-                        alt="bKash"
-                        width={200}
-                        height={24}
-                        className="h-6 w-auto"
-                        onError={() => setLogoError(true)}
-                      />
-                    ) : (
-                      <BkashLogo className="h-6 w-auto" />
-                    )}
+                  {/* Payment method selector */}
+                  <div className="mb-4 grid grid-cols-3 gap-2">
+                    {PAYMENT_METHODS.map((method) => {
+                      const isSelected = paymentMethod === method.id;
+                      return (
+                        <button
+                          key={method.id}
+                          type="button"
+                          onClick={() => setPaymentMethod(method.id)}
+                          style={
+                            isSelected
+                              ? {
+                                  borderColor: method.color,
+                                  backgroundColor: method.bg,
+                                }
+                              : undefined
+                          }
+                          className={cn(
+                            "flex h-14 items-center justify-center rounded-md border px-2 py-2 text-sm font-semibold transition-all duration-200",
+                            isSelected
+                              ? "shadow-sm"
+                              : "border-slate-200 bg-white text-slate-400 hover:border-slate-300"
+                          )}
+                        >
+                          {method.id === "bkash" ? (
+                            !logoError ? (
+                              <img
+                                src="/bkash.png"
+                                alt="bKash"
+                                width={80}
+                                height={20}
+                                className="h-5 w-auto"
+                                onError={() => setLogoError(true)}
+                              />
+                            ) : (
+                              <span style={{ color: method.color }}>bKash</span>
+                            )
+                          ) : (
+                            <span
+                              style={{ color: isSelected ? method.color : undefined }}
+                            >
+                              {method.label}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
 
-                  {/* Terms line - forced to a single line */}
+                  {selectedMethod && (
+                    <p
+                      className="mb-4 rounded-md px-3 py-2 text-xs font-medium"
+                      style={{
+                        backgroundColor: selectedMethod.bg,
+                        color: selectedMethod.color,
+                      }}
+                    >
+                      You&apos;re paying via {selectedMethod.label}
+                    </p>
+                  )}
+
+                  {/* Terms line */}
                   <div className="mb-4 flex items-start gap-2">
                     <Checkbox
                       id="terms"
@@ -128,25 +336,39 @@ export default function CheckoutPage() {
                   </div>
 
                   <Button
-                    disabled={!canPay}
-                    className="w-full gap-2 bg-pink-600 hover:bg-pink-700 disabled:bg-slate-200 disabled:text-slate-400"
+                    onClick={handlePay}
+                    style={
+                      selectedMethod
+                        ? { backgroundColor: selectedMethod.color }
+                        : undefined
+                    }
+                    className={cn(
+                      "w-full gap-2 text-white transition-all duration-200 hover:opacity-90",
+                      !selectedMethod && "bg-primary hover:bg-primary/90"
+                    )}
                   >
-                    
-                     <Image
-                        src="/bkash.png"
-                        alt="bKash"
-                        width={24}
-                        height={24}
-                        className="h-4 w-auto"
-                      />
-                   
-                    Pay with bKash (Monthly)
+                    Pay {selectedMethod ? `with ${selectedMethod.label}` : "Now"}{" "}
+                    (৳{total.toFixed(2)})
                   </Button>
 
+                  {errors.length > 0 && (
+                    <div className="mt-3 space-y-1.5 rounded-md border border-destructive/20 bg-destructive/5 p-3">
+                      {errors.map((err) => (
+                        <p
+                          key={err}
+                          className="flex items-start gap-1.5 text-xs text-destructive"
+                        >
+                          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                          {err}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
                   <p className="mt-3 text-xs leading-relaxed text-slate-500">
-                    Click &quot;Pay with bKash&quot; to pay via bKash. You&apos;ll be
-                    redirected to bKash to complete the payment and then return to
-                    this page.
+                    Click &quot;Pay&quot; to complete your subscription. You&apos;ll
+                    be redirected to your selected payment provider and then
+                    return to this page.
                   </p>
                 </div>
               </div>
@@ -155,35 +377,5 @@ export default function CheckoutPage() {
         </Card>
       </div>
     </div>
-  );
-}
-
-// Fallback text-based logo, used only if /bkash-logo.svg fails to load
-function BkashLogo({
-  className,
-  light = false,
-}: {
-  className?: string;
-  light?: boolean;
-}) {
-  const fill = light ? "#FFFFFF" : "#E2136E";
-  return (
-    <svg
-      viewBox="0 0 100 28"
-      className={className}
-      aria-label="bKash"
-      role="img"
-    >
-      <text
-        x="0"
-        y="21"
-        fontFamily="Arial, sans-serif"
-        fontSize="22"
-        fontWeight={700}
-        fill={fill}
-      >
-        bKash
-      </text>
-    </svg>
   );
 }

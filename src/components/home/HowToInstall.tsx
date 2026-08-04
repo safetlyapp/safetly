@@ -22,13 +22,13 @@ export default function HowToInstall() {
           assured that your kids&apos; devices are safe.
         </p>
 
-        <div className="mx-auto mt-8 flex w-fit rounded-full border border-slate-200 bg-slate-100 p-1.5 shadow-sm">
+        <div className="mx-auto mt-8 flex w-fit rounded-full border border-blue-200 bg-slate-100 p-1.5 shadow-sm">
           <button
             onClick={() => setAudience("parents")}
             className={cn(
               "rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200",
               audience === "parents"
-                ? "border-secondary bg-white text-accent-foreground shadow-sm"
+                ? "border-blue-500 bg-white text-accent-foreground shadow-sm"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             )}
           >
@@ -39,7 +39,7 @@ export default function HowToInstall() {
             className={cn(
               "rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200",
               audience === "kids"
-                ? "border-secondary bg-white text-accent-foreground shadow-sm"
+                ? "border-blue-500 bg-white text-accent-foreground shadow-sm"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             )}
           >
@@ -66,10 +66,12 @@ export default function HowToInstall() {
               </>
             ) : (
               <>
-                <LockedBadge
+               <StoreBadge
+                  href="/"
                   icon={<PlayStoreIcon className="h-5 w-5" />}
                   line1="GET IT ON"
                   line2="Google Play"
+                  size="sm"
                 />
                 <LockedBadge
                   icon={<Apple className="h-5 w-5" />}
@@ -102,7 +104,7 @@ export default function HowToInstall() {
           className={cn(
             "flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200",
             platform === "android"
-              ? "border-secondary bg-white text-accent-foreground shadow-sm"
+              ? "border-blue-600 bg-white text-accent-foreground shadow-sm"
               : "border-transparent text-slate-500 hover:text-slate-700"
           )}
         >
@@ -114,14 +116,14 @@ export default function HowToInstall() {
           className={cn(
             "flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200",
             platform === "ios"
-              ? "border-secondary bg-white text-accent-foreground shadow-sm"
+              ? "border-blue-600 bg-white text-accent-foreground shadow-sm"
               : "border-transparent text-slate-500 hover:text-slate-700"
           )}
         >
           <Apple className="h-4 w-4" />
           iOS
           <span className="rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
-            Soon
+            Coming soon
           </span>
         </button>
       </div>
@@ -205,7 +207,7 @@ function LockedBadge({
         <span className="block text-sm font-semibold">{line2}</span>
       </span>
       <span className="absolute -right-2 -top-2 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-medium text-slate-400 shadow-sm">
-        Soon
+        Coming soon
       </span>
     </div>
   );
@@ -234,7 +236,7 @@ function WatchTutorialButton() {
         <Play className="h-4 w-4" />
         Watch Tutorial
         <span className="absolute -right-2 -top-2 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-medium text-slate-400 shadow-sm">
-          Soon
+          Coming soon
         </span>
       </button>
 
