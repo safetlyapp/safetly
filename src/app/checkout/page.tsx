@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, notFound } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,18 +29,18 @@ const PLANS: Record<
     billing: "Billed every 30 days",
     price: 99,
   },
-  "quarterly-90": {
+  quarterly: {
     name: "Quarterly/90-Day",
     billing: "Billed every 90 days",
     price: 275,
   },
-  "quarterly-180": {
-    name: "Quarterly/180-Day",
+  "half-yearly": {
+    name: "Half-Yearly/180-Day",
     billing: "Billed every 180 days",
     price: 540,
   },
-  "quarterly-360": {
-    name: "Quarterly/360-Day",
+  yearly: {
+    name: "Yearly/360-Day",
     billing: "Billed every 360 days",
     price: 1050,
   },
@@ -54,11 +54,6 @@ const COUPONS: Record<string, number> = {
 
 type PaymentMethodId = "bkash" | "nagad" | "rocket";
 
-/**
- * Single source of truth for each payment method's logo + brand color.
- * Update the `logo` path here and every button picks it up automatically —
- * no other code needs to change.
- */
 const PAYMENT_METHODS: {
   id: PaymentMethodId;
   label: string;
@@ -81,13 +76,19 @@ export default function CheckoutPage() {
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  const planId = searchParams.get("plan") ?? "quarterly-360";
-  const plan = PLANS[planId] ?? PLANS["quarterly-360"];
+  const planId = searchParams.get("plan");
+
+  // No plan param, or a plan id that doesn't exist in PLANS ->
+  // this wasn't reached via the Pricing section, so show 404.
+  if (!planId || !PLANS[planId]) {
+    notFound();
+  }
+
+  const plan = PLANS[planId];
 
   const [agreed, setAgreed] = useState(false);
   const [accountId, setAccountId] = useState("");
 
-  // per-method logo load state, so one missing image doesn't affect the others
   const [logoErrors, setLogoErrors] = useState<Record<PaymentMethodId, boolean>>({
     bkash: false,
     nagad: false,
@@ -143,7 +144,6 @@ function CheckoutContent() {
     setErrors(newErrors);
 
     if (newErrors.length === 0) {
-      // TODO: wire up the actual payment redirect for the selected gateway
       console.log("Proceeding to payment", { planId, paymentMethod, total });
     }
   }
@@ -157,7 +157,6 @@ function CheckoutContent() {
 
         <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr]">
-            {/* Order summary */}
             <div className="bg-slate-50 p-6 md:border-r md:border-slate-200">
               <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-700">
                 <CreditCard className="h-4 w-4" />
@@ -176,7 +175,6 @@ function CheckoutContent() {
 
               <Separator className="my-4" />
 
-              {/* Coupon */}
               <div className="mb-4">
                 <Label className="mb-2 flex items-center gap-1.5 text-xs font-medium text-slate-600">
                   <Tag className="h-3.5 w-3.5" />
@@ -236,7 +234,6 @@ function CheckoutContent() {
               </div>
             </div>
 
-            {/* Payment details */}
             <CardContent className="p-6">
               <div className="space-y-6">
                 <div>
@@ -262,7 +259,6 @@ function CheckoutContent() {
                     2. Payment details
                   </h2>
 
-                  {/* Payment method selector — image only, driven by PAYMENT_METHODS above */}
                   <div className="mb-4 grid grid-cols-3 gap-2">
                     {PAYMENT_METHODS.map((method) => {
                       const isSelected = paymentMethod === method.id;
@@ -331,7 +327,6 @@ function CheckoutContent() {
                     </p>
                   )}
 
-                  {/* Terms line */}
                   <div className="mb-4 flex items-start gap-2">
                     <Checkbox
                       id="terms"
@@ -344,15 +339,15 @@ function CheckoutContent() {
                       className="whitespace-nowrap overflow-x-auto text-xs font-normal leading-relaxed text-slate-600"
                     >
                       I have read and agree to the{" "}
-                      <a href="/terms" className="text-blue-600 hover:underline">
+                      <a href="/policy/terms-of-service" className="text-blue-600 hover:underline">
                         Terms and Conditions
                       </a>
                       ,{" "}
-                      <a href="/terms" className="text-blue-600 hover:underline">
+                      <a href="/policy/privacy-policy" className="text-blue-600 hover:underline">
                         Privacy Policy
                       </a>{" "}
                       and{" "}
-                      <a href="/terms" className="text-blue-600 hover:underline">
+                      <a href="/policy/payment-and-refund-policy" className="text-blue-600 hover:underline">
                         Refund Policy
                       </a>
                       .

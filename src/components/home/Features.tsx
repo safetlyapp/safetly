@@ -108,21 +108,6 @@ export default function Features() {
           </Button>
         </div>
       </div>
-
-      {/* keyframes for the floating icons — move out, then drift back */}
-      <style jsx global>{`
-        @keyframes float-drift {
-          0% {
-            transform: translate(0, 0);
-          }
-          50% {
-            transform: translate(var(--float-dx), var(--float-dy));
-          }
-          100% {
-            transform: translate(0, 0);
-          }
-        }
-      `}</style>
     </section>
   );
 }

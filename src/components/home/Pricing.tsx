@@ -25,7 +25,7 @@ const PLANS = [
     ],
   },
   {
-    id: "quarterly-90",
+    id: "quarterly",
     name: "Quarterly/90-Day",
     price: "৳91.66",
     per: "/mo.",
@@ -42,11 +42,11 @@ const PLANS = [
     ],
   },
   {
-    id: "quarterly-180",
-    name: "Quarterly/180-Day",
+    id: "half-yearly",
+    name: "Half-Yearly/180-Day",
     price: "৳90",
     per: "/mo.",
-    billedNote: "*Billed quarterly at ৳540",
+    billedNote: "*Billed half-yearly at ৳540",
     strikeNote: "৳594",
     cta: "Subscribe for 180 days",
     accent: "#7E3F98",
@@ -59,11 +59,11 @@ const PLANS = [
     ],
   },
   {
-    id: "quarterly-360",
-    name: "Quarterly/360-Day",
+    id: "yearly",
+    name: "Yearly/360-Day",
     price: "৳87.5",
     per: "/mo.",
-    billedNote: "*Billed quarterly at ৳1,050",
+    billedNote: "*Billed yearly at ৳1,050",
     strikeNote: "৳1,188",
     cta: "Subscribe for 360 days",
     accent: "#F16521",
@@ -86,7 +86,7 @@ const TRUST_BADGES = [
 export default function Pricing() {
   const router = useRouter();
   // Default selected: 360-Day
-  const [selectedId, setSelectedId] = useState("quarterly-90");
+  const [selectedId, setSelectedId] = useState("quarterly");
 
   return (
     <section id="pricing" className="relative overflow-hidden">

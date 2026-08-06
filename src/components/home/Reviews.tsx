@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -49,33 +49,50 @@ const REVIEWS = [
   },
 ];
 
-const PER_PAGE = 3;
 const AUTOPLAY_MS = 5000;
 
 export default function Reviews() {
+  // 1 card per slide on mobile, 3 per slide on desktop (md and up)
+  const [perPage, setPerPage] = useState(3);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    const update = () => setPerPage(mql.matches ? 3 : 1);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
   const pages = useMemo(() => {
     const chunks: (typeof REVIEWS)[] = [];
-    for (let i = 0; i < REVIEWS.length; i += PER_PAGE) {
-      chunks.push(REVIEWS.slice(i, i + PER_PAGE));
+    for (let i = 0; i < REVIEWS.length; i += perPage) {
+      chunks.push(REVIEWS.slice(i, i + perPage));
     }
     return chunks;
-  }, []);
+  }, [perPage]);
 
   const hasMultiplePages = pages.length > 1;
 
-  // Extended track: real pages + a clone of the first page appended.
-  // e.g. [P1, P2, P3, P1(clone)]
   const track = useMemo(
     () => (hasMultiplePages ? [...pages, pages[0]] : pages),
     [pages, hasMultiplePages]
   );
 
-  const [index, setIndex] = useState(0); // position inside `track`
+  const [index, setIndex] = useState(0);
   const [withTransition, setWithTransition] = useState(true);
   const [paused, setPaused] = useState(false);
   const resetTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // current "real" page, for the dots indicator
+  // reset slider position whenever the layout (perPage) changes,
+  // so we don't end up mid-track with a stale index
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setIndex(0);
+      setWithTransition(false);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [perPage]);
+
   const activeDot = index % pages.length;
 
   useEffect(() => {
@@ -86,22 +103,19 @@ export default function Reviews() {
     return () => clearInterval(id);
   }, [paused, hasMultiplePages]);
 
-  // When we land on the cloned last slide, silently snap back to the
-  // real first slide once the slide animation has finished.
   useEffect(() => {
     if (!hasMultiplePages) return;
     if (index === track.length - 1) {
       resetTimeout.current = setTimeout(() => {
         setWithTransition(false);
         setIndex(0);
-      }, 500); // matches transition duration below
+      }, 500);
     }
     return () => {
       if (resetTimeout.current) clearTimeout(resetTimeout.current);
     };
   }, [index, hasMultiplePages, track.length]);
 
-  // re-enable transition on the next tick after an instant reset
   useEffect(() => {
     if (!withTransition) {
       const id = requestAnimationFrame(() => setWithTransition(true));
@@ -138,7 +152,7 @@ export default function Reviews() {
         </div>
       </div>
 
-      {/* Slider — infinite loop, 3 cards per page */}
+      {/* Slider — 1 card per slide on mobile, 3 per slide on desktop */}
       <div
         className="relative mt-10"
         onMouseEnter={() => setPaused(true)}

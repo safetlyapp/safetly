@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import {  Figtree } from "next/font/google";
+import { Figtree } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Header from "@/components/ui/header";
 import Footer from "@/components/footer";
+import Header from "@/components/header";
+import ScrollToTop from "@/components/scroll-to-top";
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
-
+const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Safetly",
@@ -21,12 +21,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", figtree.variable)}
+      className={cn("h-full ", "antialiased hydrated ", figtree.variable)}
+      data-scroll-behavior="smooth"
+      data-arp=""
     >
       <body className="min-h-full flex flex-col">
-        <Header/>
+        <Header />
         <main className="flex-1">{children}</main>
-        <Footer/>
+        <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );

@@ -149,6 +149,18 @@
   --sidebar-ring: #F47B41;
 }
 
+@keyframes float-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--float-dx), var(--float-dy));
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
