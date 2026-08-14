@@ -7,75 +7,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Check, Award, Sparkles, ShieldCheck, Lock, ReceiptText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const PLANS = [
-  {
-    id: "monthly",
-    name: "Monthly/30-Day",
-    price: "৳99",
-    per: "/mo.",
-    billedNote: "*Billed monthly at ৳99",
-    cta: "Subscribe for 30 days",
-    accent: "#F16521",
-    popular: false,
-    features: [
-      "1-month access to all features",
-      "No auto-renew",
-      "One device tracking",
-      "All upcoming premium features.",
-    ],
-  },
-  {
-    id: "quarterly",
-    name: "Quarterly/90-Day",
-    price: "৳91.66",
-    per: "/mo.",
-    billedNote: "*Billed quarterly at ৳275",
-    strikeNote: "৳297",
-    cta: "Subscribe for 90 days",
-    accent: "#00A14B",
-    popular: true,
-    features: [
-      "3-month access to all features",
-      "No auto-renew",
-      "One device tracking",
-      "All upcoming premium features.",
-    ],
-  },
-  {
-    id: "half-yearly",
-    name: "Half-Yearly/180-Day",
-    price: "৳90",
-    per: "/mo.",
-    billedNote: "*Billed half-yearly at ৳540",
-    strikeNote: "৳594",
-    cta: "Subscribe for 180 days",
-    accent: "#7E3F98",
-    popular: false,
-    features: [
-      "6-month access to all features",
-      "No auto-renew",
-      "One device tracking",
-      "All upcoming premium features.",
-    ],
-  },
-  {
-    id: "yearly",
-    name: "Yearly/360-Day",
-    price: "৳87.5",
-    per: "/mo.",
-    billedNote: "*Billed yearly at ৳1,050",
-    strikeNote: "৳1,188",
-    cta: "Subscribe for 360 days",
-    accent: "#F16521",
-    popular: false,
-    features: [
-      "12-month access to all features",
-      "No auto-renew",
-      "One device tracking",
-      "All upcoming premium features.",
-    ],
-  },
-];
+type PricingPlan = {
+  id: string;
+  planId: string;
+  name: string;
+  price: string;
+  per: string;
+  billedNote: string;
+  strikeNote: string | null;
+  cta: string;
+  accentColor: string;
+  isPopular: boolean;
+  features: string[];
+};
 
 const TRUST_BADGES = [
   { icon: ShieldCheck, label: "Money Back Guarantee" },
@@ -83,10 +27,15 @@ const TRUST_BADGES = [
   { icon: ReceiptText, label: "VAT Included in All Prices" },
 ];
 
-export default function Pricing() {
+type PricingProps = {
+  plans: PricingPlan[];
+};
+
+export default function Pricing({ plans }: PricingProps) {
   const router = useRouter();
-  // Default selected: 360-Day
-  const [selectedId, setSelectedId] = useState("quarterly");
+  const [selectedId, setSelectedId] = useState(
+    () => plans.find((plan) => plan.planId === "quarterly")?.id ?? plans[0]?.id ?? "",
+  );
 
   return (
     <section id="pricing" className="relative overflow-hidden">
@@ -102,7 +51,7 @@ export default function Pricing() {
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {PLANS.map((plan) => {
+          {plans.map((plan) => {
             const isSelected = selectedId === plan.id;
 
             return (
@@ -112,9 +61,9 @@ export default function Pricing() {
                 style={
                   isSelected
                     ? {
-                        borderColor: plan.accent,
-                        backgroundColor: `${plan.accent}0D`,
-                        boxShadow: `0 10px 25px -5px ${plan.accent}26`,
+                        borderColor: plan.accentColor,
+                        backgroundColor: `${plan.accentColor}0D`,
+                        boxShadow: `0 10px 25px -5px ${plan.accentColor}26`,
                       }
                     : undefined
                 }
@@ -125,10 +74,10 @@ export default function Pricing() {
                     : "border-slate-200 shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-slate-300"
                 )}
               >
-                {plan.popular && (
+                {plan.isPopular && (
                   <span
                     style={{
-                      backgroundColor: isSelected ? plan.accent : "#94A3B8",
+                      backgroundColor: isSelected ? plan.accentColor : "#94A3B8",
                     }}
                     className="absolute -top-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm transition-colors duration-300"
                   >
@@ -145,7 +94,7 @@ export default function Pricing() {
                   <p className="mt-2">
                     <span
                       className="text-2xl font-bold transition-colors duration-300"
-                      style={{ color: isSelected ? plan.accent : "#0F172A" }}
+                      style={{ color: isSelected ? plan.accentColor : "#0F172A" }}
                     >
                       {plan.price}
                     </span>
@@ -170,7 +119,7 @@ export default function Pricing() {
                         <Check
                           className="mt-0.5 h-4 w-4 shrink-0"
                           style={{
-                            color: isSelected ? plan.accent : "#22C55E",
+                            color: isSelected ? plan.accentColor : "#22C55E",
                           }}
                         />
                         <span className="text-slate-700">{feature}</span>
@@ -182,11 +131,11 @@ export default function Pricing() {
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedId(plan.id);
-                      router.push(`/checkout?plan=${plan.id}`);
+                      router.push(`/checkout?plan=${plan.planId}`);
                     }}
                     style={
                       isSelected
-                        ? { backgroundColor: plan.accent, color: "#fff" }
+                        ? { backgroundColor: plan.accentColor, color: "#fff" }
                         : undefined
                     }
                     className={cn(

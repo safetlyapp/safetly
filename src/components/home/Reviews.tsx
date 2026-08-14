@@ -1,57 +1,23 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
-const REVIEWS = [
-  {
-    quote:
-      "This is the app that I was looking for to get rid of the addiction of watching Reels and Facebook. Thank you very much for making this great product. I believe it will help people get rid of their phone addiction easily.",
-    name: "Tasnim Ahmed Auntik",
-    date: "December 19, 2025",
-    initials: "TA",
-  },
-  {
-    quote:
-      "Superb...really nice initiative from our Muslim community. It is so helpful for using social apps in productive as well as in a safe way.",
-    name: "Faiyaz Salafi",
-    date: "January 9, 2026",
-    initials: "FS",
-  },
-  {
-    quote:
-      "I just wanted to say a huge Alhamdulillah for the Safetly app. It's a real struggle sometimes to keep our digital space halal and guard our gaze, but this app has made that journey feel so much lighter and easier for me. I'm truly so grateful for all the heart and hard work you've put into this. Please know that I'll be keeping the whole team in my prayers. May Allah bless you all with success, protect you.",
-    name: "Farjana Chowdhury",
-    date: "January 08, 2026",
-    initials: "FC",
-  },
-  {
-    quote:
-      "This is the app that I was looking for to get rid of the addiction of watching Reels and Facebook. Thank you very much for making this great product. I believe it will help people get rid of their phone addiction easily.",
-    name: "Tasnim Ahmed Auntik",
-    date: "December 19, 2025",
-    initials: "TA",
-  },
-  {
-    quote:
-      "Superb...really nice initiative from our Muslim community. It is so helpful for using social apps in productive as well as in a safe way.",
-    name: "Faiyaz Salafi",
-    date: "January 9, 2026",
-    initials: "FS",
-  },
-  {
-    quote:
-      "I just wanted to say a huge Alhamdulillah for the Safetly app. It's a real struggle sometimes to keep our digital space halal and guard our gaze, but this app has made that journey feel so much lighter and easier for me. I'm truly so grateful for all the heart and hard work you've put into this. Please know that I'll be keeping the whole team in my prayers. May Allah bless you all with success, protect you.",
-    name: "Farjana Chowdhury",
-    date: "January 08, 2026",
-    initials: "FC",
-  },
-];
+type ReviewItem = {
+  quote: string;
+  name: string;
+  reviewDate: string;
+  initials: string;
+};
 
 const AUTOPLAY_MS = 5000;
 
-export default function Reviews() {
+type ReviewsProps = {
+  reviews: ReviewItem[];
+};
+
+export default function Reviews({ reviews }: ReviewsProps) {
   // 1 card per slide on mobile, 3 per slide on desktop (md and up)
   const [perPage, setPerPage] = useState(3);
 
@@ -64,12 +30,12 @@ export default function Reviews() {
   }, []);
 
   const pages = useMemo(() => {
-    const chunks: (typeof REVIEWS)[] = [];
-    for (let i = 0; i < REVIEWS.length; i += perPage) {
-      chunks.push(REVIEWS.slice(i, i + perPage));
+    const chunks: ReviewItem[][] = [];
+    for (let i = 0; i < reviews.length; i += perPage) {
+      chunks.push(reviews.slice(i, i + perPage));
     }
     return chunks;
-  }, [perPage]);
+  }, [perPage, reviews]);
 
   const hasMultiplePages = pages.length > 1;
 
@@ -93,7 +59,7 @@ export default function Reviews() {
     return () => cancelAnimationFrame(frame);
   }, [perPage]);
 
-  const activeDot = index % pages.length;
+  const activeDot = pages.length > 0 ? index % pages.length : 0;
 
   useEffect(() => {
     if (paused || !hasMultiplePages) return;
@@ -125,7 +91,7 @@ export default function Reviews() {
 
   const goNext = () => setIndex((prev) => prev + 1);
   const goPrev = () =>
-    setIndex((prev) => (prev === 0 ? pages.length - 1 : prev - 1));
+    setIndex((prev) => (prev === 0 ? Math.max(pages.length - 1, 0) : prev - 1));
   const goTo = (i: number) => setIndex(i);
 
   return (
@@ -173,7 +139,7 @@ export default function Reviews() {
               >
                 {group.map((review) => (
                   <div
-                    key={review.name}
+                    key={`${review.name}-${review.reviewDate}`}
                     className="rounded-xl bg-slate-50 p-6 shadow-sm"
                   >
                     <p className="text-sm italic leading-relaxed text-slate-600">
@@ -187,7 +153,9 @@ export default function Reviews() {
                         <p className="text-sm font-medium text-slate-900">
                           {review.name}
                         </p>
-                        <p className="text-xs text-slate-400">{review.date}</p>
+                        <p className="text-xs text-slate-400">
+                          {new Date(review.reviewDate).toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
                   </div>

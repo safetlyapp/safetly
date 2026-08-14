@@ -1,46 +1,69 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Plus, Search, Mail, X } from "lucide-react";
+import { Mail, Plus, Search, X } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 import { cn } from "@/lib/utils";
-import { FAQ_CATEGORIES } from "@/lib/faq-data";
 
+type FaqItem = { q: string; a: string };
+type FaqCategory = { title: string; items: FaqItem[] };
 
+type FaqContentProps = {
+  categories: FaqCategory[];
+};
 
-export default function FaqContent() {
+function stripHtml(html: string) {
+  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function sanitizeHtml(html: string) {
+  return DOMPurify.sanitize(html, {
+    USE_PROFILES: { html: true },
+  });
+}
+
+export default function FaqContent({ categories }: FaqContentProps) {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>(
-    FAQ_CATEGORIES[0].title
+    categories[0]?.title ?? ""
   );
   const [openKey, setOpenKey] = useState<string | null>(null);
 
+  const resolvedActiveCategory = useMemo(() => {
+    if (categories.some((category) => category.title === activeCategory)) {
+      return activeCategory;
+    }
+
+    return categories[0]?.title ?? "";
+  }, [activeCategory, categories]);
+
   const isSearching = query.trim().length > 0;
 
-  // When searching, flatten + filter across ALL categories.
-  // Otherwise, only show items from the active category tab.
   const results = useMemo(() => {
     if (isSearching) {
       const q = query.trim().toLowerCase();
-      return FAQ_CATEGORIES.flatMap((cat) =>
-        cat.items
+      return categories.flatMap((category) =>
+        category.items
           .filter(
             (item) =>
-              item.q.toLowerCase().includes(q) ||
-              item.a.toLowerCase().includes(q)
+              stripHtml(item.q).toLowerCase().includes(q) ||
+              stripHtml(item.a).toLowerCase().includes(q)
           )
-          .map((item) => ({ ...item, category: cat.title }))
+          .map((item) => ({ ...item, category: category.title }))
       );
     }
-    const cat = FAQ_CATEGORIES.find((c) => c.title === activeCategory);
-    return (cat?.items ?? []).map((item) => ({
+
+    const category = categories.find(
+      (item) => item.title === resolvedActiveCategory
+    );
+    return (category?.items ?? []).map((item) => ({
       ...item,
-      category: cat!.title,
+      category: category?.title ?? "",
     }));
-  }, [query, activeCategory, isSearching]);
+  }, [categories, isSearching, query, resolvedActiveCategory]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16">
-      {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
           Frequently asked questions
@@ -51,7 +74,6 @@ export default function FaqContent() {
         </p>
       </div>
 
-      {/* Search bar */}
       <div className="relative mx-auto mt-8 max-w-xl">
         <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <input
@@ -72,16 +94,16 @@ export default function FaqContent() {
         )}
       </div>
 
-      {/* Category tabs — hidden while searching */}
       {!isSearching && (
         <div className="mt-8 flex flex-wrap justify-center gap-2">
-          {FAQ_CATEGORIES.map((cat) => {
-            const isActive = cat.title === activeCategory;
+          {categories.map((category) => {
+            const isActive = category.title === resolvedActiveCategory;
+
             return (
               <button
-                key={cat.title}
+                key={category.title}
                 onClick={() => {
-                  setActiveCategory(cat.title);
+                  setActiveCategory(category.title);
                   setOpenKey(null);
                 }}
                 className={cn(
@@ -91,7 +113,7 @@ export default function FaqContent() {
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 )}
               >
-                {cat.title}
+                {category.title}
               </button>
             );
           })}
@@ -105,16 +127,16 @@ export default function FaqContent() {
         </p>
       )}
 
-      {/* Accordion list */}
       <div className="mt-8 space-y-3">
         {results.length === 0 ? (
           <p className="py-12 text-center text-sm text-slate-400">
             No questions matched your search. Try a different keyword.
           </p>
         ) : (
-          results.map((item, i) => {
-            const key = `${item.category}-${i}-${item.q}`;
+          results.map((item, index) => {
+            const key = `${item.category}-${index}-${item.q}`;
             const isOpen = openKey === key;
+
             return (
               <div
                 key={key}
@@ -131,9 +153,12 @@ export default function FaqContent() {
                         {item.category}
                       </span>
                     )}
-                    <span className="text-sm font-medium text-slate-900 md:text-base">
-                      {item.q}
-                    </span>
+                    <span
+                      className="text-sm font-medium text-slate-900 md:text-base"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtml(item.q),
+                      }}
+                    />
                   </span>
                   <span
                     className={cn(
@@ -154,9 +179,12 @@ export default function FaqContent() {
                   )}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-6 pb-5 text-sm leading-relaxed text-slate-600">
-                      {item.a}
-                    </p>
+                    <div
+                      className="px-6 pb-5 text-sm leading-relaxed text-slate-600"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtml(item.a),
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -165,7 +193,6 @@ export default function FaqContent() {
         )}
       </div>
 
-      {/* Contact support CTA */}
       <div className="mt-14 flex flex-col items-center gap-3 rounded-2xl bg-gradient-to-r from-violet-50 to-sky-50 px-6 py-10 text-center">
         <h3 className="text-lg font-semibold text-slate-900">
           Still have questions?
