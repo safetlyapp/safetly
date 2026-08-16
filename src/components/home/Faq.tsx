@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Plus } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 
 type FaqItem = {
   q: string;
@@ -10,7 +13,13 @@ type FAQProps = {
   items: FaqItem[];
 };
 
-export default function FAQ({ items }: FAQProps) {
+function sanitizeHtml(html: string) {
+  return DOMPurify.sanitize(html, {
+    USE_PROFILES: { html: true },
+  });
+}
+
+export default function FAQFull({ items }: FAQProps) {
   return (
     <section id="faq" className="mx-auto max-w-4xl px-4 py-16">
       <div className="text-center">
@@ -32,16 +41,21 @@ export default function FAQ({ items }: FAQProps) {
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-6 py-4 text-left [&::-webkit-details-marker]:hidden">
               <span
                 className="text-sm font-medium text-slate-900 md:text-base"
-              >
-                {item.q}
-              </span>
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtml(item.q),
+                }}
+              />
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-700 transition-transform duration-300 group-open:rotate-45">
                 <Plus className="h-4 w-4" />
               </span>
             </summary>
 
             <div className="px-6 pb-5 text-sm leading-relaxed text-slate-600">
-              <div>{item.a}</div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtml(item.a),
+                }}
+              />
             </div>
           </details>
         ))}
