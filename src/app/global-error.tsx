@@ -16,6 +16,8 @@ export default function Error({
     console.error(error);
   }, [error]);
 
+  console.log(error)
+
   return (
     <div className="flex min-h-[80vh] w-full flex-col items-center justify-center px-4 py-16">
       <div className="mx-auto max-w-md text-center">

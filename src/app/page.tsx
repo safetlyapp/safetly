@@ -86,7 +86,7 @@ export default async function HomePage() {
       <HowToInstall />
 
       <Pricing plans={pricingResponse.plans} />
-      <Reviews reviews={reviewsResponse.reviews} />
+      {/* <Reviews reviews={reviewsResponse.reviews} /> */}
       <Faq items={faqItems} />
     </>
   );
