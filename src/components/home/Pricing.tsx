@@ -33,6 +33,7 @@ type PricingProps = {
 
 export default function Pricing({ plans }: PricingProps) {
   const router = useRouter();
+  
   const [selectedId, setSelectedId] = useState(
     () => plans.find((plan) => plan.planId === "quarterly")?.id ?? plans[0]?.id ?? "",
   );
