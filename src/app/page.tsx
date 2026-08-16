@@ -83,9 +83,9 @@ export default async function HomePage() {
       <Hero />
       <Features />
       <HowToInstall />
-      <Pricing plans={pricingResponse.plans} />
-      <Reviews reviews={reviewsResponse.reviews} />
-      <Faq items={faqItems} />
+      {/* <Pricing plans={pricingResponse.plans} /> */}
+      {/* <Reviews reviews={reviewsResponse.reviews} /> */}
+      {/* <Faq items={faqItems} /> */}
     </>
   );
 }
