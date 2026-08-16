@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Mail, Plus, Search, X } from "lucide-react";
-import DOMPurify from "isomorphic-dompurify";
 import { cn } from "@/lib/utils";
 
 type FaqItem = { q: string; a: string };
@@ -14,12 +13,6 @@ type FaqContentProps = {
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function sanitizeHtml(html: string) {
-  return DOMPurify.sanitize(html, {
-    USE_PROFILES: { html: true },
-  });
 }
 
 export default function FaqContent({ categories }: FaqContentProps) {
@@ -155,10 +148,9 @@ export default function FaqContent({ categories }: FaqContentProps) {
                     )}
                     <span
                       className="text-sm font-medium text-slate-900 md:text-base"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeHtml(item.q),
-                      }}
-                    />
+                    >
+                      {stripHtml(item.q)}
+                    </span>
                   </span>
                   <span
                     className={cn(
@@ -179,12 +171,9 @@ export default function FaqContent({ categories }: FaqContentProps) {
                   )}
                 >
                   <div className="overflow-hidden">
-                    <div
-                      className="px-6 pb-5 text-sm leading-relaxed text-slate-600"
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeHtml(item.a),
-                      }}
-                    />
+                    <div className="px-6 pb-5 text-sm leading-relaxed text-slate-600">
+                      {stripHtml(item.a)}
+                    </div>
                   </div>
                 </div>
               </div>
