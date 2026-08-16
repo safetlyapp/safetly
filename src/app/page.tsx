@@ -78,9 +78,6 @@ export default async function HomePage() {
     .flatMap((category) => categoriesById.get(category.id)?.items ?? [])
     .slice(0, 6);
 
-    console.log(pricingResponse.plans,"pricing plans")
-    console.log(reviewsResponse.reviews," reviews")
-    console.log(faqItems,"faq")
 
   return (
     <>
@@ -89,8 +86,8 @@ export default async function HomePage() {
       <HowToInstall />
 
       <Pricing plans={pricingResponse.plans} />
-      {/* <Reviews reviews={reviewsResponse.reviews} /> */}
-      {/* <Faq items={faqItems} /> */}
+      <Reviews reviews={reviewsResponse.reviews} />
+      <Faq items={faqItems} />
     </>
   );
 }
