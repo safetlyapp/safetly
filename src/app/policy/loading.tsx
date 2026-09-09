@@ -14,7 +14,10 @@ export default function Loading() {
 
       <div className="mt-8 space-y-5">
         {Array.from({ length: 6 }).map((_, index) => (
-          <section key={index} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <section
+            key={index}
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
             <div className="h-4 w-20 rounded-full bg-slate-100" />
             <div className="mt-3 h-7 w-2/3 rounded-2xl bg-slate-100" />
             <div className="mt-4 space-y-3">

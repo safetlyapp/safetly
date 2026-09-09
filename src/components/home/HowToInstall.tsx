@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Play, Apple, Lock } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Play, Apple, Lock } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export default function HowToInstall() {
-  const [audience, setAudience] = useState<"parents" | "kids">("parents");
-  const [platform, setPlatform] = useState<"android" | "ios">("android");
+  const [audience, setAudience] = useState<'parents' | 'kids'>('parents');
+  const [platform, setPlatform] = useState<'android' | 'ios'>('android');
 
   return (
     <section id="download" className="mx-auto max-w-4xl px-4 py-16 text-center">
@@ -18,29 +18,29 @@ export default function HowToInstall() {
           Download
         </h2>
         <p className="mt-2 text-slate-600">
-          Download, install, block harmful websites url or apps and rest
-          assured that your kids&apos; devices are safe.
+          Download, install, block harmful websites url or apps and rest assured
+          that your kids&apos; devices are safe.
         </p>
 
         <div className="mx-auto mt-8 flex w-fit rounded-full border border-blue-200 bg-slate-100 p-1.5 shadow-sm">
           <button
-            onClick={() => setAudience("parents")}
+            onClick={() => setAudience('parents')}
             className={cn(
-              "rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200",
-              audience === "parents"
-                ? "border-blue-500 bg-white text-accent-foreground shadow-sm"
-                : "border-transparent text-slate-500 hover:text-slate-700"
+              'rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200',
+              audience === 'parents'
+                ? 'border-blue-500 bg-white text-accent-foreground shadow-sm'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             )}
           >
             For Parents&apos; Devices
           </button>
           <button
-            onClick={() => setAudience("kids")}
+            onClick={() => setAudience('kids')}
             className={cn(
-              "rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200",
-              audience === "kids"
-                ? "border-blue-500 bg-white text-accent-foreground shadow-sm"
-                : "border-transparent text-slate-500 hover:text-slate-700"
+              'rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200',
+              audience === 'kids'
+                ? 'border-blue-500 bg-white text-accent-foreground shadow-sm'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             )}
           >
             For Kids&apos; Devices
@@ -49,7 +49,7 @@ export default function HowToInstall() {
 
         <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-slate-200 bg-slate-50/60 p-8 shadow-sm">
           <div className="flex flex-wrap items-center justify-center gap-4">
-            {audience === "parents" ? (
+            {audience === 'parents' ? (
               <>
                 <StoreBadge
                   href="/"
@@ -66,7 +66,7 @@ export default function HowToInstall() {
               </>
             ) : (
               <>
-               <StoreBadge
+                <StoreBadge
                   href="/"
                   icon={<PlayStoreIcon className="h-5 w-5" />}
                   line1="GET IT ON"
@@ -95,29 +95,30 @@ export default function HowToInstall() {
         How to Install
       </h2>
       <p className="mt-2 text-slate-600">
-        To install &quot;Safetly app&quot; in your device, Please follow the below link
+        To install &quot;Safetly app&quot; in your device, Please follow the
+        below link
       </p>
 
       <div className="mx-auto mt-8 flex w-fit rounded-full border border-slate-200 bg-slate-100 p-1.5 shadow-sm">
         <button
-          onClick={() => setPlatform("android")}
+          onClick={() => setPlatform('android')}
           className={cn(
-            "flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200",
-            platform === "android"
-              ? "border-blue-600 bg-white text-accent-foreground shadow-sm"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+            'flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200',
+            platform === 'android'
+              ? 'border-blue-600 bg-white text-accent-foreground shadow-sm'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           )}
         >
           <AndroidGlyph className="h-4 w-4" />
           Android
         </button>
         <button
-          onClick={() => setPlatform("ios")}
+          onClick={() => setPlatform('ios')}
           className={cn(
-            "flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200",
-            platform === "ios"
-              ? "border-blue-600 bg-white text-accent-foreground shadow-sm"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+            'flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-200',
+            platform === 'ios'
+              ? 'border-blue-600 bg-white text-accent-foreground shadow-sm'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           )}
         >
           <Apple className="h-4 w-4" />
@@ -128,7 +129,7 @@ export default function HowToInstall() {
         </button>
       </div>
 
-      {platform === "android" ? (
+      {platform === 'android' ? (
         <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-slate-200 bg-slate-50/60 p-8 shadow-sm">
           <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
             <StoreBadge
@@ -162,13 +163,13 @@ function StoreBadge({
   icon,
   line1,
   line2,
-  size = "md",
+  size = 'md',
 }: {
   href: string;
   icon: React.ReactNode;
   line1: string;
   line2: string;
-  size?: "sm" | "md";
+  size?: 'sm' | 'md';
 }) {
   return (
     <Link
@@ -176,8 +177,8 @@ function StoreBadge({
       // target="_blank"
       // rel="noreferrer"
       className={cn(
-        "inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg",
-        size === "sm" ? "px-3 py-1.5" : "px-4 py-2.5"
+        'inline-flex items-center gap-2 rounded-xl bg-slate-900 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg',
+        size === 'sm' ? 'px-3 py-1.5' : 'px-4 py-2.5'
       )}
     >
       {icon}
@@ -260,7 +261,12 @@ function WatchTutorialButton() {
 
 function AndroidGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
       <path d="M17.6 9.48 19.44 6.3a.5.5 0 0 0-.86-.5l-1.87 3.23a8.9 8.9 0 0 0-7.42 0L7.42 5.8a.5.5 0 1 0-.86.5l1.85 3.18C5.7 11.13 4 13.9 4 17h16c0-3.1-1.7-5.87-4.4-7.52ZM9 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
     </svg>
   );
@@ -269,10 +275,22 @@ function AndroidGlyph({ className }: { className?: string }) {
 function PlayStoreIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-      <path fill="#00D9FF" d="M3.6 2.3 14.9 12 3.6 21.7c-.3-.2-.6-.6-.6-1.1V3.4c0-.5.3-.9.6-1.1Z" />
-      <path fill="#00F076" d="M14.9 12 3.6 2.3c.2-.1.5-.2.7-.2.3 0 .5.1.8.2l11.2 6.4L14.9 12Z" />
-      <path fill="#FF3A44" d="M16.3 8.7 20.1 11c.6.4.6 1.6 0 2l-3.8 2.3-2.9-3.3 2.9-3.3Z" />
-      <path fill="#FFCE00" d="M14.9 12 5.1 21.9c-.2.1-.5.2-.8.2-.2 0-.5 0-.7-.2L16.3 15.3 14.9 12Z" />
+      <path
+        fill="#00D9FF"
+        d="M3.6 2.3 14.9 12 3.6 21.7c-.3-.2-.6-.6-.6-1.1V3.4c0-.5.3-.9.6-1.1Z"
+      />
+      <path
+        fill="#00F076"
+        d="M14.9 12 3.6 2.3c.2-.1.5-.2.7-.2.3 0 .5.1.8.2l11.2 6.4L14.9 12Z"
+      />
+      <path
+        fill="#FF3A44"
+        d="M16.3 8.7 20.1 11c.6.4.6 1.6 0 2l-3.8 2.3-2.9-3.3 2.9-3.3Z"
+      />
+      <path
+        fill="#FFCE00"
+        d="M14.9 12 5.1 21.9c-.2.1-.5.2-.8.2-.2 0-.5 0-.7-.2L16.3 15.3 14.9 12Z"
+      />
     </svg>
   );
 }

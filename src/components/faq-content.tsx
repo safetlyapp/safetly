@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { Mail, Plus, Search, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useMemo, useState } from 'react';
+import { Mail, Plus, Search, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type FaqItem = { q: string; a: string };
 type FaqCategory = { title: string; items: FaqItem[] };
@@ -12,13 +12,16 @@ type FaqContentProps = {
 };
 
 function stripHtml(html: string) {
-  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 export default function FaqContent({ categories }: FaqContentProps) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>(
-    categories[0]?.title ?? ""
+    categories[0]?.title ?? ''
   );
   const [openKey, setOpenKey] = useState<string | null>(null);
 
@@ -27,7 +30,7 @@ export default function FaqContent({ categories }: FaqContentProps) {
       return activeCategory;
     }
 
-    return categories[0]?.title ?? "";
+    return categories[0]?.title ?? '';
   }, [activeCategory, categories]);
 
   const isSearching = query.trim().length > 0;
@@ -51,7 +54,7 @@ export default function FaqContent({ categories }: FaqContentProps) {
     );
     return (category?.items ?? []).map((item) => ({
       ...item,
-      category: category?.title ?? "",
+      category: category?.title ?? '',
     }));
   }, [categories, isSearching, query, resolvedActiveCategory]);
 
@@ -78,7 +81,7 @@ export default function FaqContent({ categories }: FaqContentProps) {
         />
         {query && (
           <button
-            onClick={() => setQuery("")}
+            onClick={() => setQuery('')}
             aria-label="Clear search"
             className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
           >
@@ -100,10 +103,10 @@ export default function FaqContent({ categories }: FaqContentProps) {
                   setOpenKey(null);
                 }}
                 className={cn(
-                  "rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 sm:text-sm",
+                  'rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 sm:text-sm',
                   isActive
-                    ? "bg-violet-600 text-white shadow-sm shadow-violet-600/30"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? 'bg-violet-600 text-white shadow-sm shadow-violet-600/30'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 )}
               >
                 {category.title}
@@ -115,8 +118,8 @@ export default function FaqContent({ categories }: FaqContentProps) {
 
       {isSearching && (
         <p className="mt-6 text-center text-sm text-slate-500">
-          {results.length} result{results.length !== 1 ? "s" : ""} for
-          &quot;{query}&quot;
+          {results.length} result{results.length !== 1 ? 's' : ''} for &quot;
+          {query}&quot;
         </p>
       )}
 
@@ -146,16 +149,14 @@ export default function FaqContent({ categories }: FaqContentProps) {
                         {item.category}
                       </span>
                     )}
-                    <span
-                      className="text-sm font-medium text-slate-900 md:text-base"
-                    >
+                    <span className="text-sm font-medium text-slate-900 md:text-base">
                       {stripHtml(item.q)}
                     </span>
                   </span>
                   <span
                     className={cn(
-                      "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-700 transition-transform duration-300",
-                      isOpen && "rotate-45"
+                      'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-700 transition-transform duration-300',
+                      isOpen && 'rotate-45'
                     )}
                   >
                     <Plus className="h-4 w-4" />
@@ -164,10 +165,10 @@ export default function FaqContent({ categories }: FaqContentProps) {
 
                 <div
                   className={cn(
-                    "grid transition-all duration-300 ease-in-out",
+                    'grid transition-all duration-300 ease-in-out',
                     isOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
+                      ? 'grid-rows-[1fr] opacity-100'
+                      : 'grid-rows-[0fr] opacity-0'
                   )}
                 >
                   <div className="overflow-hidden">
@@ -187,8 +188,7 @@ export default function FaqContent({ categories }: FaqContentProps) {
           Still have questions?
         </h3>
         <p className="max-w-md text-sm text-slate-500">
-          Our support team is available to help with anything not covered
-          here.
+          Our support team is available to help with anything not covered here.
         </p>
         <a
           href="mailto:support@safetly.app"

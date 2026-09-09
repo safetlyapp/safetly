@@ -10,12 +10,27 @@ export default function HeroBackground() {
       <div className="absolute right-[10%] top-16 h-16 w-36 rounded-full bg-white/60 blur-xl" />
 
       {/* kite */}
-      <div className="absolute right-[28%] top-4 hidden sm:block" style={{ animation: "kite-sway 4s ease-in-out infinite" }}>
+      <div
+        className="absolute right-[28%] top-4 hidden sm:block"
+        style={{ animation: 'kite-sway 4s ease-in-out infinite' }}
+      >
         <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
-          <path d="M35 4 62 35 35 66 8 35Z" fill="url(#kiteGrad)" stroke="#334155" strokeWidth="1" />
+          <path
+            d="M35 4 62 35 35 66 8 35Z"
+            fill="url(#kiteGrad)"
+            stroke="#334155"
+            strokeWidth="1"
+          />
           <path d="M35 4V66M8 35H62" stroke="#334155" strokeWidth="0.75" />
           <defs>
-            <linearGradient id="kiteGrad" x1="8" y1="4" x2="62" y2="66" gradientUnits="userSpaceOnUse">
+            <linearGradient
+              id="kiteGrad"
+              x1="8"
+              y1="4"
+              x2="62"
+              y2="66"
+              gradientUnits="userSpaceOnUse"
+            >
               <stop stopColor="#fbbf24" />
               <stop offset="0.5" stopColor="#60a5fa" />
               <stop offset="1" stopColor="#f472b6" />
@@ -23,16 +38,43 @@ export default function HeroBackground() {
           </defs>
         </svg>
         {/* tail */}
-        <svg width="16" height="90" viewBox="0 0 16 90" fill="none" className="absolute left-1/2 top-[64px] -translate-x-1/2">
-          <path d="M8 0C8 20 0 20 0 40S16 60 16 80" stroke="#94a3b8" strokeWidth="1" fill="none" />
+        <svg
+          width="16"
+          height="90"
+          viewBox="0 0 16 90"
+          fill="none"
+          className="absolute left-1/2 top-[64px] -translate-x-1/2"
+        >
+          <path
+            d="M8 0C8 20 0 20 0 40S16 60 16 80"
+            stroke="#94a3b8"
+            strokeWidth="1"
+            fill="none"
+          />
         </svg>
       </div>
 
       {/* birds */}
-      <Bird className="left-[6%] top-20 h-5 w-8 text-rose-300/70" duration={3.4} delay={0} />
-      <Bird className="left-[16%] top-40 h-4 w-6 text-slate-400/60" duration={3} delay={0.6} />
-      <Bird className="right-[6%] top-24 h-6 w-9 text-sky-400/60" duration={3.8} delay={0.3} />
-      <Bird className="right-[16%] top-44 h-4 w-6 text-slate-400/60" duration={3.2} delay={1} />
+      <Bird
+        className="left-[6%] top-20 h-5 w-8 text-rose-300/70"
+        duration={3.4}
+        delay={0}
+      />
+      <Bird
+        className="left-[16%] top-40 h-4 w-6 text-slate-400/60"
+        duration={3}
+        delay={0.6}
+      />
+      <Bird
+        className="right-[6%] top-24 h-6 w-9 text-sky-400/60"
+        duration={3.8}
+        delay={0.3}
+      />
+      <Bird
+        className="right-[16%] top-44 h-4 w-6 text-slate-400/60"
+        duration={3.2}
+        delay={1}
+      />
 
       {/* house, bottom right */}
       <svg
@@ -40,10 +82,36 @@ export default function HeroBackground() {
         viewBox="0 0 100 100"
         fill="none"
       >
-        <path d="M10 55 50 25 90 55" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-        <rect x="20" y="55" width="60" height="40" stroke="currentColor" strokeWidth="4" />
-        <rect x="42" y="70" width="16" height="25" stroke="currentColor" strokeWidth="3" />
-        <rect x="26" y="62" width="12" height="12" stroke="currentColor" strokeWidth="3" />
+        <path
+          d="M10 55 50 25 90 55"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinejoin="round"
+        />
+        <rect
+          x="20"
+          y="55"
+          width="60"
+          height="40"
+          stroke="currentColor"
+          strokeWidth="4"
+        />
+        <rect
+          x="42"
+          y="70"
+          width="16"
+          height="25"
+          stroke="currentColor"
+          strokeWidth="3"
+        />
+        <rect
+          x="26"
+          y="62"
+          width="12"
+          height="12"
+          stroke="currentColor"
+          strokeWidth="3"
+        />
       </svg>
 
       {/* rolling hill at the bottom */}
@@ -92,7 +160,9 @@ function Bird({
       viewBox="0 0 32 20"
       fill="none"
       className={`absolute ${className}`}
-      style={{ animation: `bird-bob ${duration}s ease-in-out ${delay}s infinite` }}
+      style={{
+        animation: `bird-bob ${duration}s ease-in-out ${delay}s infinite`,
+      }}
     >
       <path
         d="M1 12C5 6 10 6 16 10C22 6 27 6 31 12C25 11 21 13 16 17C11 13 7 11 1 12Z"

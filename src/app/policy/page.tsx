@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function PolicyIndexPage() {
-  redirect("/policy/privacy-policy");
+  redirect('/policy/privacy-policy');
 }

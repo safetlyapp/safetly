@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
+import { useEffect, useMemo, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
 import {
   CreditCard,
   Tag,
@@ -14,16 +14,12 @@ import {
   XCircle,
   AlertCircle,
   ShieldCheck,
-} from "lucide-react";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+  Loader2,
+} from 'lucide-react';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
-type PaymentMethodId = "bkash" | "nagad" | "rocket";
-
-const COUPONS: Record<string, number> = {
-  SAFE10: 10,
-  WELCOME15: 15,
-};
+type PaymentMethodId = 'bkash' | 'nagad' | 'rocket';
 
 const PAYMENT_METHODS: {
   id: PaymentMethodId;
@@ -32,9 +28,27 @@ const PAYMENT_METHODS: {
   color: string;
   bg: string;
 }[] = [
-  { id: "bkash", label: "bKash", logo: "/bKash.png", color: "#E2136E", bg: "#FDF2F8" },
-  { id: "nagad", label: "Nagad", logo: "/Nagad.png", color: "#F42B4E", bg: "#FEF1F3" },
-  { id: "rocket", label: "Rocket", logo: "/rocket.png", color: "#8C3494", bg: "#F6F0FA" },
+  {
+    id: 'bkash',
+    label: 'bKash',
+    logo: '/bKash.png',
+    color: '#E2136E',
+    bg: '#FDF2F8',
+  },
+  {
+    id: 'nagad',
+    label: 'Nagad',
+    logo: '/Nagad.png',
+    color: '#F42B4E',
+    bg: '#FEF1F3',
+  },
+  {
+    id: 'rocket',
+    label: 'Rocket',
+    logo: '/rocket.png',
+    color: '#8C3494',
+    bg: '#F6F0FA',
+  },
 ];
 
 type CheckoutPlan = {
@@ -50,63 +64,209 @@ type CheckoutContentProps = {
 
 export default function CheckoutContent({ plan }: CheckoutContentProps) {
   const [agreed, setAgreed] = useState(false);
-  const [accountId, setAccountId] = useState("");
+  const [accountId, setAccountId] = useState('');
+  const [userCheck, setUserCheck] = useState<
+    'idle' | 'loading' | 'valid' | 'invalid'
+  >('idle');
+  const [userCheckMessage, setUserCheckMessage] = useState('');
 
-  const [logoErrors, setLogoErrors] = useState<Record<PaymentMethodId, boolean>>({
+  const [logoErrors, setLogoErrors] = useState<
+    Record<PaymentMethodId, boolean>
+  >({
     bkash: false,
     nagad: false,
     rocket: false,
   });
 
-  const [couponInput, setCouponInput] = useState("");
-  const [couponStatus, setCouponStatus] = useState<"idle" | "valid" | "invalid">("idle");
+  const [couponInput, setCouponInput] = useState('');
+  const [couponStatus, setCouponStatus] = useState<
+    'idle' | 'valid' | 'invalid' | 'checking'
+  >('idle');
+  const [couponMessage, setCouponMessage] = useState('');
+  const [discountType, setDiscountType] = useState<'percentage' | 'flat'>(
+    'percentage'
+  );
   const [discountPercent, setDiscountPercent] = useState(0);
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId | null>(
+    null
+  );
   const [errors, setErrors] = useState<string[]>([]);
+  const [paymentPending, setPaymentPending] = useState(false);
 
   const discountAmount = useMemo(
-    () => Math.round(plan.price * discountPercent) / 100,
-    [plan.price, discountPercent]
+    () =>
+      discountType === 'flat'
+        ? Math.min(plan.price, discountPercent)
+        : Math.round(plan.price * discountPercent) / 100,
+    [plan.price, discountPercent, discountType]
   );
   const total = useMemo(
-    () => plan.price - (plan.price * discountPercent) / 100,
-    [plan.price, discountPercent]
+    () => Math.max(0, plan.price - discountAmount),
+    [plan.price, discountAmount]
   );
 
-  function applyCoupon() {
+  useEffect(() => {
+    const identifier = accountId.trim();
+    if (!identifier) {
+      setUserCheck('idle');
+      setUserCheckMessage('');
+      return;
+    }
+
+    setUserCheck('loading');
+    setUserCheckMessage('');
+    const timeoutId = window.setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `/api/users/validate?identifier=${encodeURIComponent(identifier)}`,
+          { cache: 'no-store' }
+        );
+        const payload = (await response.json()) as {
+          valid?: boolean;
+          message?: string;
+        };
+        console.log('User check response:', payload);
+        setUserCheck(payload.valid ? 'valid' : 'invalid');
+        setUserCheckMessage(
+          payload.message ??
+            (payload.valid ? 'User found.' : 'No matching user found.')
+        );
+      } catch {
+        setUserCheck('invalid');
+        setUserCheckMessage('Could not check this user.');
+      }
+    }, 350);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [accountId]);
+
+  async function applyCoupon() {
     const code = couponInput.trim().toUpperCase();
+    if (!accountId.trim()) {
+      setCouponStatus('invalid');
+      setCouponMessage(
+        'Enter the child username or email before applying a coupon.'
+      );
+      return;
+    }
+    if (userCheck !== 'valid') {
+      setCouponStatus('invalid');
+      setCouponMessage(
+        userCheckMessage || 'Enter a valid child username or email.'
+      );
+      return;
+    }
     if (!code) return;
-    if (COUPONS[code]) {
-      setDiscountPercent(COUPONS[code]);
-      setCouponStatus("valid");
-    } else {
+    setCouponStatus('checking');
+    setCouponMessage('');
+    try {
+      const response = await fetch('/api/coupons/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: accountId, couponCode: code }),
+      });
+      const payload = (await response.json()) as {
+        coupon?: {
+          discountType: 'percentage' | 'flat';
+          discountValue: number | string;
+        };
+        error?: string;
+      };
+      if (!response.ok || !payload.coupon) {
+        setDiscountPercent(0);
+        setCouponStatus('invalid');
+        setCouponMessage(payload.error ?? 'Unable to apply coupon.');
+        return;
+      }
+      setDiscountType(payload.coupon.discountType);
+      setDiscountPercent(Number(payload.coupon.discountValue));
+      setCouponStatus('valid');
+      setCouponMessage('');
+    } catch {
       setDiscountPercent(0);
-      setCouponStatus("invalid");
+      setCouponStatus('invalid');
+      setCouponMessage('Could not validate the coupon. Please try again.');
     }
   }
 
-  function handlePay() {
+  async function handlePay() {
     const newErrors: string[] = [];
     if (!accountId.trim()) {
-      newErrors.push("Please enter your email, nickname, or kids ID.");
+      newErrors.push('Please enter your email, nickname, or kids ID.');
     }
-    if (!paymentMethod) {
-      newErrors.push("Please select a payment method (bKash, Nagad, or Rocket).");
+    if (total > 0 && !paymentMethod) {
+      newErrors.push(
+        'Please select a payment method (bKash, Nagad, or Rocket).'
+      );
     }
     if (!agreed) {
       newErrors.push(
-        "Please agree to the Terms and Conditions, Privacy Policy, and Refund Policy."
+        'Please agree to the Terms and Conditions, Privacy Policy, and Refund Policy.'
       );
     }
     setErrors(newErrors);
 
     if (newErrors.length === 0) {
-      console.log("Proceeding to payment", { planId: plan.planId, paymentMethod, total });
+      setPaymentPending(true);
+      try {
+        if (total <= 0) {
+          const freeResponse = await fetch('/api/payments/free', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              identifier: accountId,
+              plan_id: plan.planId,
+            }),
+          });
+          const freePayload = (await freeResponse.json()) as {
+            orderId?: string;
+            customerEmail?: string;
+            error?: string;
+          };
+          if (!freeResponse.ok || !freePayload.orderId) {
+            setErrors([
+              freePayload.error ?? 'Could not activate the free plan.',
+            ]);
+            return;
+          }
+          window.location.assign(
+            `/checkout/success?order_id=${encodeURIComponent(freePayload.orderId)}&customer_email=${encodeURIComponent(freePayload.customerEmail ?? accountId)}`
+          );
+          return;
+        }
+        const response = await fetch('/api/payments/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            gateway: paymentMethod,
+            amount: total,
+            customer_email: accountId.trim(),
+            plan_id: plan.planId,
+          }),
+        });
+        const payload = (await response.json()) as {
+          redirectUrl?: string;
+          error?: string;
+        };
+        if (!response.ok || !payload.redirectUrl) {
+          setErrors([payload.error ?? 'Could not start payment.']);
+          return;
+        }
+        window.location.assign(payload.redirectUrl);
+      } catch {
+        setErrors([
+          'Could not connect to the payment service. Please try again.',
+        ]);
+      } finally {
+        setPaymentPending(false);
+      }
     }
   }
 
-  const selectedMethod = PAYMENT_METHODS.find((method) => method.id === paymentMethod);
+  const selectedMethod = PAYMENT_METHODS.find(
+    (method) => method.id === paymentMethod
+  );
 
   return (
     <div className="min-h-screen w-full bg-linear-to-b from-slate-50 to-white px-4 py-10">
@@ -123,7 +283,9 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
 
               <div className="mb-4 flex flex-row items-center justify-between gap-2">
                 <div>
-                  <p className="text-sm font-medium text-slate-900">{plan.name}</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {plan.name}
+                  </p>
                   <p className="text-xs text-slate-500">{plan.billing}</p>
                 </div>
                 <div>
@@ -144,7 +306,8 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                     value={couponInput}
                     onChange={(e) => {
                       setCouponInput(e.target.value);
-                      setCouponStatus("idle");
+                      setCouponStatus('idle');
+                      setCouponMessage('');
                     }}
                     className="h-9 text-sm"
                   />
@@ -158,16 +321,24 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                   </Button>
                 </div>
 
-                {couponStatus === "valid" && (
+                {couponStatus === 'valid' && (
                   <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-success">
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    Coupon applied - {discountPercent}% off
+                    Coupon applied -{' '}
+                    {discountType === 'percentage'
+                      ? `${discountPercent}% off`
+                      : `৳${discountPercent} off`}
                   </p>
                 )}
-                {couponStatus === "invalid" && (
+                {couponStatus === 'invalid' && (
                   <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-destructive">
                     <XCircle className="h-3.5 w-3.5" />
-                    Invalid coupon code
+                    {couponMessage || 'Invalid coupon code'}
+                  </p>
+                )}
+                {couponStatus === 'checking' && (
+                  <p className="mt-2 text-xs text-slate-500">
+                    Checking user and coupon…
                   </p>
                 )}
               </div>
@@ -176,7 +347,13 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
 
               {discountPercent > 0 && (
                 <div className="mt-2 flex items-center justify-between text-sm text-success">
-                  <span>Discount ({discountPercent}%)</span>
+                  <span>
+                    Discount (
+                    {discountType === 'percentage'
+                      ? `${discountPercent}%`
+                      : `৳${discountPercent}`}
+                    )
+                  </span>
                   <span>-৳{discountAmount.toFixed(2)}</span>
                 </div>
               )}
@@ -199,17 +376,43 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                     1. Account details
                   </h2>
                   <p className="mb-3 text-xs text-slate-500">
-                    Enter a valid email address, nickname, or kid&apos;s ID{" "}
+                    Enter the child&apos;s email address or username{' '}
                     <span className="text-[11px]">
                       (which you received after installing the kid&apos;s app)
                     </span>
                     .
                   </p>
                   <Input
-                    placeholder="Email, Nickname or kids ID"
+                    placeholder="Child email or username"
                     value={accountId}
                     onChange={(e) => setAccountId(e.target.value)}
                   />
+                  <p className="mt-1.5 text-xs text-slate-500">
+                    Use the child&apos;s registered email address or username.
+                  </p>
+                  {userCheck !== 'idle' && (
+                    <p
+                      className={cn(
+                        'mt-2 flex items-center gap-1.5 text-xs font-medium',
+                        userCheck === 'valid'
+                          ? 'text-emerald-600'
+                          : userCheck === 'loading'
+                            ? 'text-slate-500'
+                            : 'text-destructive'
+                      )}
+                    >
+                      {userCheck === 'loading' ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : userCheck === 'valid' ? (
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                      ) : (
+                        <XCircle className="h-3.5 w-3.5" />
+                      )}
+                      {userCheck === 'loading'
+                        ? 'Checking user…'
+                        : userCheckMessage}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -237,16 +440,18 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                               : undefined
                           }
                           className={cn(
-                            "flex h-14 items-center justify-center rounded-md border px-2 py-2 transition-all duration-200",
+                            'flex h-14 items-center justify-center rounded-md border px-2 py-2 transition-all duration-200',
                             isSelected
-                              ? "shadow-sm"
-                              : "border-slate-200 bg-white hover:border-slate-300"
+                              ? 'shadow-sm'
+                              : 'border-slate-200 bg-white hover:border-slate-300'
                           )}
                         >
                           {logoFailed ? (
                             <span
                               className="text-sm font-semibold"
-                              style={{ color: isSelected ? method.color : "#94A3B8" }}
+                              style={{
+                                color: isSelected ? method.color : '#94A3B8',
+                              }}
                             >
                               {method.label}
                             </span>
@@ -257,8 +462,8 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                               width={100}
                               height={52}
                               className={cn(
-                                "h-10 w-auto object-contain transition-opacity",
-                                !isSelected && "opacity-50"
+                                'h-10 w-auto object-contain transition-opacity',
+                                !isSelected && 'opacity-50'
                               )}
                               onError={() =>
                                 setLogoErrors((prev) => ({
@@ -296,15 +501,21 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                       htmlFor="terms"
                       className="whitespace-nowrap overflow-x-auto text-xs font-normal leading-relaxed text-slate-600"
                     >
-                      I have read and agree to the{" "}
-                      <a href="/policy/terms-of-service" className="text-blue-600 hover:underline">
+                      I have read and agree to the{' '}
+                      <a
+                        href="/policy/terms-of-service"
+                        className="text-blue-600 hover:underline"
+                      >
                         Terms and Conditions
                       </a>
-                      ,{" "}
-                      <a href="/policy/privacy-policy" className="text-blue-600 hover:underline">
+                      ,{' '}
+                      <a
+                        href="/policy/privacy-policy"
+                        className="text-blue-600 hover:underline"
+                      >
                         Privacy Policy
-                      </a>{" "}
-                      and{" "}
+                      </a>{' '}
+                      and{' '}
                       <a
                         href="/policy/payment-and-refund-policy"
                         className="text-blue-600 hover:underline"
@@ -317,17 +528,22 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
 
                   <Button
                     onClick={handlePay}
+                    disabled={paymentPending}
                     style={
                       selectedMethod
                         ? { backgroundColor: selectedMethod.color }
                         : undefined
                     }
                     className={cn(
-                      "w-full gap-2 text-white transition-all duration-200 hover:opacity-90",
-                      !selectedMethod && "bg-primary hover:bg-primary/90"
+                      'w-full gap-2 text-white transition-all duration-200 hover:opacity-90',
+                      !selectedMethod && 'bg-primary hover:bg-primary/90'
                     )}
                   >
-                    Pay {selectedMethod ? `with ${selectedMethod.label}` : "Now"}{" "}
+                    {paymentPending
+                      ? 'Opening payment…'
+                      : total <= 0
+                        ? 'Activate free plan'
+                        : `Pay ${selectedMethod ? `with ${selectedMethod.label}` : 'Now'}`}{' '}
                     (৳{total.toFixed(2)})
                   </Button>
 
@@ -346,9 +562,9 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                   )}
 
                   <p className="mt-3 text-xs leading-relaxed text-slate-500">
-                    Click &quot;Pay&quot; to complete your subscription. You&apos;ll
-                    be redirected to your selected payment provider and then
-                    return to this page.
+                    Click &quot;Pay&quot; to complete your subscription.
+                    You&apos;ll be redirected to your selected payment provider
+                    and then return to this page.
                   </p>
                 </div>
               </div>

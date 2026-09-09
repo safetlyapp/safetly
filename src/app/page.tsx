@@ -1,12 +1,12 @@
-import Faq from "@/components/home/Faq";
-import Features from "@/components/home/Features";
-import Hero from "@/components/home/Hero";
-import HowToInstall from "@/components/home/HowToInstall";
-import Pricing from "@/components/home/Pricing";
-import Reviews from "@/components/home/Reviews";
-import { fetchBackendJson } from "@/lib/backend-api";
+import Faq from '@/components/home/Faq';
+import Features from '@/components/home/Features';
+import Hero from '@/components/home/Hero';
+import HowToInstall from '@/components/home/HowToInstall';
+import Pricing from '@/components/home/Pricing';
+import Reviews from '@/components/home/Reviews';
+import { fetchBackendJson } from '@/lib/backend-api';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 type PricingPlan = {
   id: string;
@@ -48,20 +48,33 @@ type FaqCategory = {
 };
 
 type FaqCategoriesResponse = {
-  categories: { id: string; title: string; displayOrder: number; isPublished: boolean }[];
+  categories: {
+    id: string;
+    title: string;
+    displayOrder: number;
+    isPublished: boolean;
+  }[];
 };
 
 type FaqItemsResponse = {
-  items: { id: string; categoryId: string; question: string; answer: string; displayOrder: number; isPublished: boolean }[];
+  items: {
+    id: string;
+    categoryId: string;
+    question: string;
+    answer: string;
+    displayOrder: number;
+    isPublished: boolean;
+  }[];
 };
 
 export default async function HomePage() {
-  const [pricingResponse, reviewsResponse, categoriesResponse, itemsResponse] = await Promise.all([
-    fetchBackendJson<PricingResponse>("/api/pricing"),
-    fetchBackendJson<ReviewsResponse>("/api/reviews"),
-    fetchBackendJson<FaqCategoriesResponse>("/api/faq/categories"),
-    fetchBackendJson<FaqItemsResponse>("/api/faq/items"),
-  ]);
+  const [pricingResponse, reviewsResponse, categoriesResponse, itemsResponse] =
+    await Promise.all([
+      fetchBackendJson<PricingResponse>('/api/pricing'),
+      fetchBackendJson<ReviewsResponse>('/api/reviews'),
+      fetchBackendJson<FaqCategoriesResponse>('/api/faq/categories'),
+      fetchBackendJson<FaqItemsResponse>('/api/faq/items'),
+    ]);
 
   const categoriesById = new Map<string, FaqCategory>();
   for (const category of categoriesResponse.categories) {
@@ -77,7 +90,6 @@ export default async function HomePage() {
   const faqItems = categoriesResponse.categories
     .flatMap((category) => categoriesById.get(category.id)?.items ?? [])
     .slice(0, 6);
-
 
   return (
     <>

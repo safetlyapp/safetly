@@ -1,19 +1,28 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
-import { Mail, User, Baby, Users, ShieldCheck, Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState } from 'react';
+import Image from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import {
+  Mail,
+  User,
+  Baby,
+  Users,
+  ShieldCheck,
+  Eye,
+  EyeOff,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   // "signin" | "signup" controls which card is shown
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
@@ -43,10 +52,10 @@ export default function LoginPage() {
                 </span>
               </div>
 
-              {mode === "signup" ? (
-                <SignUpForm onSwitch={() => setMode("signin")} />
+              {mode === 'signup' ? (
+                <SignUpForm onSwitch={() => setMode('signin')} />
               ) : (
-                <SignInForm onSwitch={() => setMode("signup")} />
+                <SignInForm onSwitch={() => setMode('signup')} />
               )}
             </CardContent>
           </Card>
@@ -71,23 +80,36 @@ function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
 
       <form className="space-y-4">
         <div>
-          <FieldWithIcon icon={Mail} id="email" type="email" placeholder="Email" />
+          <FieldWithIcon
+            icon={Mail}
+            id="email"
+            type="email"
+            placeholder="Email"
+          />
           <p className="mt-1.5 text-xs text-slate-500">
             We need to verify your email, please enter a valid one.
           </p>
         </div>
         <PasswordField id="password" placeholder="Password" />
         <PasswordField id="confirm-password" placeholder="Confirm password" />
-        <FieldWithIcon icon={User} id="nickname" type="text" placeholder="Nickname" />
+        <FieldWithIcon
+          icon={User}
+          id="nickname"
+          type="text"
+          placeholder="Nickname"
+        />
 
         <div className="flex items-start gap-2 pt-1">
           <Checkbox id="agree" className="mt-0.5" />
-          <Label htmlFor="agree" className="text-xs font-normal text-slate-600 leading-snug">
-            I agree with Safetly&apos;s{" "}
+          <Label
+            htmlFor="agree"
+            className="text-xs font-normal text-slate-600 leading-snug"
+          >
+            I agree with Safetly&apos;s{' '}
             <a href="#" className="text-primary hover:underline">
               EULA Policy
-            </a>{" "}
-            and{" "}
+            </a>{' '}
+            and{' '}
             <a href="#" className="text-primary hover:underline">
               Privacy Policy
             </a>
@@ -106,7 +128,7 @@ function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
   );
 }
 
-type Audience = "kid" | "parent";
+type Audience = 'kid' | 'parent';
 
 const SIGNIN_COPY: Record<
   Audience,
@@ -115,19 +137,19 @@ const SIGNIN_COPY: Record<
   kid: {
     heading: 'Log in to the "Safetly" kid\u2019s account.',
     subtext:
-      "Enter a valid email address, nickname, or kid\u2019s ID (which you received after installing the kid\u2019s app).",
-    placeholder: "Email address, nickname, or kid\u2019s ID",
+      'Enter a valid email address, nickname, or kid\u2019s ID (which you received after installing the kid\u2019s app).',
+    placeholder: 'Email address, nickname, or kid\u2019s ID',
   },
   parent: {
     heading: 'Log in to the "Safetly" parents\u2019 account.',
     subtext:
-      "Enter a valid email address, nickname, or parents\u2019 ID (which you received after installing the parents\u2019 app).",
-    placeholder: "Email address, nickname, or parents\u2019 ID",
+      'Enter a valid email address, nickname, or parents\u2019 ID (which you received after installing the parents\u2019 app).',
+    placeholder: 'Email address, nickname, or parents\u2019 ID',
   },
 };
 
 function SignInForm({ onSwitch }: { onSwitch: () => void }) {
-  const [audience, setAudience] = useState<Audience>("kid");
+  const [audience, setAudience] = useState<Audience>('kid');
 
   return (
     <div className="space-y-5">
@@ -135,12 +157,12 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
       <div className="grid grid-cols-2 gap-1.5 rounded-full border border-slate-200 bg-slate-100 p-1.5 shadow-sm">
         <button
           type="button"
-          onClick={() => setAudience("kid")}
+          onClick={() => setAudience('kid')}
           className={cn(
-            "flex items-center justify-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
-            audience === "kid"
-              ? "border-secondary bg-white text-accent-foreground shadow-sm"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+            'flex items-center justify-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200',
+            audience === 'kid'
+              ? 'border-secondary bg-white text-accent-foreground shadow-sm'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           )}
         >
           <Baby className="h-4 w-4" />
@@ -148,12 +170,12 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
         </button>
         <button
           type="button"
-          onClick={() => setAudience("parent")}
+          onClick={() => setAudience('parent')}
           className={cn(
-            "flex items-center justify-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
-            audience === "parent"
-              ? "border-secondary bg-white text-accent-foreground shadow-sm"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+            'flex items-center justify-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200',
+            audience === 'parent'
+              ? 'border-secondary bg-white text-accent-foreground shadow-sm'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           )}
         >
           <Users className="h-4 w-4" />
@@ -173,7 +195,68 @@ function SignInFields({
   onSwitch: () => void;
   audience: Audience;
 }) {
+  const router = useRouter();
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const copy = SIGNIN_COPY[audience];
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!identifier.trim() || !password) {
+      setError('Enter your account ID and password to continue.');
+      return;
+    }
+    setPending(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        audience === 'parent' ? '/api/parent/login' : '/api/child/login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            audience === 'parent'
+              ? { email: identifier, password }
+              : { identifier, password }
+          ),
+        }
+      );
+      const payload = (await response.json()) as {
+        token?: string;
+        profile?: {
+          id?: string;
+          email?: string;
+          username?: string;
+          name?: string;
+        };
+        error?: string;
+      };
+      if (!response.ok || !payload.token || !payload.profile) {
+        setError(payload.error ?? 'Unable to sign in.');
+        return;
+      }
+      window.localStorage.setItem('safetly-token', payload.token);
+      window.localStorage.setItem(
+        'safetly-account',
+        JSON.stringify({
+          role: audience,
+          identifier:
+            payload.profile.email ?? payload.profile.username ?? identifier,
+          accountId: payload.profile.id,
+          email: payload.profile.email,
+          username: payload.profile.username,
+          name: payload.profile.name,
+        })
+      );
+      router.replace('/dashboard');
+    } catch {
+      setError('Unable to reach the login service. Please try again.');
+    } finally {
+      setPending(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -182,15 +265,21 @@ function SignInFields({
         <p className="mt-1.5 text-xs text-slate-500">{copy.subtext}</p>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={onSubmit}>
         <Input
           id={`signin-id-${audience}`}
           type="text"
           placeholder={copy.placeholder}
+          value={identifier}
+          onChange={(event) => setIdentifier(event.target.value)}
+          disabled={pending}
         />
         <PasswordField
           id={`signin-password-${audience}`}
           placeholder="Password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          disabled={pending}
         />
 
         <div className="flex items-center justify-between text-sm">
@@ -210,12 +299,17 @@ function SignInFields({
 
         <Button
           type="submit"
+          disabled={pending}
           className="w-full bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md"
         >
-          Sign in
+          {pending ? 'Opening dashboard…' : 'Sign in'}
         </Button>
+        {error ? (
+          <p className="text-sm text-red-600" role="alert">
+            {error}
+          </p>
+        ) : null}
       </form>
-
     </div>
   );
 }
@@ -243,9 +337,15 @@ function FieldWithIcon({
 function PasswordField({
   id,
   placeholder,
+  value,
+  onChange,
+  disabled,
 }: {
   id: string;
   placeholder: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -253,21 +353,21 @@ function PasswordField({
     <div className="relative">
       <Input
         id={id}
-        type={visible ? "text" : "password"}
+        type={visible ? 'text' : 'password'}
         placeholder={placeholder}
         className="pr-10"
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
       />
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        aria-label={visible ? "Hide password" : "Show password"}
+        disabled={disabled}
+        aria-label={visible ? 'Hide password' : 'Show password'}
         className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
       >
-        {visible ? (
-          <EyeOff className="h-4 w-4" />
-        ) : (
-          <Eye className="h-4 w-4" />
-        )}
+        {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
       </button>
     </div>
   );

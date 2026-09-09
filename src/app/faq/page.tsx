@@ -1,14 +1,14 @@
-import FaqContent from "@/components/faq-content";
-import { fetchBackendJson } from "@/lib/backend-api";
-import type { Metadata } from "next";
+import FaqContent from '@/components/faq-content';
+import { fetchBackendJson } from '@/lib/backend-api';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "FAQ | Safetly",
+  title: 'FAQ | Safetly',
   description:
-    "Frequently asked questions about Safetly parental controls, family safety, subscriptions, payments, and privacy.",
+    'Frequently asked questions about Safetly parental controls, family safety, subscriptions, payments, and privacy.',
 };
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 type FaqCategoryResponse = {
   id: string;
@@ -41,8 +41,8 @@ type FaqItemsResponse = {
 
 export default async function FaqPage() {
   const [categoriesResponse, itemsResponse] = await Promise.all([
-    fetchBackendJson<FaqCategoriesResponse>("/api/faq/categories"),
-    fetchBackendJson<FaqItemsResponse>("/api/faq/items"),
+    fetchBackendJson<FaqCategoriesResponse>('/api/faq/categories'),
+    fetchBackendJson<FaqItemsResponse>('/api/faq/items'),
   ]);
 
   const categoriesById = new Map<string, FaqContentCategory>();

@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import CheckoutContent from "@/components/checkout-content";
-import { fetchBackendJson } from "@/lib/backend-api";
+import { notFound } from 'next/navigation';
+import CheckoutContent from '@/components/checkout-content';
+import { fetchBackendJson } from '@/lib/backend-api';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 type PricingPlan = {
   id: string;
@@ -29,16 +29,18 @@ type CheckoutPageProps = {
 };
 
 function parsePriceAmount(price: string) {
-  const amount = Number(price.replace(/[^\d.]/g, ""));
+  const amount = Number(price.replace(/[^\d.]/g, ''));
   return Number.isFinite(amount) ? amount : null;
 }
 
-export default async function CheckoutPage({ searchParams }: CheckoutPageProps) {
+export default async function CheckoutPage({
+  searchParams,
+}: CheckoutPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const planParam = resolvedSearchParams.plan;
   const planId = Array.isArray(planParam) ? planParam[0] : planParam;
 
-  const { plans } = await fetchBackendJson<PricingResponse>("/api/pricing");
+  const { plans } = await fetchBackendJson<PricingResponse>('/api/pricing');
   const selectedPlan = plans.find((plan) => plan.planId === planId);
 
   if (!planId || !selectedPlan) {

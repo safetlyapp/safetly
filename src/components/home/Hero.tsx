@@ -1,22 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 /**
  * Drop your 3 hero photos here (any aspect ratio, but similar works best).
  * Path: /public/images/hero/slide-1.jpg, slide-2.jpg, slide-3.jpg
  */
-const SLIDE_IMAGES = [
-  "/1.png",
-  "/2.png",
-  "/3.png",
-];
+const SLIDE_IMAGES = ['/1.png', '/2.png', '/3.png'];
 
 /** Full-bleed background photo behind the whole hero section. */
-const BACKGROUND_IMAGE = "/background.jpeg";
+const BACKGROUND_IMAGE = '/background.jpeg';
 
 export default function Hero() {
   return (
@@ -48,10 +44,14 @@ export default function Hero() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Button size="lg" className="bg-blue-600/70 hover:bg-blue-800" >
+            <Button size="lg" className="bg-blue-600/70 hover:bg-blue-800">
               <Link href="/checkout">Try it free</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-primary text-white hover:text-white hover:bg-primary" >
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-primary text-white hover:text-white hover:bg-primary"
+            >
               <Link href="/pricing">Get Premium</Link>
             </Button>
           </div>
@@ -114,7 +114,7 @@ function HeroImageCarousel({
           <span
             key={i}
             className={`h-1.5 w-1.5 rounded-full transition-colors ${
-              i === active ? "bg-white" : "bg-white/50"
+              i === active ? 'bg-white' : 'bg-white/50'
             }`}
           />
         ))}
@@ -125,7 +125,12 @@ function HeroImageCarousel({
 
 function AndroidIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
       <path d="M17.6 9.48 19.44 6.3a.5.5 0 0 0-.86-.5l-1.87 3.23a8.9 8.9 0 0 0-7.42 0L7.42 5.8a.5.5 0 1 0-.86.5l1.85 3.18C5.7 11.13 4 13.9 4 17h16c0-3.1-1.7-5.87-4.4-7.52ZM9 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
     </svg>
   );

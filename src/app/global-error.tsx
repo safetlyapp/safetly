@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Link from "next/link";
-import { ShieldCheck, RefreshCw, Home, TriangleAlert } from "lucide-react";
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { ShieldCheck, RefreshCw, Home, TriangleAlert } from 'lucide-react';
 
 export default function Error({
   error,
@@ -16,7 +16,7 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  console.log(error)
+  console.log(error);
 
   return (
     <div className="flex min-h-[80vh] w-full flex-col items-center justify-center px-4 py-16">
@@ -36,8 +36,8 @@ export default function Error({
           We hit an unexpected error.
         </h1>
         <p className="mt-3 text-sm text-slate-600">
-          Our team has been notified. You can try again, or head back to a
-          safe page.
+          Our team has been notified. You can try again, or head back to a safe
+          page.
         </p>
 
         {error.digest && (

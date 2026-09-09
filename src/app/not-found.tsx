@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ShieldCheck, Home, ArrowLeft, SearchX } from "lucide-react";
+import Link from 'next/link';
+import { ShieldCheck, Home, ArrowLeft, SearchX } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -20,8 +20,8 @@ export default function NotFound() {
           This page went off the grid.
         </h1>
         <p className="mt-3 text-sm text-slate-600">
-          The page you&apos;re looking for doesn&apos;t exist, may have
-          been moved, or the link might be broken.
+          The page you&apos;re looking for doesn&apos;t exist, may have been
+          moved, or the link might be broken.
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

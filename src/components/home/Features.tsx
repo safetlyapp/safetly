@@ -1,26 +1,34 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { CheckCircle2, Smartphone, ImageIcon, Camera, MapPin, AlarmClock, MonitorSmartphone } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import {
+  CheckCircle2,
+  Smartphone,
+  ImageIcon,
+  Camera,
+  MapPin,
+  AlarmClock,
+  MonitorSmartphone,
+} from 'lucide-react';
 
 const FEATURES_LEFT = [
   // "Live Screen Mirroring",
   // "Inappropriate Image & Video Detection",
   // "Remote Camera",
   // "Sound around Child",
-  "Location & Route Tracking",
-  "App/Game & Web Blocker",
-  "Downtime App",
+  'Location & Route Tracking',
+  'App/Game & Web Blocker',
+  'Downtime App',
 ];
 
 const FEATURES_RIGHT = [
-  "App Time Limits",
-  "Geofencing",
+  'App Time Limits',
+  'Geofencing',
   // "Calls & SMS Monitoring",
-  "Social Content Monitoring",
-  "View App Notifications",
+  'Social Content Monitoring',
+  'View App Notifications',
   // "Browsing History",
-  "Usage Report",
+  'Usage Report',
 ];
 
 export default function Features() {
@@ -31,8 +39,8 @@ export default function Features() {
           Our Advance Premium Features
         </h2>
         <p className="mt-2 md:text-lg text-slate-600">
-          Feature availability varies depending on whether your child is
-          using the Android or iOS operating system.
+          Feature availability varies depending on whether your child is using
+          the Android or iOS operating system.
         </p>
       </div>
 
@@ -103,7 +111,7 @@ export default function Features() {
             ))}
           </div>
 
-          <Button className="mt-6 bg-blue-600  cursor-pointer hover:bg-blue-800 " >
+          <Button className="mt-6 bg-blue-600  cursor-pointer hover:bg-blue-800 ">
             Try it free
           </Button>
         </div>
@@ -132,8 +140,8 @@ function FloatingIcon({
       className={`absolute flex h-8 w-8 items-center justify-center rounded-full shadow-sm ${className}`}
       style={
         {
-          "--float-dx": `${dx}px`,
-          "--float-dy": `${dy}px`,
+          '--float-dx': `${dx}px`,
+          '--float-dy': `${dy}px`,
           animation: `float-drift ${duration}s ease-in-out ${delay}s infinite`,
         } as React.CSSProperties
       }

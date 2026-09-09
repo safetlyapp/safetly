@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { ArrowRight, Plus } from "lucide-react";
-import DOMPurify from "isomorphic-dompurify";
+import Link from 'next/link';
+import { ArrowRight, Plus } from 'lucide-react';
+import DOMPurify from 'isomorphic-dompurify';
 
 type FaqItem = {
   q: string;
@@ -27,7 +27,8 @@ export default function FAQFull({ items }: FAQProps) {
           Frequently asked questions
         </h2>
         <p className="mt-2 text-sm text-slate-500">
-          Can&apos;t find what you&apos;re looking for? Reach out to our support team anytime.
+          Can&apos;t find what you&apos;re looking for? Reach out to our support
+          team anytime.
         </p>
       </div>
 

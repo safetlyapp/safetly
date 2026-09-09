@@ -1,26 +1,33 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { Menu, X, ShieldCheck, Lock } from "lucide-react";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/navigation-menu';
+import { Menu, X, ShieldCheck, Lock, LogOut, ChevronDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const NAV_LINKS = [
-  { label: "Features", href: "#features" },
-  { label: "Download", href: "#download" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
+  { label: 'Features', href: '#features' },
+  { label: 'Download', href: '#download' },
+  { label: 'Pricing', href: '#pricing' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState<string>("");
+  const [activeHref, setActiveHref] = useState<string>('');
 
   useEffect(() => {
     const sections = NAV_LINKS.map((link) =>
@@ -40,7 +47,7 @@ export default function Header() {
         }
       },
       {
-        rootMargin: "-96px 0px -60% 0px",
+        rootMargin: '-96px 0px -60% 0px',
         threshold: [0, 0.25, 0.5, 0.75, 1],
       }
     );
@@ -70,18 +77,18 @@ export default function Header() {
                   <NavigationMenuLink
                     asChild
                     className={cn(
-                      "relative px-3 py-2 text-sm font-medium transition-colors",
+                      'relative px-3 py-2 text-sm font-medium transition-colors',
                       isActive
-                        ? "text-primary"
-                        : "text-slate-700 hover:text-primary"
+                        ? 'text-primary'
+                        : 'text-slate-700 hover:text-primary'
                     )}
                   >
                     <Link href={link.href}>
                       {link.label}
                       <span
                         className={cn(
-                          "absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary transition-opacity",
-                          isActive ? "opacity-100" : "opacity-0"
+                          'absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary transition-opacity',
+                          isActive ? 'opacity-100' : 'opacity-0'
                         )}
                       />
                     </Link>
@@ -94,7 +101,7 @@ export default function Header() {
 
         {/* Desktop actions */}
         <div className="hidden items-center lg:flex">
-          <LoginButton />
+          <AccountButton />
         </div>
 
         {/* Mobile toggle */}
@@ -114,8 +121,8 @@ export default function Header() {
       {/* Mobile menu */}
       <div
         className={cn(
-          "overflow-hidden border-t border-slate-200 bg-white transition-[max-height] duration-200 lg:hidden",
-          mobileOpen ? "max-h-96" : "max-h-0 border-t-0"
+          'overflow-hidden border-t border-slate-200 bg-white transition-[max-height] duration-200 lg:hidden',
+          mobileOpen ? 'max-h-96' : 'max-h-0 border-t-0'
         )}
       >
         <nav className="flex flex-col gap-1 px-4 py-3">
@@ -127,10 +134,10 @@ export default function Header() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm transition-colors",
+                  'rounded-md px-3 py-2 text-sm transition-colors',
                   isActive
-                    ? "bg-accent text-primary font-medium"
-                    : "text-slate-700 hover:bg-slate-50"
+                    ? 'bg-accent text-primary font-medium'
+                    : 'text-slate-700 hover:bg-slate-50'
                 )}
               >
                 {link.label}
@@ -138,7 +145,7 @@ export default function Header() {
             );
           })}
           <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-3">
-            <LoginButton
+            <AccountButton
               className="w-full justify-center"
               onClick={() => setMobileOpen(false)}
             />
@@ -162,7 +169,7 @@ function LoginButton({
       href="/login"
       onClick={onClick}
       className={cn(
-        "group relative inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-sky-500 to-sky-600 py-2 pl-11 pr-6 text-sm font-semibold text-white shadow-sm ring-1 ring-sky-600/20 transition-all duration-200 hover:shadow-md hover:shadow-sky-500/25 hover:-translate-y-0.5 hover:from-sky-600 hover:to-sky-700 active:translate-y-0",
+        'group relative inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-sky-500 to-sky-600 py-2 pl-11 pr-6 text-sm font-semibold text-white shadow-sm ring-1 ring-sky-600/20 transition-all duration-200 hover:shadow-md hover:shadow-sky-500/25 hover:-translate-y-0.5 hover:from-sky-600 hover:to-sky-700 active:translate-y-0',
         className
       )}
     >
@@ -171,5 +178,83 @@ function LoginButton({
       </span>
       <span className="tracking-wide">Login</span>
     </Link>
+  );
+}
+
+type StoredAccount = {
+  identifier?: string;
+  name?: string;
+  role?: 'kid' | 'parent';
+};
+
+function AccountButton({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
+  const router = useRouter();
+  const [account, setAccount] = useState<StoredAccount | null>(null);
+
+  useEffect(() => {
+    const raw = window.localStorage.getItem('safetly-account');
+    if (!raw) return;
+    try {
+      setAccount(JSON.parse(raw) as StoredAccount);
+    } catch {
+      window.localStorage.removeItem('safetly-account');
+    }
+  }, []);
+
+  function logout() {
+    window.localStorage.removeItem('safetly-account');
+    window.localStorage.removeItem('safetly-token');
+    router.push('/login');
+    onClick?.();
+  }
+
+  if (!account) return <LoginButton className={className} onClick={onClick} />;
+
+  const displayName = account.name || account.identifier || 'User';
+  const initials = displayName
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className={cn(
+          'inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1.5 pl-1.5 pr-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-primary/40 hover:shadow-md',
+          className
+        )}
+      >
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-purple-600 text-xs font-bold text-white">
+          {initials}
+        </span>
+        <span className="max-w-28 truncate">{displayName}</span>
+        <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52">
+        <div className="px-3 py-2">
+          <p className="truncate text-sm font-semibold text-slate-900">
+            {displayName}
+          </p>
+          <p className="text-xs capitalize text-slate-500">
+            {account.role ?? 'account'} account
+          </p>
+        </div>
+        <DropdownMenuItem onClick={() => router.push('/dashboard')}>
+          View dashboard
+        </DropdownMenuItem>
+        <DropdownMenuItem variant="destructive" onClick={logout}>
+          <LogOut className="h-4 w-4" />
+          Logout
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

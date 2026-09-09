@@ -3,33 +3,34 @@ export default function PolicyContent() {
     <div className="space-y-8 text-sm leading-relaxed text-slate-600">
       <Section title="Data center and security infrastructure">
         <p>
-          At Safetly, we use Amazon Web Services to host our cloud infrastructure,
-          products, and services, enabling us to provide our customers and users
-          with a secure network and computing environment. These security measures
-          include firewalls at the network, application, and instance layers, data
-          encryption, DDoS mitigation, and more. Furthermore, all servers storing
-          sensitive data are located in Silicon Valley (USA) and Germany.
+          At Safetly, we use Amazon Web Services to host our cloud
+          infrastructure, products, and services, enabling us to provide our
+          customers and users with a secure network and computing environment.
+          These security measures include firewalls at the network, application,
+          and instance layers, data encryption, DDoS mitigation, and more.
+          Furthermore, all servers storing sensitive data are located in Silicon
+          Valley (USA) and Germany.
         </p>
         <p>
-          All Safetly servers are located in secure data centers that comply with
-          ISO 27001. The data centers used by Safetly have implemented top-tier
-          security controls, meaning that personal access control, video
-          surveillance, motion detectors, 24/7 monitoring, and on-site security
-          ensure that only authorized personnel can enter the data centers. The
-          highest security standards are applied to the protection of both hardware
-          and data. The single point of entry to the data center also features
-          detailed identity verification protocols. All these measures work
-          together to guarantee the highest security standards for the protection
-          of both hardware and data.
+          All Safetly servers are located in secure data centers that comply
+          with ISO 27001. The data centers used by Safetly have implemented
+          top-tier security controls, meaning that personal access control,
+          video surveillance, motion detectors, 24/7 monitoring, and on-site
+          security ensure that only authorized personnel can enter the data
+          centers. The highest security standards are applied to the protection
+          of both hardware and data. The single point of entry to the data
+          center also features detailed identity verification protocols. All
+          these measures work together to guarantee the highest security
+          standards for the protection of both hardware and data.
         </p>
       </Section>
 
       <Section title="Session encryption and authentication">
         <p>
-          When establishing a session, Safetly will determine the best connection
-          type. After the server completes the handshake, 80% of all connections
-          will use the TLS tunnel (https or wss), while the rest will connect via
-          TCP or UDP.
+          When establishing a session, Safetly will determine the best
+          connection type. After the server completes the handshake, 80% of all
+          connections will use the TLS tunnel (https or wss), while the rest
+          will connect via TCP or UDP.
         </p>
         <p>
           Safetly communication uses RSA public/private keys, as well as AES
@@ -39,8 +40,8 @@ export default function PolicyContent() {
         <p>
           Since the private key never leaves the client&apos;s computer, this
           process ensures that the system, including Safetly&apos;s routing
-          server, cannot decrypt the data stream; therefore, not even Safetly, as
-          the server owner, can read the encrypted data.
+          server, cannot decrypt the data stream; therefore, not even Safetly,
+          as the server owner, can read the encrypted data.
         </p>
       </Section>
 
@@ -48,18 +49,18 @@ export default function PolicyContent() {
         <ul className="list-disc space-y-2 pl-5">
           <li>
             Compromising the integrity of our systems, including probing,
-            scanning or testing the vulnerability of any system or network, unless
-            expressly authorized to perform such activities.
+            scanning or testing the vulnerability of any system or network,
+            unless expressly authorized to perform such activities.
           </li>
           <li>
             Reverse engineer, manipulate or hack our services, circumvent any
-            security protocol or authentication measure, or unlawfully attempt to
-            gain unauthorized access to customer accounts, services, networks and
-            data.
+            security protocol or authentication measure, or unlawfully attempt
+            to gain unauthorized access to customer accounts, services, networks
+            and data.
           </li>
           <li>
-            Overloading or attempting to overload our infrastructure or systems by
-            imposing an excessively large load that consumes extraordinary
+            Overloading or attempting to overload our infrastructure or systems
+            by imposing an excessively large load that consumes extraordinary
             resources (RAM, CPU, bandwidth, etc.).
           </li>
         </ul>
@@ -73,9 +74,9 @@ export default function PolicyContent() {
           </li>
           <li>
             Using the services to violate the privacy of other people, including
-            phishing, posting confidential information about other people without
-            prior consent, or collecting and obtaining personally identifiable
-            information about our users from our services.
+            phishing, posting confidential information about other people
+            without prior consent, or collecting and obtaining personally
+            identifiable information about our users from our services.
           </li>
           <li>
             Using our services to harass, bully, or post direct or specific
@@ -100,7 +101,13 @@ export default function PolicyContent() {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <section>
       <h2 className="mb-2 text-base font-semibold text-slate-900">{title}</h2>

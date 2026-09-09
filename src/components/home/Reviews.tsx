@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
 type ReviewItem = {
   quote: string;
@@ -22,11 +22,11 @@ export default function Reviews({ reviews }: ReviewsProps) {
   const [perPage, setPerPage] = useState(3);
 
   useEffect(() => {
-    const mql = window.matchMedia("(min-width: 768px)");
+    const mql = window.matchMedia('(min-width: 768px)');
     const update = () => setPerPage(mql.matches ? 3 : 1);
     update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
   }, []);
 
   const pages = useMemo(() => {
@@ -127,8 +127,8 @@ export default function Reviews({ reviews }: ReviewsProps) {
         <div className="overflow-hidden">
           <div
             className={cn(
-              "flex",
-              withTransition && "transition-transform duration-500 ease-in-out"
+              'flex',
+              withTransition && 'transition-transform duration-500 ease-in-out'
             )}
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
@@ -189,7 +189,9 @@ export default function Reviews({ reviews }: ReviewsProps) {
                   onClick={() => goTo(i)}
                   aria-label={`Go to page ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === activeDot ? "w-6 bg-violet-600" : "w-1.5 bg-slate-300 hover:bg-slate-400"
+                    i === activeDot
+                      ? 'w-6 bg-violet-600'
+                      : 'w-1.5 bg-slate-300 hover:bg-slate-400'
                   }`}
                 />
               ))}
@@ -214,5 +216,5 @@ export default function Reviews({ reviews }: ReviewsProps) {
 }
 
 function cn(...classes: (string | false | null | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }

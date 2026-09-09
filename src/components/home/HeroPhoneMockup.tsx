@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   RefreshCw,
@@ -15,41 +15,41 @@ import {
   Signal,
   Wifi,
   BatteryFull,
-} from "lucide-react";
+} from 'lucide-react';
 
 const FEATURE_CARDS = [
   {
     icon: MessageCircle,
-    title: "Social Media Protection",
-    desc: "Control access to social platforms and limit screen time",
-    variant: "full" as const,
+    title: 'Social Media Protection',
+    desc: 'Control access to social platforms and limit screen time',
+    variant: 'full' as const,
   },
   {
     icon: Grid3x3,
-    title: "App Blocking",
-    desc: "Block specific apps or entire app categories",
-    variant: "peek" as const,
+    title: 'App Blocking',
+    desc: 'Block specific apps or entire app categories',
+    variant: 'peek' as const,
   },
   {
     icon: Globe,
-    title: "Website Filtering",
-    desc: "Block harmful websites and inappropriate content",
-    variant: "full" as const,
+    title: 'Website Filtering',
+    desc: 'Block harmful websites and inappropriate content',
+    variant: 'full' as const,
   },
   {
     icon: Lock,
-    title: "Device Security",
-    desc: "Prevent DNS changes and app uninstallation",
-    variant: "peek" as const,
+    title: 'Device Security',
+    desc: 'Prevent DNS changes and app uninstallation',
+    variant: 'peek' as const,
   },
 ];
 
 const NAV_ITEMS = [
-  { icon: Home, label: "Home", active: false },
-  { icon: Repeat, label: "Habits", active: false },
-  { icon: ShieldCheck, label: "Parental", active: true },
-  { icon: BarChart3, label: "Analytics", active: false },
-  { icon: User, label: "Profile", active: false },
+  { icon: Home, label: 'Home', active: false },
+  { icon: Repeat, label: 'Habits', active: false },
+  { icon: ShieldCheck, label: 'Parental', active: true },
+  { icon: BarChart3, label: 'Analytics', active: false },
+  { icon: User, label: 'Profile', active: false },
 ];
 
 export default function HeroPhoneMockup() {
@@ -134,7 +134,7 @@ export default function HeroPhoneMockup() {
             <div
               key={label}
               className={`flex flex-col items-center gap-0.5 ${
-                active ? "text-emerald-600" : "text-slate-300"
+                active ? 'text-emerald-600' : 'text-slate-300'
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -164,14 +164,14 @@ function FeatureRow({
   icon: typeof MessageCircle;
   title: string;
   desc: string;
-  variant: "full" | "peek";
+  variant: 'full' | 'peek';
   index: number;
 }) {
-  if (variant === "peek") {
+  if (variant === 'peek') {
     return (
       <div
         className="relative flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 shadow-sm"
-        style={{ zIndex: index, marginTop: index === 0 ? 0 : "-6px" }}
+        style={{ zIndex: index, marginTop: index === 0 ? 0 : '-6px' }}
       >
         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
           <Icon className="h-3 w-3" />
@@ -186,7 +186,7 @@ function FeatureRow({
   return (
     <div
       className="relative flex items-start gap-2 rounded-xl bg-white px-3 py-2.5 shadow-md ring-1 ring-slate-100"
-      style={{ zIndex: index + 10, marginTop: index === 0 ? 0 : "-4px" }}
+      style={{ zIndex: index + 10, marginTop: index === 0 ? 0 : '-4px' }}
     >
       <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
         <Icon className="h-3 w-3" />

@@ -17,7 +17,10 @@ export default function Loading() {
 
       <div className="mt-8 space-y-3">
         {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div
+            key={index}
+            className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+          >
             <div className="flex items-center justify-between px-6 py-4">
               <div className="h-4 w-3/4 rounded-full bg-slate-100" />
               <div className="h-7 w-7 rounded-full bg-slate-100" />

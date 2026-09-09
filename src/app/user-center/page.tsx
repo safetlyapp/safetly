@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
 import {
   User,
   Grid2x2,
@@ -12,9 +12,12 @@ import {
   AlertTriangle,
   Gem,
   Check,
-} from "lucide-react";
+} from 'lucide-react';
 
-const sidebarProducts: string[] = ["Safetly Personal", "Safetly Parental Control"];
+const sidebarProducts: string[] = [
+  'Safetly Personal',
+  'Safetly Parental Control',
+];
 
 export default function AccountSettingsPage() {
   const [productsOpen, setProductsOpen] = React.useState<boolean>(true);
@@ -24,21 +27,27 @@ export default function AccountSettingsPage() {
     <div className="w-full min-h-screen bg-gradient-to-br from-sky-50 to-indigo-50 p-6">
       {/* Status banner */}
       <div className="mx-auto mb-4 max-w-6xl text-[13px] text-slate-600">
-        Status &quot;Dear [<span className="font-semibold text-slate-900">al-mamun</span>], Congratulations! You are
-        now our premium member. Our all premium features unlocked for you. (Expires: September 30, 2026)&quot;
+        Status &quot;Dear [
+        <span className="font-semibold text-slate-900">al-mamun</span>],
+        Congratulations! You are now our premium member. Our all premium
+        features unlocked for you. (Expires: September 30, 2026)&quot;
       </div>
 
       <div className="mx-auto flex max-w-6xl overflow-hidden rounded-2xl bg-white shadow-sm">
         {/* Sidebar */}
         <aside className="w-64 shrink-0 border-r border-slate-100 p-6">
-          <h2 className="mb-8 text-lg font-semibold text-slate-900">User Center</h2>
+          <h2 className="mb-8 text-lg font-semibold text-slate-900">
+            User Center
+          </h2>
 
           <div className="mb-2 flex flex-col items-center">
             <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
               <User className="h-7 w-7 text-slate-400" />
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[15px] font-semibold text-slate-900">Hi, al-mamun</span>
+              <span className="text-[15px] font-semibold text-slate-900">
+                Hi, al-mamun
+              </span>
               <span className="flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[9px]">
                 🏅
               </span>
@@ -63,14 +72,18 @@ export default function AccountSettingsPage() {
               Manage Product(s)
               <ChevronDown
                 className={`ml-auto h-3.5 w-3.5 text-slate-400 transition-transform ${
-                  productsOpen ? "rotate-180" : ""
+                  productsOpen ? 'rotate-180' : ''
                 }`}
               />
             </button>
             {productsOpen && (
               <div className="ml-7 space-y-1 border-l border-slate-100 pl-4">
                 {sidebarProducts.map((p) => (
-                  <a key={p} href="#" className="block rounded-lg py-2 text-[13.5px] text-slate-500 hover:text-slate-900">
+                  <a
+                    key={p}
+                    href="#"
+                    className="block rounded-lg py-2 text-[13.5px] text-slate-500 hover:text-slate-900"
+                  >
                     {p}
                   </a>
                 ))}
@@ -97,7 +110,9 @@ export default function AccountSettingsPage() {
         {/* Main content */}
         <main className="flex-1 p-8">
           <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-xl font-semibold text-slate-900">Account Settings</h1>
+            <h1 className="text-xl font-semibold text-slate-900">
+              Account Settings
+            </h1>
             <button
               type="button"
               className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-400 hover:bg-slate-50"
@@ -115,9 +130,10 @@ export default function AccountSettingsPage() {
               </div>
               <div>
                 <p className="mb-3 text-[14px] leading-relaxed text-slate-700">
-                  &quot;Dear [<span className="font-medium">al-mamun</span>], Your Premium membership has expired.
-                  So, some exclusive features have been temporarily locked. To enjoy the premium features again,
-                  Please upgrade your account.&quot;
+                  &quot;Dear [<span className="font-medium">al-mamun</span>],
+                  Your Premium membership has expired. So, some exclusive
+                  features have been temporarily locked. To enjoy the premium
+                  features again, Please upgrade your account.&quot;
                 </p>
                 <Button className="gap-1.5 rounded-md bg-orange-500 text-[13px] font-semibold hover:bg-orange-600">
                   <Gem className="h-3.5 w-3.5" />
@@ -136,12 +152,16 @@ export default function AccountSettingsPage() {
             </Row>
 
             <Row label="Email">
-              <span className="text-[14px] text-slate-700">pemic41423@barumart.com</span>
+              <span className="text-[14px] text-slate-700">
+                pemic41423@barumart.com
+              </span>
               <ChangeLink />
             </Row>
 
             <Row label="Password">
-              <span className="text-[14px] tracking-widest text-slate-700">********</span>
+              <span className="text-[14px] tracking-widest text-slate-700">
+                ********
+              </span>
               <ChangeLink />
             </Row>
 
@@ -215,19 +235,24 @@ export default function AccountSettingsPage() {
                 type="button"
                 onClick={() => setSubscribed((v) => !v)}
                 className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded ${
-                  subscribed ? "bg-blue-600" : "border border-slate-300 bg-white"
+                  subscribed
+                    ? 'bg-blue-600'
+                    : 'border border-slate-300 bg-white'
                 }`}
                 aria-pressed={subscribed}
                 aria-label="Toggle email subscription"
               >
-                {subscribed && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+                {subscribed && (
+                  <Check className="h-3 w-3 text-white" strokeWidth={3} />
+                )}
               </button>
               <p className="text-[12.5px] leading-relaxed text-slate-500">
-                I am willing to receive all emails sent by Safetly, including the product updates, promotion
-                events.
+                I am willing to receive all emails sent by Safetly, including
+                the product updates, promotion events.
                 <br />
-                Note: Unselect the above checkbox to cancel the subscription. You will continue receiving important
-                emails such as password reset notifications.
+                Note: Unselect the above checkbox to cancel the subscription.
+                You will continue receiving important emails such as password
+                reset notifications.
               </p>
             </div>
           </div>
@@ -237,7 +262,13 @@ export default function AccountSettingsPage() {
   );
 }
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+function Row({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="grid grid-cols-[140px_1fr] items-center gap-4 border-b border-slate-100 px-6 py-5">
       <span className="text-[14px] text-slate-500">{label}</span>
@@ -248,7 +279,10 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 function ChangeLink() {
   return (
-    <a href="#" className="text-[13.5px] font-medium text-blue-600 hover:underline">
+    <a
+      href="#"
+      className="text-[13.5px] font-medium text-blue-600 hover:underline"
+    >
       Change
     </a>
   );
@@ -261,7 +295,9 @@ function SocialRow({ label, icon }: { label: string; icon: React.ReactNode }) {
         {icon}
         <span className="text-[14px] text-slate-700">{label}</span>
       </div>
-      <Button className="rounded-md bg-blue-600 px-6 text-[13px] font-semibold hover:bg-blue-700">Connect</Button>
+      <Button className="rounded-md bg-blue-600 px-6 text-[13px] font-semibold hover:bg-blue-700">
+        Connect
+      </Button>
     </div>
   );
 }

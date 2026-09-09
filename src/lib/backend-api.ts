@@ -1,28 +1,28 @@
-type BackendJsonInit = Omit<RequestInit, "cache"> & {
+type BackendJsonInit = Omit<RequestInit, 'cache'> & {
   cache?: RequestCache;
 };
 
 function getBackendBaseUrl() {
-  return (
-    process.env.BACKEND_API_URL
-  );
+  return process.env.BACKEND_API_URL;
 }
 
 export async function fetchBackendJson<T>(
   path: string,
-  init?: BackendJsonInit,
+  init?: BackendJsonInit
 ): Promise<T> {
   const response = await fetch(new URL(path, getBackendBaseUrl()), {
     ...init,
-    cache: init?.cache ?? "no-store",
+    cache: init?.cache ?? 'no-store',
     headers: {
-      accept: "application/json",
+      accept: 'application/json',
       ...(init?.headers ?? {}),
     },
   });
 
   if (!response.ok) {
-    throw new Error(`Backend request failed for ${path} with status ${response.status}`);
+    throw new Error(
+      `Backend request failed for ${path} with status ${response.status}`
+    );
   }
 
   return (await response.json()) as T;

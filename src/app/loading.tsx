@@ -21,7 +21,10 @@ export default function Loading() {
         <div className="h-5 w-44 rounded-full bg-sky-100" />
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div
+              key={index}
+              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+            >
               <div className="h-4 w-24 rounded-full bg-slate-100" />
               <div className="mt-4 h-10 w-28 rounded-2xl bg-slate-100" />
               <div className="mt-6 space-y-3">
@@ -39,7 +42,10 @@ export default function Loading() {
           <div className="h-4 w-32 rounded-full bg-violet-100" />
           <div className="mt-5 space-y-4">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4">
+              <div
+                key={index}
+                className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4"
+              >
                 <div className="h-10 w-10 rounded-full bg-slate-200" />
                 <div className="flex-1 space-y-2">
                   <div className="h-3 w-2/3 rounded-full bg-slate-100" />

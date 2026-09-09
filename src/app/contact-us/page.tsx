@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import {
   Mail,
   Phone,
@@ -13,44 +13,44 @@ import {
   Send,
   AlertCircle,
   CheckCircle2,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const CONTACT_INFO = [
   {
     icon: Mail,
-    label: "Email us",
-    value: "support@safetly.app",
-    href: "mailto:support@safetly.app",
-    color: "primary",
+    label: 'Email us',
+    value: 'support@safetly.app',
+    href: 'mailto:support@safetly.app',
+    color: 'primary',
   },
   {
     icon: Phone,
-    label: "Call or WhatsApp",
-    value: "+880 1XXX-XXXXXX",
-    href: "tel:+8801XXXXXXXXX",
-    color: "secondary",
+    label: 'Call or WhatsApp',
+    value: '+880 1XXX-XXXXXX',
+    href: 'tel:+8801XXXXXXXXX',
+    color: 'secondary',
   },
   {
     icon: MapPin,
-    label: "Based in",
-    value: "Dhaka, Bangladesh",
+    label: 'Based in',
+    value: 'Dhaka, Bangladesh',
     href: undefined,
-    color: "success",
+    color: 'success',
   },
 ];
 
 const colorClasses: Record<string, { bg: string; text: string }> = {
-  primary: { bg: "bg-primary/10", text: "text-primary" },
-  secondary: { bg: "bg-secondary/10", text: "text-secondary" },
-  success: { bg: "bg-success/10", text: "text-success" },
+  primary: { bg: 'bg-primary/10', text: 'text-primary' },
+  secondary: { bg: 'bg-secondary/10', text: 'text-secondary' },
+  success: { bg: 'bg-success/10', text: 'text-success' },
 };
 
 export default function ContactPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
 
@@ -58,18 +58,18 @@ export default function ContactPage() {
     e.preventDefault();
 
     const newErrors: string[] = [];
-    if (!name.trim()) newErrors.push("Please enter your name.");
+    if (!name.trim()) newErrors.push('Please enter your name.');
     if (!email.trim()) {
-      newErrors.push("Please enter your email address.");
+      newErrors.push('Please enter your email address.');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.push("Please enter a valid email address.");
+      newErrors.push('Please enter a valid email address.');
     }
-    if (!message.trim()) newErrors.push("Please write a message.");
+    if (!message.trim()) newErrors.push('Please write a message.');
 
     setErrors(newErrors);
     if (newErrors.length === 0) {
       // TODO: wire up to the actual support inbox / ticketing endpoint
-      console.log("Contact form submitted", { name, email, subject, message });
+      console.log('Contact form submitted', { name, email, subject, message });
       setSubmitted(true);
     }
   }
@@ -84,8 +84,8 @@ export default function ContactPage() {
             We&apos;re here to help
           </h1>
           <p className="mx-auto mt-3 max-w-lg text-slate-600">
-            Questions about setup, billing, or a feature you wish existed?
-            Send us a message — a real person reads every one.
+            Questions about setup, billing, or a feature you wish existed? Send
+            us a message — a real person reads every one.
           </p>
         </div>
       </section>
@@ -124,8 +124,7 @@ export default function ContactPage() {
               <p className="font-medium text-slate-900">Support hours</p>
               <p className="mt-1">Everyday · 9:00 AM – 10:00 PM (GMT+6)</p>
               <p className="mt-3">
-                Most emails get a reply within a few hours during support
-                hours.
+                Most emails get a reply within a few hours during support hours.
               </p>
             </div>
           </div>
@@ -142,16 +141,16 @@ export default function ContactPage() {
                     Message sent
                   </h2>
                   <p className="mt-1 max-w-xs text-sm text-slate-600">
-                    Thanks for reaching out — we&apos;ll get back to you soon
-                    at {email}.
+                    Thanks for reaching out — we&apos;ll get back to you soon at{' '}
+                    {email}.
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setName("");
-                      setEmail("");
-                      setSubject("");
-                      setMessage("");
+                      setName('');
+                      setEmail('');
+                      setSubject('');
+                      setMessage('');
                     }}
                     className="mt-4 text-sm text-primary hover:underline"
                   >
@@ -188,7 +187,7 @@ export default function ContactPage() {
 
                   <div>
                     <Label htmlFor="subject" className="mb-1.5 text-sm">
-                      Subject{" "}
+                      Subject{' '}
                       <span className="font-normal text-slate-400">
                         (optional)
                       </span>
@@ -225,7 +224,7 @@ export default function ContactPage() {
                   {errors.length > 0 && (
                     <div
                       className={cn(
-                        "space-y-1.5 rounded-md border border-destructive/20 bg-destructive/5 p-3"
+                        'space-y-1.5 rounded-md border border-destructive/20 bg-destructive/5 p-3'
                       )}
                     >
                       {errors.map((err) => (
