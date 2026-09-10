@@ -7,9 +7,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const gateways = {
-  bkash: { name: 'bKash', accent: '#e2136e' },
-  nagad: { name: 'Nagad', accent: '#f42b4e' },
-  rocket: { name: 'Rocket', accent: '#8c3494' },
+  bkash: {
+    name: 'bKash',
+    accent: '#e2136e',
+    panelStyle: 'solid',
+  },
+  nagad: {
+    name: 'Nagad',
+    accent: '#e91429',
+    panelStyle: 'gradient',
+  },
+  rocket: {
+    name: 'Rocket',
+    accent: '#8c3494',
+    panelStyle: 'solid',
+  },
 } as const;
 
 export default function GatewayCheckout({
@@ -78,6 +90,11 @@ export default function GatewayCheckout({
     else submitFinal();
   }
 
+  const panelBackground =
+    details.panelStyle === 'gradient'
+      ? `linear-gradient(180deg, ${details.accent} 0%, #b8001f 100%)`
+      : details.accent;
+
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10">
       <div className="mx-auto max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
@@ -125,10 +142,10 @@ export default function GatewayCheckout({
           </p>
         </div>
 
-        {/* Colored panel — step switches inside here */}
+        {/* Colored panel — step switches inside here, styled per gateway */}
         <div
           className="px-6 py-10 text-center"
-          style={{ backgroundColor: details.accent }}
+          style={{ background: panelBackground }}
         >
           {step === 1 ? (
             <>

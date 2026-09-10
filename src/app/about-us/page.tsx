@@ -19,6 +19,14 @@ import {
   Mail,
   Check,
 } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Safetly',
+  description:
+    'Learn how Safetly helps parents protect children with connected family safety and parental control tools.',
+  alternates: { canonical: '/about-us' },
+};
 
 const STATS = [
   { value: '7K+', label: 'Downloads' },

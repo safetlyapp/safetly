@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const payConfirmUrl = 'https://pay-confirm.vercel.app/api/v1/verify';
+const defaultPayConfirmUrl = 'https://api-payconfirm.duckdns.org/api/v1/verify';
 
 type VerifyInput = {
   trx_id: string;
@@ -8,6 +8,10 @@ type VerifyInput = {
   sender_phone_number: string;
   customer_email: string;
   order_id: string;
+  plan_id?: string;
+  package_name?: string;
+  original_amount?: string;
+  discount_amount?: string;
 };
 
 function paymentStatus(httpStatus: number, payConfirmStatus?: string) {
@@ -37,9 +41,25 @@ function readInput(body: unknown): VerifyInput | null {
     )
   )
     return null;
-  return Object.fromEntries(
-    fields.map((field) => [field, (value[field] as string).trim()])
-  ) as VerifyInput;
+  return {
+    ...Object.fromEntries(
+      fields.map((field) => [field, (value[field] as string).trim()])
+    ),
+    plan_id:
+      typeof value.plan_id === 'string' ? value.plan_id.trim() : undefined,
+    package_name:
+      typeof value.package_name === 'string'
+        ? value.package_name.trim()
+        : undefined,
+    original_amount:
+      typeof value.original_amount === 'string'
+        ? value.original_amount.trim()
+        : undefined,
+    discount_amount:
+      typeof value.discount_amount === 'string'
+        ? value.discount_amount.trim()
+        : undefined,
+  } as VerifyInput;
 }
 
 export async function POST(request: NextRequest) {
@@ -60,28 +80,53 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
 
+  console.info('[payment.verify] request received', {
+    trxId: `${input.trx_id.slice(0, 3)}***${input.trx_id.slice(-4)}`,
+    amount: input.amount,
+    senderPhone: `******${input.sender_phone_number.slice(-4)}`,
+    customerEmail: input.customer_email,
+    orderId: input.order_id,
+  });
+
   try {
-    const response = await fetch(payConfirmUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(input),
-      cache: 'no-store',
-    });
+    const response = await fetch(
+      process.env.PAYCONFIRM_VERIFY_URL ?? defaultPayConfirmUrl,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(input),
+        cache: 'no-store',
+      }
+    );
+    console.log({ response });
     const payload = await response.json().catch(() => ({
       status: 'unknown',
       reason: 'Invalid PayConfirm response',
     }));
 
+    console.info('[payment.verify] PayConfirm response', {
+      httpStatus: response.status,
+      status: (payload as { status?: string }).status,
+      reason: (payload as { reason?: string }).reason,
+      amount: (payload as { amount?: string | number }).amount,
+      verifiedAmount: (payload as { verified_amount?: string | number })
+        .verified_amount,
+      trackingNumber: (payload as { tracking_number?: string }).tracking_number,
+    });
+
     const result = payload as {
       status?: string;
       reason?: string;
+      amount?: string | number;
       verified_amount?: string | number;
       verified_at?: string;
+      tracking_number?: string;
     };
+    const verifiedAmount = result.verified_amount ?? result.amount ?? null;
     const backendUrl = process.env.BACKEND_API_URL;
     const internalKey = process.env.INTERNAL_API_SECRET;
     if (!backendUrl || !internalKey)
@@ -100,13 +145,15 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           orderId: input.order_id,
           trxId: input.trx_id,
+          planId: input.plan_id,
+          packageName: input.package_name,
           customerEmail: input.customer_email,
           senderPhoneNumber: input.sender_phone_number,
+          originalAmount: input.original_amount,
+          discountAmount: input.discount_amount,
           submittedAmount: input.amount,
           verifiedAmount:
-            result.verified_amount === undefined
-              ? null
-              : String(result.verified_amount),
+            verifiedAmount === null ? null : String(verifiedAmount),
           status: paymentStatus(response.status, result.status),
           payconfirmStatus: result.status ?? null,
           payconfirmReason: result.reason ?? null,
@@ -118,6 +165,12 @@ export async function POST(request: NextRequest) {
         cache: 'no-store',
       }
     );
+    const recordResponseBody = await recordResponse.text();
+    console.info('[payment.verify] admin record response', {
+      httpStatus: recordResponse.status,
+      ok: recordResponse.ok,
+      body: recordResponseBody.slice(0, 500),
+    });
     if (!recordResponse.ok)
       return NextResponse.json(
         {
@@ -131,7 +184,8 @@ export async function POST(request: NextRequest) {
       { ok: response.status === 200, status: response.status, result: payload },
       { status: response.status }
     );
-  } catch {
+  } catch (error) {
+    console.error('[payment.verify] request failed', error);
     return NextResponse.json(
       { error: 'Payment verification service is unavailable.' },
       { status: 503 }

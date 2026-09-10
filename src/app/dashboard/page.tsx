@@ -63,7 +63,18 @@ type DashboardData =
         transactionId: string;
         expireDate: string;
         daysRemaining: number;
-      };
+      } | null;
+      paymentHistory: Array<{
+        orderId: string;
+        transactionId: string;
+        submittedAmount: number;
+        verifiedAmount: number | null;
+        packageName: string;
+        originalAmount: number | null;
+        discountAmount: number | null;
+        status: string;
+        paidAt: string;
+      }>;
     };
 
 export default function DashboardPage() {
@@ -169,7 +180,7 @@ export default function DashboardPage() {
                   Safetly Parental Control
                 </a>
                 <a
-                  href="#payment"
+                  href="/dashboard/billing-history"
                   className="block rounded-lg py-2 text-[13.5px] text-slate-500 hover:text-slate-900"
                 >
                   Payment history
@@ -183,7 +194,7 @@ export default function DashboardPage() {
               <Ticket className="h-4 w-4" /> Redeem Activation Code
             </a>
             <a
-              href="#payment"
+              href="/dashboard/billing-history"
               className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[14px] font-semibold text-slate-700 hover:bg-slate-50"
             >
               <Receipt className="h-4 w-4" /> Billing History
@@ -282,7 +293,7 @@ export default function DashboardPage() {
                     Active
                   </span>
                 </div>
-                {data.role === 'kid' && (
+                {data.role === 'kid' && data.subscription && (
                   <div className="mt-6 rounded-2xl border border-purple-200 bg-purple-50/60 p-5">
                     <div className="mb-4 flex items-center justify-between">
                       <div>

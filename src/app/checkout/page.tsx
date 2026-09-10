@@ -33,6 +33,19 @@ function parsePriceAmount(price: string) {
   return Number.isFinite(amount) ? amount : null;
 }
 
+function getDurationMonths(planId: string) {
+  switch (planId) {
+    case 'quarterly':
+      return 3;
+    case 'half-yearly':
+      return 6;
+    case 'yearly':
+      return 12;
+    default:
+      return 1;
+  }
+}
+
 export default async function CheckoutPage({
   searchParams,
 }: CheckoutPageProps) {
@@ -52,13 +65,18 @@ export default async function CheckoutPage({
     notFound();
   }
 
+  const durationMonths = getDurationMonths(selectedPlan.planId);
+  const totalPrice = Math.round(price * durationMonths * 100) / 100;
+
   return (
     <CheckoutContent
       plan={{
         planId: selectedPlan.planId,
         name: selectedPlan.name,
         billing: selectedPlan.billedNote,
-        price,
+        price: totalPrice,
+        monthlyPrice: price,
+        durationMonths,
       }}
     />
   );

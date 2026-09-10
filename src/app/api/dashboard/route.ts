@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { children } from '@/lib/demo-auth';
 
 const familyChildren = [
   {
@@ -46,6 +47,16 @@ export async function GET(request: NextRequest) {
     });
   }
 
+  const child = children.find(
+    (item) =>
+      item.email === identifier.toLowerCase() ||
+      item.username === identifier.toLowerCase()
+  );
+  const paymentHistory = await getPaymentHistory(identifier);
+  const latestApproved = paymentHistory.find(
+    (payment) => payment.status === 'approved'
+  );
+
   return NextResponse.json({
     role,
     identifier,
@@ -54,23 +65,75 @@ export async function GET(request: NextRequest) {
       status: 'Active',
       message: 'Safetly is connected and protecting this device now.',
     },
-    subscription: {
-      packageName: 'Yearly Premium',
-      originalAmount: 1199,
-      discountAmount: 200,
-      paidAmount: 999,
-      paidAt: '2026-09-09T10:30:00.000Z',
-      paymentStatus: 'approved',
-      orderId: 'ORDER-DEMO1001',
-      transactionId: 'BGH7X2K9QL',
-      expireDate: '2027-12-31T23:59:59.000Z',
-      daysRemaining: Math.max(
-        0,
-        Math.ceil(
-          (new Date('2027-12-31T23:59:59.000Z').getTime() - Date.now()) /
-            86_400_000
-        )
-      ),
-    },
+    subscription:
+      latestApproved && child
+        ? {
+            packageName: latestApproved.packageName,
+            originalAmount:
+              latestApproved.originalAmount ?? latestApproved.submittedAmount,
+            discountAmount: latestApproved.discountAmount ?? 0,
+            paidAmount:
+              latestApproved.verifiedAmount ?? latestApproved.submittedAmount,
+            paidAt: latestApproved.paidAt,
+            paymentStatus: latestApproved.status,
+            orderId: latestApproved.orderId,
+            transactionId: latestApproved.transactionId,
+            expireDate: child.expireDate,
+            daysRemaining: Math.max(
+              0,
+              Math.ceil(
+                (new Date(child.expireDate).getTime() - Date.now()) / 86_400_000
+              )
+            ),
+          }
+        : null,
+    paymentHistory,
   });
+}
+
+async function getPaymentHistory(identifier: string) {
+  const child = children.find(
+    (item) =>
+      item.email === identifier.toLowerCase() ||
+      item.username === identifier.toLowerCase()
+  );
+  const backendUrl = process.env.BACKEND_API_URL;
+  const internalKey = process.env.INTERNAL_API_SECRET;
+  if (!child || !backendUrl || !internalKey) return [];
+
+  try {
+    const response = await fetch(
+      `${backendUrl}/api/payments/records?customerEmail=${encodeURIComponent(child.email)}`,
+      { headers: { 'x-internal-api-key': internalKey }, cache: 'no-store' }
+    );
+    if (!response.ok) return [];
+    const payload = (await response.json()) as {
+      records?: Array<Record<string, unknown>>;
+    };
+    return (payload.records ?? []).map((record) => ({
+      orderId: String(record.orderId ?? ''),
+      transactionId: String(record.trxId ?? ''),
+      submittedAmount: Number(record.submittedAmount ?? 0),
+      verifiedAmount:
+        record.verifiedAmount === null
+          ? null
+          : Number(record.verifiedAmount ?? 0),
+      packageName:
+        typeof record.packageName === 'string'
+          ? record.packageName
+          : 'Safetly subscription',
+      originalAmount:
+        record.originalAmount === null
+          ? null
+          : Number(record.originalAmount ?? 0),
+      discountAmount:
+        record.discountAmount === null
+          ? null
+          : Number(record.discountAmount ?? 0),
+      status: String(record.status ?? 'pending'),
+      paidAt: String(record.verifiedAt ?? record.createdAt ?? ''),
+    }));
+  } catch {
+    return [];
+  }
 }

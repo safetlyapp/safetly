@@ -98,7 +98,9 @@ export default async function HomePage() {
       <HowToInstall />
 
       <Pricing plans={pricingResponse.plans} />
-      {/* <Reviews reviews={reviewsResponse.reviews} /> */}
+      {reviewsResponse.reviews.length > 0 ? (
+        <Reviews reviews={reviewsResponse.reviews} />
+      ) : null}
       <Faq items={faqItems} />
     </>
   );

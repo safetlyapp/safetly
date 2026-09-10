@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { CheckCircle2, Clock3, Loader2, XCircle } from 'lucide-react';
@@ -21,12 +21,16 @@ export default function VerifyPaymentPage() {
 
 function VerifyPaymentContent() {
   const params = useSearchParams();
+  const submittedRef = useRef(false);
   const [state, setState] = useState<
     'loading' | 'approved' | 'pending' | 'rejected'
   >('loading');
   const [message, setMessage] = useState('Verifying your payment…');
 
   useEffect(() => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
+
     const input = Object.fromEntries(
       [
         'trx_id',
@@ -36,6 +40,14 @@ function VerifyPaymentContent() {
         'order_id',
       ].map((key) => [key, params.get(key) ?? ''])
     );
+    for (const key of [
+      'plan_id',
+      'package_name',
+      'original_amount',
+      'discount_amount',
+    ]) {
+      input[key] = params.get(key) ?? '';
+    }
     fetch('/api/payments/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,13 +55,17 @@ function VerifyPaymentContent() {
     })
       .then(async (response) => {
         const payload = (await response.json().catch(() => null)) as {
-          result?: { status?: string; reason?: string };
+          result?: {
+            status?: string;
+            reason?: string;
+            tracking_number?: string;
+          };
           error?: string;
         } | null;
         const status = payload?.result?.status;
         if (response.status === 200 || status === 'approved') {
           window.location.assign(
-            `/checkout/success?order_id=${encodeURIComponent(input.order_id)}&customer_email=${encodeURIComponent(input.customer_email)}`
+            `/checkout/success?order_id=${encodeURIComponent(input.order_id)}&customer_email=${encodeURIComponent(input.customer_email)}&tracking_number=${encodeURIComponent(payload?.result?.tracking_number ?? '')}`
           );
           return;
         } else if (
@@ -62,7 +78,7 @@ function VerifyPaymentContent() {
           );
         } else {
           window.location.assign(
-            `/checkout/failure?reason=${encodeURIComponent(payload?.result?.reason ?? payload?.error ?? 'Payment could not be verified.')}`
+            `/checkout/failure?reason=${encodeURIComponent(payload?.result?.reason ?? payload?.result?.status ?? payload?.error ?? 'Payment could not be verified.')}`
           );
         }
       })

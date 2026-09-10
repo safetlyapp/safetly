@@ -56,6 +56,8 @@ type CheckoutPlan = {
   name: string;
   billing: string;
   price: number;
+  monthlyPrice: number;
+  durationMonths: number;
 };
 
 type CheckoutContentProps = {
@@ -69,6 +71,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
     'idle' | 'loading' | 'valid' | 'invalid'
   >('idle');
   const [userCheckMessage, setUserCheckMessage] = useState('');
+  const [validatedEmail, setValidatedEmail] = useState('');
 
   const [logoErrors, setLogoErrors] = useState<
     Record<PaymentMethodId, boolean>
@@ -111,11 +114,13 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
     if (!identifier) {
       setUserCheck('idle');
       setUserCheckMessage('');
+      setValidatedEmail('');
       return;
     }
 
     setUserCheck('loading');
     setUserCheckMessage('');
+    setValidatedEmail('');
     const timeoutId = window.setTimeout(async () => {
       try {
         const response = await fetch(
@@ -125,9 +130,11 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
         const payload = (await response.json()) as {
           valid?: boolean;
           message?: string;
+          user?: { email?: string };
         };
         console.log('User check response:', payload);
         setUserCheck(payload.valid ? 'valid' : 'invalid');
+        setValidatedEmail(payload.valid ? (payload.user?.email ?? '') : '');
         setUserCheckMessage(
           payload.message ??
             (payload.valid ? 'User found.' : 'No matching user found.')
@@ -195,6 +202,11 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
     if (!accountId.trim()) {
       newErrors.push('Please enter your email, nickname, or kids ID.');
     }
+    if (accountId.trim() && userCheck !== 'valid') {
+      newErrors.push(
+        userCheckMessage || 'Enter a valid child username or email.'
+      );
+    }
     if (total > 0 && !paymentMethod) {
       newErrors.push(
         'Please select a payment method (bKash, Nagad, or Rocket).'
@@ -240,9 +252,12 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             gateway: paymentMethod,
-            amount: total,
-            customer_email: accountId.trim(),
+            amount: Number(total.toFixed(2)),
+            customer_email: validatedEmail,
             plan_id: plan.planId,
+            package_name: plan.name,
+            original_amount: plan.price.toFixed(2),
+            discount_amount: discountAmount.toFixed(2),
           }),
         });
         const payload = (await response.json()) as {
@@ -286,10 +301,15 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                   <p className="text-sm font-medium text-slate-900">
                     {plan.name}
                   </p>
-                  <p className="text-xs text-slate-500">{plan.billing}</p>
+                  <p className="text-xs text-slate-500">
+                    ৳{plan.monthlyPrice.toFixed(2)} × {plan.durationMonths}{' '}
+                    {plan.durationMonths === 1 ? 'month' : 'months'}
+                  </p>
                 </div>
                 <div>
-                  <span className="font-medium">৳{plan.price.toFixed(2)}</span>
+                  <span className="font-medium">
+                    ৳{plan.price.toFixed(2)} total
+                  </span>
                 </div>
               </div>
 

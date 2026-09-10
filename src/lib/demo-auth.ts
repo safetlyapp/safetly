@@ -9,6 +9,7 @@ export type Parent = {
 export type Child = {
   id: string;
   parentId: string;
+  name: string;
   username: string;
   email: string;
   passwordHash: string;
@@ -33,6 +34,7 @@ export const children: Child[] = [
   {
     id: 'child-001',
     parentId: 'parent-001',
+    name: 'Ayan Rahman',
     username: 'ayan-01',
     email: 'ayan@safetly.test',
     passwordHash:
@@ -45,6 +47,7 @@ export const children: Child[] = [
   {
     id: 'child-002',
     parentId: 'parent-001',
+    name: 'Maliha Rahman',
     username: 'maliha-02',
     email: 'maliha@safetly.test',
     passwordHash:
@@ -57,6 +60,7 @@ export const children: Child[] = [
   {
     id: 'child-003',
     parentId: 'parent-001',
+    name: 'Rafi Rahman',
     username: 'rafi-03',
     email: 'rafi@safetly.test',
     passwordHash:
@@ -126,6 +130,7 @@ export function isPremium(expireDate: string) {
 export function publicChild(child: Child) {
   return {
     id: child.id,
+    name: child.name,
     username: child.username,
     email: child.email,
     expireDate: child.expireDate,
