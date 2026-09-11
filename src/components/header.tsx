@@ -187,6 +187,20 @@ type StoredAccount = {
   role?: 'kid' | 'parent';
 };
 
+export const AUTH_STATE_CHANGED_EVENT = 'safetly-auth-state-changed';
+
+function getStoredAccount(): StoredAccount | null {
+  const raw = window.localStorage.getItem('safetly-account');
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as StoredAccount;
+  } catch {
+    window.localStorage.removeItem('safetly-account');
+    return null;
+  }
+}
+
 function AccountButton({
   className,
   onClick,
@@ -198,18 +212,23 @@ function AccountButton({
   const [account, setAccount] = useState<StoredAccount | null>(null);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem('safetly-account');
-    if (!raw) return;
-    try {
-      setAccount(JSON.parse(raw) as StoredAccount);
-    } catch {
-      window.localStorage.removeItem('safetly-account');
-    }
+    const syncAccount = () => setAccount(getStoredAccount());
+
+    syncAccount();
+    window.addEventListener('storage', syncAccount);
+    window.addEventListener(AUTH_STATE_CHANGED_EVENT, syncAccount);
+
+    return () => {
+      window.removeEventListener('storage', syncAccount);
+      window.removeEventListener(AUTH_STATE_CHANGED_EVENT, syncAccount);
+    };
   }, []);
 
   function logout() {
     window.localStorage.removeItem('safetly-account');
     window.localStorage.removeItem('safetly-token');
+    setAccount(null);
+    window.dispatchEvent(new Event(AUTH_STATE_CHANGED_EVENT));
     router.push('/login');
     onClick?.();
   }

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { AUTH_STATE_CHANGED_EVENT } from '@/components/header';
 
 export default function LoginPage() {
   // "signin" | "signup" controls which card is shown
@@ -250,6 +251,7 @@ function SignInFields({
           name: payload.profile.name,
         })
       );
+      window.dispatchEvent(new Event(AUTH_STATE_CHANGED_EVENT));
       router.replace('/dashboard');
     } catch {
       setError('Unable to reach the login service. Please try again.');
