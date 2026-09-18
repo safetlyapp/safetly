@@ -1,34 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { children } from '@/lib/demo-auth';
+import { requestParentChildApi } from '@/lib/parent-child-source';
 
-const familyChildren = [
-  {
-    name: 'Ayan Rahman',
-    id: 'ayan-01',
-    device: 'Android phone',
-    active: true,
-    lastSeen: 'Active now',
-  },
-  {
-    name: 'Maliha Rahman',
-    id: 'maliha-02',
-    device: 'iPhone',
-    active: false,
-    lastSeen: 'Last active 18 min ago',
-  },
-  {
-    name: 'Rafi Rahman',
-    id: 'rafi-03',
-    device: 'Android tablet',
-    active: true,
-    lastSeen: 'Active now',
-  },
-];
+type ExternalChildDashboard = {
+  profile?: {
+    id?: string;
+    name?: string;
+    username?: string;
+    email?: string;
+    parentId?: string;
+  };
+  device?: {
+    active?: boolean;
+    status?: string;
+    message?: string;
+  };
+  premium?: {
+    expireDate?: string | null;
+    isPremium?: boolean;
+    daysRemaining?: number;
+  };
+};
 
 export async function GET(request: NextRequest) {
   const role = request.nextUrl.searchParams.get('role');
-  const identifier =
-    request.nextUrl.searchParams.get('identifier') ?? 'Safetly user';
+  const identifier = request.nextUrl.searchParams.get('identifier') ?? '';
+  const authorization = request.headers.get('authorization') ?? '';
 
   if (role !== 'parent' && role !== 'kid') {
     return NextResponse.json(
@@ -37,36 +33,72 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const external = await requestParentChildApi(
+    role === 'parent' ? '/api/parent/children' : '/api/child/dashboard',
+    { headers: { Authorization: authorization } }
+  );
+  if (!external) {
+    return NextResponse.json(
+      { error: 'Parent/Child API is not configured.' },
+      { status: 503 }
+    );
+  }
+  if (external.status < 200 || external.status >= 300) {
+    return NextResponse.json(external.payload, { status: external.status });
+  }
+
   if (role === 'parent') {
+    const payload = external.payload as {
+      parent?: { email?: string };
+      children?: Array<{
+        id?: string;
+        name?: string;
+        username?: string;
+        email?: string;
+        device?: string;
+        active?: boolean;
+        lastSeen?: string;
+      }>;
+      summary?: { activeChildren?: number };
+    };
+    const children = (payload.children ?? []).map((child) => ({
+      name: child.name ?? child.username ?? 'Child',
+      id: child.id ?? child.username ?? child.email ?? '',
+      device: child.device ?? 'Connected device',
+      active: child.active ?? false,
+      lastSeen: child.lastSeen ?? 'No recent activity',
+    }));
     return NextResponse.json({
       role,
-      identifier,
-      children: familyChildren,
-      activeCount: familyChildren.filter((child) => child.active).length,
+      identifier: payload.parent?.email ?? identifier,
+      children,
+      activeCount:
+        payload.summary?.activeChildren ??
+        children.filter((child) => child.active).length,
       connectionStatus: 'Protected',
     });
   }
 
-  const child = children.find(
-    (item) =>
-      item.email === identifier.toLowerCase() ||
-      item.username === identifier.toLowerCase()
-  );
-  const paymentHistory = await getPaymentHistory(identifier);
+  const payload = external.payload as ExternalChildDashboard;
+  const email = payload.profile?.email ?? '';
+  const paymentHistory = email ? await getPaymentHistory(email) : [];
   const latestApproved = paymentHistory.find(
     (payment) => payment.status === 'approved'
   );
+  const premium = payload.premium;
 
   return NextResponse.json({
     role,
-    identifier,
+    identifier: email || identifier,
     device: {
-      active: true,
-      status: 'Active',
-      message: 'Safetly is connected and protecting this device now.',
+      active: payload.device?.active ?? false,
+      status: payload.device?.status ?? 'Inactive',
+      message:
+        payload.device?.message ??
+        'Seftly device status is available from the Parent/Child API.',
     },
     subscription:
-      latestApproved && child
+      latestApproved && premium
         ? {
             packageName: latestApproved.packageName,
             originalAmount:
@@ -78,32 +110,22 @@ export async function GET(request: NextRequest) {
             paymentStatus: latestApproved.status,
             orderId: latestApproved.orderId,
             transactionId: latestApproved.transactionId,
-            expireDate: child.expireDate,
-            daysRemaining: Math.max(
-              0,
-              Math.ceil(
-                (new Date(child.expireDate).getTime() - Date.now()) / 86_400_000
-              )
-            ),
+            expireDate: premium.expireDate ?? '',
+            daysRemaining: premium.daysRemaining ?? 0,
           }
         : null,
     paymentHistory,
   });
 }
 
-async function getPaymentHistory(identifier: string) {
-  const child = children.find(
-    (item) =>
-      item.email === identifier.toLowerCase() ||
-      item.username === identifier.toLowerCase()
-  );
+async function getPaymentHistory(email: string) {
   const backendUrl = process.env.BACKEND_API_URL;
   const internalKey = process.env.INTERNAL_API_SECRET;
-  if (!child || !backendUrl || !internalKey) return [];
+  if (!backendUrl || !internalKey) return [];
 
   try {
     const response = await fetch(
-      `${backendUrl}/api/payments/records?customerEmail=${encodeURIComponent(child.email)}`,
+      `${backendUrl}/api/payments/records?customerEmail=${encodeURIComponent(email)}`,
       { headers: { 'x-internal-api-key': internalKey }, cache: 'no-store' }
     );
     if (!response.ok) return [];
@@ -121,7 +143,7 @@ async function getPaymentHistory(identifier: string) {
       packageName:
         typeof record.packageName === 'string'
           ? record.packageName
-          : 'Safetly subscription',
+          : 'Seftly subscription',
       originalAmount:
         record.originalAmount === null
           ? null

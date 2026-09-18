@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Safetly',
+  title: 'Contact Seftly',
   description:
-    'Contact the Safetly support team for help with parental controls, subscriptions, payments, or your account.',
+    'Contact the Seftly support team for help with parental controls, subscriptions, payments, or your account.',
   alternates: { canonical: '/contact-us' },
 };
 

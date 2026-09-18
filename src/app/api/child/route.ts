@@ -1,27 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { children, parents, publicChild, readToken } from '@/lib/demo-auth';
+import { requestParentChildApi } from '@/lib/parent-child-source';
 
 export async function GET(request: NextRequest) {
-  const token = readToken(request.headers.get('authorization'));
-  if (!token || token.role !== 'parent')
-    return NextResponse.json(
-      { error: 'Parent authorization required.' },
-      { status: 401 }
-    );
-  const parent = parents.find((item) => item.id === token.sub);
-  const identifier = request.nextUrl.searchParams
-    .get('identifier')
-    ?.trim()
-    .toLowerCase();
-  const child = children.find(
-    (item) =>
-      item.parentId === parent?.id &&
-      (item.username === identifier || item.email === identifier)
+  const identifier = request.nextUrl.searchParams.get('identifier')?.trim();
+  const external = await requestParentChildApi(
+    `/api/child?identifier=${encodeURIComponent(identifier ?? '')}`,
+    { headers: { Authorization: request.headers.get('authorization') ?? '' } }
   );
-  if (!child)
+  if (!external)
     return NextResponse.json(
-      { error: 'Child not found for this parent.' },
-      { status: 404 }
+      { error: 'Parent/Child API is not configured.' },
+      { status: 503 }
     );
-  return NextResponse.json({ child: publicChild(child) });
+  return NextResponse.json(external.payload, { status: external.status });
 }

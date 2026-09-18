@@ -3,9 +3,9 @@ import { fetchBackendJson } from '@/lib/backend-api';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'FAQ | Safetly',
+  title: 'FAQ | Seftly',
   description:
-    'Frequently asked questions about Safetly parental controls, family safety, subscriptions, payments, and privacy.',
+    'Frequently asked questions about Seftly parental controls, family safety, subscriptions, payments, and privacy.',
 };
 
 export const dynamic = 'force-dynamic';

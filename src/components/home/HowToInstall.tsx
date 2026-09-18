@@ -95,7 +95,7 @@ export default function HowToInstall() {
         How to Install
       </h2>
       <p className="mt-2 text-slate-600">
-        To install &quot;Safetly app&quot; in your device, Please follow the
+        To install &quot;Seftly app&quot; in your device, Please follow the
         below link
       </p>
 
@@ -248,7 +248,7 @@ function WatchTutorialButton() {
             <iframe
               className="h-full w-full"
               src="https://www.youtube.com/embed/VIDEO_ID"
-              title="Safetly Tutorial"
+              title="Seftly Tutorial"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />

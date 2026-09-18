@@ -49,7 +49,7 @@ export default function LoginPage() {
               <div className="mb-6 flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
                 <span className="text-sm font-semibold tracking-tight text-slate-900">
-                  Safetly
+                  Seftly
                 </span>
               </div>
 
@@ -106,7 +106,7 @@ function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
             htmlFor="agree"
             className="text-xs font-normal text-slate-600 leading-snug"
           >
-            I agree with Safetly&apos;s{' '}
+            I agree with Seftly&apos;s{' '}
             <a href="#" className="text-primary hover:underline">
               EULA Policy
             </a>{' '}
@@ -136,13 +136,13 @@ const SIGNIN_COPY: Record<
   { heading: string; subtext: string; placeholder: string }
 > = {
   kid: {
-    heading: 'Log in to the "Safetly" kid\u2019s account.',
+    heading: 'Log in to the "Seftly" kid\u2019s account.',
     subtext:
       'Enter a valid email address, nickname, or kid\u2019s ID (which you received after installing the kid\u2019s app).',
     placeholder: 'Email address, nickname, or kid\u2019s ID',
   },
   parent: {
-    heading: 'Log in to the "Safetly" parents\u2019 account.',
+    heading: 'Log in to the "Seftly" parents\u2019 account.',
     subtext:
       'Enter a valid email address, nickname, or parents\u2019 ID (which you received after installing the parents\u2019 app).',
     placeholder: 'Email address, nickname, or parents\u2019 ID',
@@ -238,9 +238,9 @@ function SignInFields({
         setError(payload.error ?? 'Unable to sign in.');
         return;
       }
-      window.localStorage.setItem('safetly-token', payload.token);
+      window.localStorage.setItem('Seftly-token', payload.token);
       window.localStorage.setItem(
-        'safetly-account',
+        'Seftly-account',
         JSON.stringify({
           role: audience,
           identifier:

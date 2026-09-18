@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Safetly',
+  title: 'Privacy Policy | Seftly',
   description:
-    "Safetly's Privacy Policy explaining what information is collected, how it's used, protected, and your rights.",
+    "Seftly's Privacy Policy explaining what information is collected, how it's used, protected, and your rights.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -11,11 +11,11 @@ export default function PrivacyPolicyPage() {
     <div className="space-y-8 text-sm leading-relaxed text-slate-600">
       <div>
         <h2 className="text-xl font-bold text-slate-900">
-          Safetly Privacy Policy
+          Seftly Privacy Policy
         </h2>
         <p className="mt-3 text-slate-600">
-          Welcome to Safetly. Safetly (&quot;Safetly,&quot; &quot;we,&quot;
-          &quot;us,&quot; &quot;our,&quot; or &quot;Safetly Authority&quot;) is
+          Welcome to Seftly. Seftly (&quot;Seftly,&quot; &quot;we,&quot;
+          &quot;us,&quot; &quot;our,&quot; or &quot;Seftly Authority&quot;) is
           a Parental Control and Family Safety application designed to help
           parents and legal guardians support their children&apos;s online
           safety, monitor and manage digital activity, supervise device usage,
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <p className="mt-2 text-slate-600">This Privacy Policy explains:</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>What information Safetly may collect or process</li>
+          <li>What information Seftly may collect or process</li>
           <li>Why and how we use information</li>
           <li>Where and for how long information may be retained</li>
           <li>How we seek to protect information</li>
@@ -33,27 +33,27 @@ export default function PrivacyPolicyPage() {
         </ul>
         <p className="mt-3 text-slate-600">
           By downloading, installing, registering for, subscribing to,
-          accessing, or using the Safetly application, website, or related
+          accessing, or using the Seftly application, website, or related
           services, you acknowledge that you have read and understood this
           Privacy Policy.
         </p>
         <p className="mt-2 rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
           If you do not agree with any part of this Privacy Policy, please do
-          not use Safetly.
+          not use Seftly.
         </p>
       </div>
 
       <div className="space-y-8">
-        <Section num="1" title="Purpose and Features of Safetly">
+        <Section num="1" title="Purpose and Features of Seftly">
           <p>
-            Safetly is primarily designed for parents and legal guardians. The
+            Seftly is primarily designed for parents and legal guardians. The
             application may provide tools that help parents supervise
             children&apos;s online safety, digital activities, and device usage.
           </p>
           <p>
             Depending on the device, operating system, application version,
             permissions granted, subscription plan, and technical limitations,
-            Safetly may offer features such as:
+            Seftly may offer features such as:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Live location</li>
@@ -81,14 +81,14 @@ export default function PrivacyPolicyPage() {
 
         <Section num="2" title="Information We May Collect or Process">
           <p>
-            Safetly may collect or process different types of information as
+            Seftly may collect or process different types of information as
             necessary to provide, operate, secure, support, and improve our
             services.
           </p>
 
           <SubSection title="2.1 Information You Provide">
             <p>
-              When you create a Safetly account, sign in, purchase a
+              When you create a Seftly account, sign in, purchase a
               subscription, contact support, or otherwise communicate with us,
               you may provide information such as:
             </p>
@@ -108,7 +108,7 @@ export default function PrivacyPolicyPage() {
 
           <SubSection title="2.2 Device and Technical Information">
             <p>
-              Safetly may collect or process certain device and technical
+              Seftly may collect or process certain device and technical
               information to operate the application, identify technical issues,
               maintain security, and improve service performance, including
               device type and model, operating system and version, app version,
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
           <SubSection title="2.3 Location Information">
             <p>
               When the required permissions are granted by the parent, legal
-              guardian, or authorized user, Safetly may collect or process
+              guardian, or authorized user, Seftly may collect or process
               location-related information, including current or live location,
               location history, geofence-related information, and location
               update times.
@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage() {
           <SubSection title="2.4 App Usage and Screen-Time Information">
             <p>
               To support parental supervision and screen-time management,
-              Safetly may process information such as applications used, app
+              Seftly may process information such as applications used, app
               usage times, total screen time, duration of app usage, app
               blocking or restriction status, and device usage summaries or
               reports.
@@ -144,7 +144,7 @@ export default function PrivacyPolicyPage() {
 
           <SubSection title="2.5 Website and Content-Related Information">
             <p>
-              When content filtering or web-safety features are enabled, Safetly
+              When content filtering or web-safety features are enabled, Seftly
               may process website, domain, URL, or content-category information
               to identify inappropriate or potentially harmful content, block or
               restrict selected websites, and support safer browsing.
@@ -166,10 +166,10 @@ export default function PrivacyPolicyPage() {
             </p>
             <p className="mt-2">
               Live information transmitted through these features is not
-              permanently stored on Safetly&apos;s servers. It may be
+              permanently stored on Seftly&apos;s servers. It may be
               temporarily processed or transmitted only for the limited period
               necessary to operate the relevant feature and display it live to
-              the authorized Parent Account. Safetly does not intentionally
+              the authorized Parent Account. Seftly does not intentionally
               record, archive, or permanently retain live screen content, camera
               content, or ambient audio.
             </p>
@@ -178,12 +178,12 @@ export default function PrivacyPolicyPage() {
           <SubSection title="2.7 Call, SMS, and Notification-Related Information">
             <p>
               Subject to device capabilities, operating-system restrictions,
-              granted permissions, and applicable law, Safetly may process or
+              granted permissions, and applicable law, Seftly may process or
               display certain call, SMS, or notification-related information to
               an authorized Parent Account, transmitted using encrypted methods.
             </p>
             <p className="mt-2">
-              This information is not permanently stored on Safetly&apos;s
+              This information is not permanently stored on Seftly&apos;s
               servers, and is not intentionally retained permanently, sold, or
               used for advertising purposes. Availability and functionality may
               vary depending on the device, operating system, internet
@@ -194,10 +194,10 @@ export default function PrivacyPolicyPage() {
         </Section>
 
         <Section num="3" title="How We Use Information">
-          <p>Safetly may use collected or processed information to:</p>
+          <p>Seftly may use collected or processed information to:</p>
           <ul className="list-disc space-y-1 pl-5">
-            <li>Create and manage Safetly accounts</li>
-            <li>Provide and operate Safetly features and services</li>
+            <li>Create and manage Seftly accounts</li>
+            <li>Provide and operate Seftly features and services</li>
             <li>Connect parent and child devices</li>
             <li>
               Operate live-location, location-history, and geofencing features
@@ -228,7 +228,7 @@ export default function PrivacyPolicyPage() {
 
         <Section num="4" title="Device Permissions">
           <p>
-            Certain Safetly features may require specific device permissions,
+            Certain Seftly features may require specific device permissions,
             including:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -245,7 +245,7 @@ export default function PrivacyPolicyPage() {
           <p>
             You may disable or withdraw certain permissions at any time through
             your device settings. However, disabling required permissions may
-            cause some Safetly features to function partially, become
+            cause some Seftly features to function partially, become
             unavailable, or stop working.
           </p>
         </Section>
@@ -255,9 +255,9 @@ export default function PrivacyPolicyPage() {
           title="Children's Information and Parental Responsibilities"
         >
           <p>
-            Safetly is designed to support children&apos;s digital safety.
+            Seftly is designed to support children&apos;s digital safety.
             Parents or legal guardians are responsible for connecting and
-            supervising children&apos;s devices through Safetly.
+            supervising children&apos;s devices through Seftly.
           </p>
           <p>Parents or legal guardians are responsible for ensuring that:</p>
           <ul className="list-disc space-y-1 pl-5">
@@ -278,14 +278,14 @@ export default function PrivacyPolicyPage() {
             </li>
           </ul>
           <p>
-            Safetly is not a substitute for responsible parenting, communication
+            Seftly is not a substitute for responsible parenting, communication
             with children, education, or direct supervision.
           </p>
         </Section>
 
         <Section num="6" title="How We May Share Information">
           <p>
-            Safetly does not generally sell users&apos; personal information.
+            Seftly does not generally sell users&apos; personal information.
           </p>
           <p>
             However, we may share limited information when necessary to operate
@@ -303,7 +303,7 @@ export default function PrivacyPolicyPage() {
             </li>
             <li>
               Other parties when reasonably necessary to protect the rights,
-              safety, security, users, or services of Safetly
+              safety, security, users, or services of Seftly
             </li>
           </ul>
           <p>
@@ -314,10 +314,10 @@ export default function PrivacyPolicyPage() {
 
         <Section num="7" title="Payment-Related Information">
           <p>
-            Payments for Safetly Premium or other paid services may be processed
+            Payments for Seftly Premium or other paid services may be processed
             through bKash, Nagad, Rocket, or other approved payment gateways.
           </p>
-          <p>Safetly does not normally request or seek to store your:</p>
+          <p>Seftly does not normally request or seek to store your:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>bKash PIN</li>
             <li>Nagad PIN</li>
@@ -333,7 +333,7 @@ export default function PrivacyPolicyPage() {
 
         <Section num="8" title="Information Security">
           <p>
-            Safetly uses reasonable technical, administrative, and
+            Seftly uses reasonable technical, administrative, and
             organizational measures designed to help protect user information.
           </p>
           <p>
@@ -344,14 +344,14 @@ export default function PrivacyPolicyPage() {
           </p>
           <p>
             The sensitive information transmitted through these features is not
-            permanently stored on Safetly&apos;s servers. Safetly does not sell
+            permanently stored on Seftly&apos;s servers. Seftly does not sell
             this information or use it for advertising or advertising-based user
             profiling.
           </p>
           <p>
             However, no internet connection, mobile network, electronic
             communication system, or data-storage method is completely secure or
-            risk-free. Therefore, Safetly cannot guarantee absolute security or
+            risk-free. Therefore, Seftly cannot guarantee absolute security or
             prevent every unauthorized access attempt.
           </p>
           <p>
@@ -362,7 +362,7 @@ export default function PrivacyPolicyPage() {
 
         <Section num="9" title="Data Retention">
           <p>
-            Safetly may retain information only for as long as reasonably
+            Seftly may retain information only for as long as reasonably
             necessary to:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -374,8 +374,8 @@ export default function PrivacyPolicyPage() {
             <li>Fulfill legitimate operational purposes</li>
           </ul>
           <p>
-            The following information transmitted through Safetly features is
-            not permanently stored on Safetly&apos;s servers: screen-mirroring
+            The following information transmitted through Seftly features is
+            not permanently stored on Seftly&apos;s servers: screen-mirroring
             information, remote-camera information, ambient-sound information,
             call-related information, SMS-related information, and
             device-notification information.
@@ -403,7 +403,7 @@ export default function PrivacyPolicyPage() {
             <li>Request deletion of information in certain circumstances</li>
             <li>Object to certain types of information processing</li>
             <li>Withdraw certain permissions or consent</li>
-            <li>Request closure of your Safetly account</li>
+            <li>Request closure of your Seftly account</li>
             <li>
               Submit questions, concerns, or complaints regarding this Privacy
               Policy
@@ -418,7 +418,7 @@ export default function PrivacyPolicyPage() {
 
         <Section num="11" title="Account Closure and Data Deletion">
           <p>
-            You may request the closure of your Safetly account or the deletion
+            You may request the closure of your Seftly account or the deletion
             of eligible information.
           </p>
           <p>
@@ -431,17 +431,17 @@ export default function PrivacyPolicyPage() {
           <p>
             To request account closure or data deletion, contact:{' '}
             <a
-              href="mailto:support@safetly.app"
+              href="mailto:support@Seftly.app"
               className="font-medium text-violet-600 hover:underline"
             >
-              support@safetly.app
+              support@Seftly.app
             </a>
           </p>
         </Section>
 
         <Section num="12" title="Third-Party Services">
           <p>
-            Safetly may rely on third-party technologies or services, including:
+            Seftly may rely on third-party technologies or services, including:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Cloud and server services</li>
@@ -461,11 +461,11 @@ export default function PrivacyPolicyPage() {
 
         <Section num="13" title="Third-Party Websites and Links">
           <p>
-            The Safetly application or website may contain links to third-party
+            The Seftly application or website may contain links to third-party
             websites, applications, or services.
           </p>
           <p>
-            Safetly does not control and is not responsible for the privacy
+            Seftly does not control and is not responsible for the privacy
             practices, security, content, or policies of third-party websites or
             services.
           </p>
@@ -477,7 +477,7 @@ export default function PrivacyPolicyPage() {
 
         <Section num="14" title="Changes to This Privacy Policy">
           <p>
-            Safetly may update or modify this Privacy Policy from time to time.
+            Seftly may update or modify this Privacy Policy from time to time.
           </p>
           <p>
             When significant changes are made, we may provide notice through the
@@ -489,43 +489,43 @@ export default function PrivacyPolicyPage() {
             Updated&quot; date.
           </p>
           <p>
-            Your continued use of Safetly after an updated Privacy Policy
+            Your continued use of Seftly after an updated Privacy Policy
             becomes effective may be treated, where permitted by applicable law,
             as acceptance of the updated policy.
           </p>
         </Section>
 
-        <Section num="15" title="Authorized Use of Safetly">
-          <p>Safetly may be used only for:</p>
+        <Section num="15" title="Authorized Use of Seftly">
+          <p>Seftly may be used only for:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Your own child&apos;s device</li>
             <li>Your own device</li>
             <li>A device that you are legally authorized to supervise</li>
           </ul>
           <p className="rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
-            Using Safetly to secretly monitor, track, control, or surveil
+            Using Seftly to secretly monitor, track, control, or surveil
             another adult&apos;s device without lawful authority or required
             consent is prohibited.
           </p>
           <p>
             Users must comply with applicable privacy, data-protection,
             child-protection, communication, monitoring, and surveillance laws
-            when using Safetly.
+            when using Seftly.
           </p>
         </Section>
 
         <Section num="16" title="Emergency Situations">
           <p>
-            Safetly is not an emergency service, law-enforcement service,
+            Seftly is not an emergency service, law-enforcement service,
             medical service, or emergency-response system.
           </p>
           <p>
             Location information, geofence alerts, notifications, and other
-            Safetly features may not always be immediate, accurate, continuous,
+            Seftly features may not always be immediate, accurate, continuous,
             or available.
           </p>
           <p className="rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
-            Do not rely solely on Safetly during an emergency or dangerous
+            Do not rely solely on Seftly during an emergency or dangerous
             situation. If immediate assistance is required, contact local
             emergency services, law-enforcement authorities, medical services,
             or other appropriate authorities directly.
@@ -536,17 +536,17 @@ export default function PrivacyPolicyPage() {
           <p>
             If you have any questions, requests, concerns, or complaints
             regarding this Privacy Policy, your information, your account, or
-            Safetly services, please contact us:
+            Seftly services, please contact us:
           </p>
           <p className="font-medium text-slate-800">
-            Safetly Authority
+            Seftly Authority
             <br />
             Support Email:{' '}
             <a
-              href="mailto:support@safetly.app"
+              href="mailto:support@Seftly.app"
               className="text-violet-600 hover:underline"
             >
-              support@safetly.app
+              support@Seftly.app
             </a>
           </p>
         </Section>
@@ -554,7 +554,7 @@ export default function PrivacyPolicyPage() {
         <Section num="18" title="Acceptance of This Privacy Policy">
           <p>
             By downloading, installing, registering for, subscribing to,
-            accessing, or using Safetly or its related services, you acknowledge
+            accessing, or using Seftly or its related services, you acknowledge
             and agree that:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -564,11 +564,11 @@ export default function PrivacyPolicyPage() {
               this Privacy Policy
             </li>
             <li>
-              You will use Safetly only for lawful Parental Control and Family
+              You will use Seftly only for lawful Parental Control and Family
               Safety purposes
             </li>
             <li>
-              You will use Safetly only on your own device, your child&apos;s
+              You will use Seftly only on your own device, your child&apos;s
               device, or a device you are legally authorized to supervise
             </li>
             <li>

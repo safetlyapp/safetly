@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Log in',
-  description: 'Log in to your Safetly parent or child account.',
+  description: 'Log in to your Seftly parent or child account.',
   robots: { index: false, follow: false },
 };
 

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Payment and Refund Policy | Safetly',
+  title: 'Payment and Refund Policy | Seftly',
   description:
-    "Safetly's payment and refund policy covering subscriptions, pricing, payment methods, and refund eligibility.",
+    "Seftly's payment and refund policy covering subscriptions, pricing, payment methods, and refund eligibility.",
 };
 
 export default function PaymentAndRefundPolicyPage() {
@@ -15,25 +15,25 @@ export default function PaymentAndRefundPolicyPage() {
           Part 1
         </p>
         <h2 className="mt-1 text-xl font-bold text-slate-900">
-          Safetly Payment Policy
+          Seftly Payment Policy
         </h2>
         <p className="mt-3 text-slate-600">
-          Safetly (&quot;Safetly,&quot; &quot;we,&quot; &quot;us,&quot;
-          &quot;our,&quot; or &quot;Safetly Authority&quot;) is a parental
+          Seftly (&quot;Seftly,&quot; &quot;we,&quot; &quot;us,&quot;
+          &quot;our,&quot; or &quot;Seftly Authority&quot;) is a parental
           control and family safety application. This Payment Policy explains
-          how Safetly subscriptions, pricing, payments, payment verification,
+          how Seftly subscriptions, pricing, payments, payment verification,
           subscription activation, and payment-related responsibilities are
           handled.
         </p>
         <p className="mt-2 text-slate-600">
-          By purchasing or using any paid Safetly service or subscription, you
-          agree to this Payment Policy, the Safetly Terms of Service, and the
+          By purchasing or using any paid Seftly service or subscription, you
+          agree to this Payment Policy, the Seftly Terms of Service, and the
           Privacy Policy.
         </p>
 
         <div className="mt-8 space-y-8">
           <Section num="1" title="Subscription Plans">
-            <p>Safetly may currently offer the following subscription plans:</p>
+            <p>Seftly may currently offer the following subscription plans:</p>
             <ul className="list-disc space-y-1 pl-5">
               <li>30-Day Subscription Plan</li>
               <li>90-Day Subscription Plan</li>
@@ -42,7 +42,7 @@ export default function PaymentAndRefundPolicyPage() {
             </ul>
             <p>
               The price, subscription period, included features, and applicable
-              terms for each plan will be displayed in the Safetly app, website,
+              terms for each plan will be displayed in the Seftly app, website,
               or relevant payment page before payment is completed.
             </p>
             <p>
@@ -55,7 +55,7 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="2" title="Payment Methods">
             <p>
-              Safetly payments may currently be accepted through the following
+              Seftly payments may currently be accepted through the following
               Bangladeshi mobile financial services:
             </p>
             <ul className="list-disc space-y-1 pl-5">
@@ -64,7 +64,7 @@ export default function PaymentAndRefundPolicyPage() {
               <li>Rocket</li>
             </ul>
             <p>
-              Safetly may add, change, or discontinue payment methods in the
+              Seftly may add, change, or discontinue payment methods in the
               future when necessary.
             </p>
             <p>
@@ -78,7 +78,7 @@ export default function PaymentAndRefundPolicyPage() {
             title="Payment Completion and Subscription Activation"
           >
             <p>
-              Your Safetly subscription will be activated after the payment has
+              Your Seftly subscription will be activated after the payment has
               been successfully completed and any required verification has been
               completed.
             </p>
@@ -90,12 +90,12 @@ export default function PaymentAndRefundPolicyPage() {
             </p>
             <p>
               If your payment is successful but your subscription is not
-              activated, please contact Safetly Support and provide the
+              activated, please contact Seftly Support and provide the
               following information where available:
             </p>
             <ul className="list-disc space-y-1 pl-5">
               <li>
-                Your Safetly account email or registered account information
+                Your Seftly account email or registered account information
               </li>
               <li>Payment date and time</li>
               <li>Payment amount</li>
@@ -107,7 +107,7 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="4" title="Pricing and Payment Amount">
             <p>
-              Safetly subscription prices may be displayed in Bangladeshi Taka
+              Seftly subscription prices may be displayed in Bangladeshi Taka
               (BDT).
             </p>
             <p>
@@ -121,7 +121,7 @@ export default function PaymentAndRefundPolicyPage() {
               relevant payment provider.
             </p>
             <p>
-              Safetly may change the prices, features, or availability of future
+              Seftly may change the prices, features, or availability of future
               subscription plans. However, the subscription period and terms
               displayed at the time of purchase will generally continue to apply
               to an already purchased and active subscription, unless a change
@@ -142,7 +142,7 @@ export default function PaymentAndRefundPolicyPage() {
             </p>
             <p>
               Whether a refund is available for unused subscription time will be
-              determined under the Safetly Refund Policy and applicable law.
+              determined under the Seftly Refund Policy and applicable law.
             </p>
           </Section>
 
@@ -159,7 +159,7 @@ export default function PaymentAndRefundPolicyPage() {
           </Section>
 
           <Section num="7" title="Payment Security">
-            <p>Safetly does not normally request or store your:</p>
+            <p>Seftly does not normally request or store your:</p>
             <ul className="list-disc space-y-1 pl-5">
               <li>bKash PIN</li>
               <li>Nagad PIN</li>
@@ -184,8 +184,8 @@ export default function PaymentAndRefundPolicyPage() {
               subscription may not be activated.
             </p>
             <p>
-              If money is deducted from your payment account but your Safetly
-              subscription is not activated, please contact Safetly Support and
+              If money is deducted from your payment account but your Seftly
+              subscription is not activated, please contact Seftly Support and
               provide the relevant payment information.
             </p>
             <p>
@@ -199,17 +199,17 @@ export default function PaymentAndRefundPolicyPage() {
           <Section num="9" title="Duplicate or Multiple Payments">
             <p>
               If you are accidentally charged more than once for the same
-              subscription, Safetly will review the matter.
+              subscription, Seftly will review the matter.
             </p>
             <p>
               You may be asked to provide the transaction IDs, payment dates,
-              payment times, payment amounts, and relevant Safetly account
+              payment times, payment amounts, and relevant Seftly account
               information.
             </p>
             <p>
-              If an additional or duplicate payment is verified, Safetly may
+              If an additional or duplicate payment is verified, Seftly may
               provide a refund or another appropriate solution in accordance
-              with the Safetly Refund Policy.
+              with the Seftly Refund Policy.
             </p>
           </Section>
 
@@ -218,7 +218,7 @@ export default function PaymentAndRefundPolicyPage() {
             <ul className="list-disc space-y-1 pl-5">
               <li>You have selected the correct subscription plan</li>
               <li>You have reviewed the payment amount</li>
-              <li>You are using the correct Safetly account</li>
+              <li>You are using the correct Seftly account</li>
               <li>The information you provide is accurate and up to date</li>
               <li>
                 You have the legal authority to use the payment account or
@@ -226,7 +226,7 @@ export default function PaymentAndRefundPolicyPage() {
               </li>
             </ul>
             <p>
-              Safetly may not be responsible for problems caused by an incorrect
+              Seftly may not be responsible for problems caused by an incorrect
               account, incorrect payment number, incorrect subscription plan, or
               inaccurate information provided by the user.
             </p>
@@ -235,11 +235,11 @@ export default function PaymentAndRefundPolicyPage() {
           <Section num="11" title="Fraudulent or Unauthorized Payments">
             <p>
               If you believe that a payment was unauthorized or fraudulent, you
-              should promptly contact Safetly and the relevant payment service
+              should promptly contact Seftly and the relevant payment service
               provider.
             </p>
             <p>
-              Safetly may temporarily limit or suspend an account or service
+              Seftly may temporarily limit or suspend an account or service
               when reasonably necessary for security, fraud prevention,
               investigation, or legal compliance.
             </p>
@@ -247,11 +247,11 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="12" title="Changes to This Payment Policy">
             <p>
-              Safetly may update or modify this Payment Policy from time to
+              Seftly may update or modify this Payment Policy from time to
               time.
             </p>
             <p>
-              Important changes may be communicated through the Safetly app,
+              Important changes may be communicated through the Seftly app,
               website, email, notifications, or another appropriate method.
             </p>
             <p>
@@ -266,14 +266,14 @@ export default function PaymentAndRefundPolicyPage() {
               contact:
             </p>
             <p className="font-medium text-slate-800">
-              Safetly Authority
+              Seftly Authority
               <br />
               Support Email:{' '}
               <a
-                href="mailto:support@safetly.app"
+                href="mailto:support@Seftly.app"
                 className="text-violet-600 hover:underline"
               >
-                support@safetly.app
+                support@Seftly.app
               </a>
             </p>
           </Section>
@@ -288,23 +288,23 @@ export default function PaymentAndRefundPolicyPage() {
           Part 2
         </p>
         <h2 className="mt-1 text-xl font-bold text-slate-900">
-          Safetly Refund Policy
+          Seftly Refund Policy
         </h2>
         <p className="mt-3 text-slate-600">
-          This Refund Policy explains Safetly&apos;s policies regarding paid
+          This Refund Policy explains Seftly&apos;s policies regarding paid
           subscriptions, refund eligibility, refund requests, verification, and
           refund processing.
         </p>
         <p className="mt-2 text-slate-600">
-          By purchasing a Safetly subscription, you agree to this Refund Policy,
-          the Safetly Payment Policy, the Terms of Service, and the Privacy
+          By purchasing a Seftly subscription, you agree to this Refund Policy,
+          the Seftly Payment Policy, the Terms of Service, and the Privacy
           Policy.
         </p>
 
         <div className="mt-8 space-y-8">
           <Section num="1" title="General Refund Policy">
             <p>
-              Safetly provides digital subscription-based services. After
+              Seftly provides digital subscription-based services. After
               payment has been successfully completed and verified, your
               subscription may be activated and the features included in your
               selected plan may become available.
@@ -333,22 +333,22 @@ export default function PaymentAndRefundPolicyPage() {
             </SubSection>
             <SubSection title="2.2 Payment Successful but Subscription Not Activated">
               If your payment was successful but your subscription was not
-              activated, and Safetly is unable to resolve the issue within a
+              activated, and Seftly is unable to resolve the issue within a
               reasonable period, a refund may be considered.
             </SubSection>
-            <SubSection title="2.3 Verified Technical Issue Caused by Safetly">
-              If a verified technical issue caused by Safetly prevents you from
+            <SubSection title="2.3 Verified Technical Issue Caused by Seftly">
+              If a verified technical issue caused by Seftly prevents you from
               using a paid service and the issue cannot be reasonably resolved,
               a refund or another appropriate solution may be considered.
             </SubSection>
             <SubSection title="2.4 Unauthorized Payment">
               If you report that a payment was made without your authorization,
-              Safetly may review the matter based on the available information
+              Seftly may review the matter based on the available information
               and supporting evidence. You may also need to contact the relevant
               payment service provider regarding the unauthorized transaction.
             </SubSection>
             <SubSection title="2.5 Refunds Required by Applicable Law">
-              If a refund is required under applicable law, Safetly will take
+              If a refund is required under applicable law, Seftly will take
               the appropriate action required by that law.
             </SubSection>
           </Section>
@@ -365,7 +365,7 @@ export default function PaymentAndRefundPolicyPage() {
               </li>
               <li>You selected the wrong subscription plan</li>
               <li>
-                You purchased a subscription for the wrong Safetly account
+                You purchased a subscription for the wrong Seftly account
               </li>
               <li>
                 The issue resulted from inaccurate information provided by you
@@ -382,7 +382,7 @@ export default function PaymentAndRefundPolicyPage() {
                 You did not grant the permissions required for the relevant
                 feature
               </li>
-              <li>Safetly was not installed or configured correctly</li>
+              <li>Seftly was not installed or configured correctly</li>
               <li>
                 A feature was affected by device settings, battery restrictions,
                 or background-operation limitations
@@ -392,7 +392,7 @@ export default function PaymentAndRefundPolicyPage() {
                 the Terms of Service
               </li>
               <li>
-                Safetly was used for unlawful, unauthorized, or secret
+                Seftly was used for unlawful, unauthorized, or secret
                 surveillance
               </li>
               <li>
@@ -409,7 +409,7 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="4" title="Device and Feature Limitations">
             <p>
-              Not all Safetly features may work in the same way on every Android
+              Not all Seftly features may work in the same way on every Android
               or iPhone device.
             </p>
             <p>Feature performance may depend on:</p>
@@ -425,7 +425,7 @@ export default function PaymentAndRefundPolicyPage() {
             </ul>
             <p>
               If a feature does not work as expected because of a limitation
-              that is not caused by Safetly, a refund may not be available
+              that is not caused by Seftly, a refund may not be available
               solely for that reason.
             </p>
           </Section>
@@ -434,10 +434,10 @@ export default function PaymentAndRefundPolicyPage() {
             <p>To request a refund, please contact:</p>
             <p>
               <a
-                href="mailto:support@safetly.app"
+                href="mailto:support@Seftly.app"
                 className="font-medium text-violet-600 hover:underline"
               >
-                support@safetly.app
+                support@Seftly.app
               </a>
             </p>
             <p>
@@ -445,7 +445,7 @@ export default function PaymentAndRefundPolicyPage() {
               information where available:
             </p>
             <ul className="list-disc space-y-1 pl-5">
-              <li>Your Safetly account name or email address</li>
+              <li>Your Seftly account name or email address</li>
               <li>Payment date and time</li>
               <li>Payment amount</li>
               <li>Payment method used</li>
@@ -462,18 +462,18 @@ export default function PaymentAndRefundPolicyPage() {
           </Section>
 
           <Section num="6" title="Refund Review and Verification">
-            <p>When reviewing a refund request, Safetly may verify:</p>
+            <p>When reviewing a refund request, Seftly may verify:</p>
             <ul className="list-disc space-y-1 pl-5">
               <li>The authenticity of the payment</li>
               <li>Transaction information</li>
-              <li>Safetly account information</li>
+              <li>Seftly account information</li>
               <li>Subscription status</li>
               <li>Service usage</li>
               <li>Relevant technical logs or information</li>
               <li>The reason for the refund request</li>
             </ul>
             <p>
-              Safetly may request additional information or supporting evidence
+              Seftly may request additional information or supporting evidence
               where necessary.
             </p>
             <p>
@@ -484,7 +484,7 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="7" title="Refund Processing Time">
             <p>
-              If a refund is approved, Safetly aims to process the refund within
+              If a refund is approved, Seftly aims to process the refund within
               10 business days.
             </p>
             <p>However, additional time may be required because of:</p>
@@ -506,19 +506,19 @@ export default function PaymentAndRefundPolicyPage() {
             <p>Approved refunds will generally be issued through:</p>
             <ul className="list-disc space-y-1 pl-5">
               <li>The original payment method; or</li>
-              <li>Another appropriate method approved by Safetly</li>
+              <li>Another appropriate method approved by Seftly</li>
             </ul>
             <p>
               If a refund cannot be issued through the original payment method
               because of security requirements, payment-provider policies, or
-              technical limitations, Safetly may determine an alternative refund
+              technical limitations, Seftly may determine an alternative refund
               method after completing the necessary verification.
             </p>
           </Section>
 
           <Section num="9" title="Partial Refunds">
             <p>
-              In special circumstances, Safetly may consider a partial refund
+              In special circumstances, Seftly may consider a partial refund
               based on:
             </p>
             <ul className="list-disc space-y-1 pl-5">
@@ -536,7 +536,7 @@ export default function PaymentAndRefundPolicyPage() {
 
           <Section num="10" title="Alternative Solutions">
             <p>
-              In some cases, Safetly may offer an alternative solution instead
+              In some cases, Seftly may offer an alternative solution instead
               of a refund, such as:
             </p>
             <ul className="list-disc space-y-1 pl-5">
@@ -556,28 +556,28 @@ export default function PaymentAndRefundPolicyPage() {
           <Section num="11" title="Chargebacks and Payment Disputes">
             <p>
               If you experience a payment-related problem, we request that you
-              contact Safetly Support first so that we can review and attempt to
+              contact Seftly Support first so that we can review and attempt to
               resolve the issue.
             </p>
             <p>
               If a chargeback, payment dispute, or financial claim is initiated,
-              Safetly may temporarily limit the relevant account or service
+              Seftly may temporarily limit the relevant account or service
               while the matter is being reviewed.
             </p>
             <p>
-              After verification, Safetly will take appropriate action based on
+              After verification, Seftly will take appropriate action based on
               the applicable policies, available evidence, and applicable law.
             </p>
           </Section>
 
           <Section num="12" title="Changes to This Refund Policy">
             <p>
-              Safetly may update or modify this Refund Policy from time to time.
+              Seftly may update or modify this Refund Policy from time to time.
             </p>
             <p>
               Any updated policy will generally apply to future payments or
               subscriptions. If a different application is required by law or
-              specific circumstances, Safetly will follow applicable legal
+              specific circumstances, Seftly will follow applicable legal
               requirements.
             </p>
           </Section>
@@ -588,14 +588,14 @@ export default function PaymentAndRefundPolicyPage() {
               contact:
             </p>
             <p className="font-medium text-slate-800">
-              Safetly Authority
+              Seftly Authority
               <br />
               Support Email:{' '}
               <a
-                href="mailto:support@safetly.app"
+                href="mailto:support@Seftly.app"
                 className="text-violet-600 hover:underline"
               >
-                support@safetly.app
+                support@Seftly.app
               </a>
             </p>
           </Section>

@@ -15,8 +15,8 @@ import {
 } from 'lucide-react';
 
 const sidebarProducts: string[] = [
-  'Safetly Personal',
-  'Safetly Parental Control',
+  'Seftly Personal',
+  'Seftly Parental Control',
 ];
 
 export default function AccountSettingsPage() {
@@ -148,14 +148,13 @@ export default function AccountSettingsPage() {
 
             <Row label="Nickname">
               <span className="text-[14px] text-slate-700">al-mamun</span>
-              <ChangeLink />
             </Row>
 
             <Row label="Email">
               <span className="text-[14px] text-slate-700">
                 pemic41423@barumart.com
               </span>
-              <ChangeLink />
+              <ChangeLink href="/dashboard#account-details" />
             </Row>
 
             <Row label="Password">
@@ -179,7 +178,7 @@ export default function AccountSettingsPage() {
             {/* Third-party login */}
             <div className="px-6 py-6">
               <p className="mb-4 text-[14px] font-semibold text-slate-800">
-                You can also use third-party services to log in to Safetly:
+                You can also use third-party services to log in to Seftly:
               </p>
 
               <div className="space-y-4">
@@ -247,7 +246,7 @@ export default function AccountSettingsPage() {
                 )}
               </button>
               <p className="text-[12.5px] leading-relaxed text-slate-500">
-                I am willing to receive all emails sent by Safetly, including
+                I am willing to receive all emails sent by Seftly, including
                 the product updates, promotion events.
                 <br />
                 Note: Unselect the above checkbox to cancel the subscription.
@@ -277,10 +276,10 @@ function Row({
   );
 }
 
-function ChangeLink() {
+function ChangeLink({ href = '/dashboard#account-details' }: { href?: string }) {
   return (
     <a
-      href="#"
+      href={href}
       className="text-[13.5px] font-medium text-blue-600 hover:underline"
     >
       Change

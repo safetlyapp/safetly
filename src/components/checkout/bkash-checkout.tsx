@@ -79,7 +79,7 @@ export default function BkashCheckout({
         </div>
         <div className="flex items-center justify-between gap-4 px-6 py-4">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-slate-900">Safetly</p>
+            <p className="text-sm font-semibold text-slate-900">Seftly</p>
             <p className="truncate text-xs text-slate-400">
               Invoice: {orderId || '—'}
             </p>
@@ -177,7 +177,7 @@ export default function BkashCheckout({
             <Phone className="h-3.5 w-3.5" /> 09600000000
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            © {new Date().getFullYear()} Safetly, All Rights Reserved
+            © {new Date().getFullYear()} Seftly, All Rights Reserved
           </p>
         </div>
       </div>

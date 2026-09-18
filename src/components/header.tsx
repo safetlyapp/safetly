@@ -63,7 +63,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2">
           <ShieldCheck className="h-6 w-6 text-primary" />
           <span className="text-lg font-semibold tracking-tight text-slate-900">
-            Safetly
+            Seftly
           </span>
         </Link>
 
@@ -187,16 +187,16 @@ type StoredAccount = {
   role?: 'kid' | 'parent';
 };
 
-export const AUTH_STATE_CHANGED_EVENT = 'safetly-auth-state-changed';
+export const AUTH_STATE_CHANGED_EVENT = 'Seftly-auth-state-changed';
 
 function getStoredAccount(): StoredAccount | null {
-  const raw = window.localStorage.getItem('safetly-account');
+  const raw = window.localStorage.getItem('Seftly-account');
   if (!raw) return null;
 
   try {
     return JSON.parse(raw) as StoredAccount;
   } catch {
-    window.localStorage.removeItem('safetly-account');
+    window.localStorage.removeItem('Seftly-account');
     return null;
   }
 }
@@ -225,8 +225,8 @@ function AccountButton({
   }, []);
 
   function logout() {
-    window.localStorage.removeItem('safetly-account');
-    window.localStorage.removeItem('safetly-token');
+    window.localStorage.removeItem('Seftly-account');
+    window.localStorage.removeItem('Seftly-token');
     setAccount(null);
     window.dispatchEvent(new Event(AUTH_STATE_CHANGED_EVENT));
     router.push('/login');

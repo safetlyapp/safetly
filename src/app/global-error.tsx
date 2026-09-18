@@ -65,7 +65,7 @@ export default function Error({
 
         <div className="mt-10 flex items-center justify-center gap-2 text-xs text-slate-400">
           <ShieldCheck className="h-3.5 w-3.5" />
-          Safetly — Supporting safer digital experiences for families.
+          Seftly — Supporting safer digital experiences for families.
         </div>
       </div>
     </div>

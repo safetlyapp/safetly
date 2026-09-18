@@ -24,7 +24,7 @@ export default function BillingHistoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem('safetly-account');
+    const raw = window.localStorage.getItem('Seftly-account');
     if (!raw) {
       setLoading(false);
       return;

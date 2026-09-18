@@ -39,7 +39,7 @@ export default function Hero() {
           </h1>
           <p className="mt-4 max-w-md text-lg text-white/90">
             Keep your child away from obscene content, harmful sites, and
-            unnecessary scrolling. Activate the Safetly app and keep your
+            unnecessary scrolling. Activate the Seftly app and keep your
             child&apos;s device 100% secure.
           </p>
 
