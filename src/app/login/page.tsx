@@ -26,7 +26,7 @@ export default function LoginPage() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen w-full bg-linear-to-b from-slate-50 to-white flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         {/* Illustration side */}
         <div className="hidden lg:flex justify-center items-center">
@@ -136,13 +136,13 @@ const SIGNIN_COPY: Record<
   { heading: string; subtext: string; placeholder: string }
 > = {
   kid: {
-    heading: 'Log in to the "Seftly" kid\u2019s account.',
+    heading: 'Log in to the kid\u2019s account.',
     subtext:
       'Enter a valid email address, nickname, or kid\u2019s ID (which you received after installing the kid\u2019s app).',
     placeholder: 'Email address, nickname, or kid\u2019s ID',
   },
   parent: {
-    heading: 'Log in to the "Seftly" parents\u2019 account.',
+    heading: 'Log in to the parents\u2019 account.',
     subtext:
       'Enter a valid email address, nickname, or parents\u2019 ID (which you received after installing the parents\u2019 app).',
     placeholder: 'Email address, nickname, or parents\u2019 ID',
@@ -286,7 +286,7 @@ function SignInFields({
 
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
-            <Checkbox id={`stay-signed-in-${audience}`} />
+            <Checkbox className='' id={`stay-signed-in-${audience}`} />
             <Label
               htmlFor={`stay-signed-in-${audience}`}
               className="font-normal text-slate-600"
@@ -304,7 +304,7 @@ function SignInFields({
           disabled={pending}
           className="w-full bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md"
         >
-          {pending ? 'Opening dashboard…' : 'Sign in'}
+          {pending ? 'Opening dashboard…' : 'Login'}
         </Button>
         {error ? (
           <p className="text-sm text-red-600" role="alert">
