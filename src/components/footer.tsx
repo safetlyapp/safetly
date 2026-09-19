@@ -12,7 +12,11 @@ const Seftly_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://facebook.com', icon: FacebookIcon },
+  {
+    label: 'Facebook',
+    href: process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL ?? 'https://facebook.com',
+    icon: FacebookIcon,
+  },
   { label: 'LinkedIn', href: 'https://linkedin.com', icon: LinkedinIcon },
   { label: 'X', href: 'https://x.com', icon: XIcon },
   { label: 'YouTube', href: 'https://youtube.com', icon: YoutubeIcon },

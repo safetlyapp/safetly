@@ -9,7 +9,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-import { Menu, X, ShieldCheck, Lock, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, ShieldCheck, LogOut, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -17,6 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Button } from "@/components/ui/button"
+
 
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
@@ -165,19 +167,11 @@ function LoginButton({
 }) {
   // This *is* the anchor — do not wrap it in another <Link>/<a> at the call site.
   return (
-    <Link
-      href="/login"
-      onClick={onClick}
-      className={cn(
-        'group relative inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-sky-500 to-sky-600 py-2 pl-11 pr-6 text-sm font-semibold text-white shadow-sm ring-1 ring-sky-600/20 transition-all duration-200 hover:shadow-md hover:shadow-sky-500/25 hover:-translate-y-0.5 hover:from-sky-600 hover:to-sky-700 active:translate-y-0',
-        className
-      )}
-    >
-      <span className="absolute left-1.5 top-0 flex h-full w-8 items-center justify-center rounded-full rounded-t-none bg-white shadow-sm transition-transform duration-200">
-        <Lock className="h-3.5 w-3.5 text-sky-600" />
-      </span>
-      <span className="tracking-wide">Login</span>
-    </Link>
+    <Button asChild variant="outline" className={cn(className)}>
+      <Link href="/login" onClick={onClick}>
+        <span className="tracking-wide">Login</span>
+      </Link>
+    </Button>
   );
 }
 

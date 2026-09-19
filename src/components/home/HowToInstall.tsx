@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { Play, Apple, Lock } from 'lucide-react';
+import { Play, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-export default function HowToInstall() {
+export default function HowToInstall({
+  tutorialVideoUrl,
+}: {
+  tutorialVideoUrl?: string | null;
+} = {}) {
   const [audience, setAudience] = useState<'parents' | 'kids'>('parents');
   const [platform, setPlatform] = useState<'android' | 'ios'>('android');
 
@@ -59,7 +63,7 @@ export default function HowToInstall() {
                   size="sm"
                 />
                 <LockedBadge
-                  icon={<Apple className="h-5 w-5" />}
+                  icon={<AppleLogo className="h-5 w-5" />}
                   line1="Download on the"
                   line2="App Store"
                 />
@@ -74,7 +78,7 @@ export default function HowToInstall() {
                   size="sm"
                 />
                 <LockedBadge
-                  icon={<Apple className="h-5 w-5" />}
+                  icon={<AppleLogo className="h-5 w-5" />}
                   line1="Download on the"
                   line2="App Store"
                 />
@@ -121,7 +125,7 @@ export default function HowToInstall() {
               : 'border-transparent text-slate-500 hover:text-slate-700'
           )}
         >
-          <Apple className="h-4 w-4" />
+          <AppleLogo className="h-4 w-4" />
           iOS
           <span className="rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
             Coming soon
@@ -139,18 +143,18 @@ export default function HowToInstall() {
               line1="GET IT ON"
               line2="Google Play"
             />
-            <WatchTutorialButton />
+            <WatchTutorialButton tutorialVideoUrl={tutorialVideoUrl} />
           </div>
         </div>
       ) : (
         <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-slate-200 bg-slate-50/60 p-8 shadow-sm">
           <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
             <LockedBadge
-              icon={<Apple className="h-5 w-5" />}
+              icon={<AppleLogo className="h-5 w-5" />}
               line1="Download on the"
               line2="App Store"
             />
-            <WatchTutorialButton />
+            <WatchTutorialButton tutorialVideoUrl={tutorialVideoUrl} />
           </div>
         </div>
       )}
@@ -190,6 +194,19 @@ function StoreBadge({
   );
 }
 
+function AppleLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.3 1.8-3.12 1.87-2.38 5.96.48 7.11-.57 1.5-1.32 2.99-2.43 4.1zM12.03 7.25C11.9 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25z" />
+    </svg>
+  );
+}
+
 /** Locked store badge — same shape as StoreBadge, but visually disabled with a "Soon" ribbon. */
 function LockedBadge({
   icon,
@@ -222,8 +239,13 @@ function LockedBadge({
  * tutorial video is ready, remove the `disabled` attribute and swap the
  * locked styling back to the active hover styles — no other changes needed.
  */
-function WatchTutorialButton() {
+function WatchTutorialButton({
+  tutorialVideoUrl,
+}: {
+  tutorialVideoUrl?: string | null;
+}) {
   const [open, setOpen] = useState(false);
+  const embedUrl = getYouTubeEmbedUrl(tutorialVideoUrl);
 
   return (
     <>
@@ -245,18 +267,47 @@ function WatchTutorialButton() {
         <DialogContent className="max-w-2xl">
           <DialogTitle>App Tutorial</DialogTitle>
           <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
-            <iframe
-              className="h-full w-full"
-              src="https://www.youtube.com/embed/VIDEO_ID"
-              title="Seftly Tutorial"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {embedUrl ? (
+              <iframe
+                className="h-full w-full"
+                src={embedUrl}
+                title="Seftly Tutorial"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <p className="flex h-full items-center justify-center px-6 text-center text-sm text-white/70">
+                Tutorial video will be available soon.
+              </p>
+            )}
           </div>
         </DialogContent>
       </Dialog>
     </>
   );
+}
+
+function getYouTubeEmbedUrl(value?: string | null) {
+  if (!value) return null;
+
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.replace(/^www\./, '');
+    let videoId = '';
+
+    if (hostname === 'youtu.be') {
+      videoId = url.pathname.slice(1);
+    } else if (hostname === 'youtube.com' || hostname === 'm.youtube.com') {
+      if (url.pathname === '/watch') videoId = url.searchParams.get('v') ?? '';
+      if (url.pathname.startsWith('/embed/')) videoId = url.pathname.slice(7);
+      if (url.pathname.startsWith('/shorts/')) videoId = url.pathname.slice(8);
+    }
+
+    if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return null;
+    return `https://www.youtube.com/embed/${videoId}`;
+  } catch {
+    return null;
+  }
 }
 
 function AndroidGlyph({ className }: { className?: string }) {

@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import FacebookCustomerChat from '@/components/facebook-customer-chat';
 import ScrollToTop from '@/components/scroll-to-top';
 
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' });
@@ -121,6 +122,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FacebookCustomerChat />
         <ScrollToTop />
       </body>
     </html>
