@@ -42,7 +42,7 @@ export default function GatewayCheckout({
   businessLogoUrl,
   invoiceNo,
   supportPhone = '09600000000',
-  copyrightOwner = 'payConfirm',
+  copyrightOwner = 'PayConfirm',
 }: {
   gateway: keyof typeof gateways;
   orderId: string;
