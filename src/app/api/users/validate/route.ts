@@ -1,24 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { children } from '@/lib/demo-auth';
+import { requestParentChildApi } from '@/lib/parent-child-source';
 
 export async function GET(request: NextRequest) {
-  const identifier =
-    request.nextUrl.searchParams.get('identifier')?.trim().toLowerCase() ?? '';
-  const child = children.find(
-    (item) => item.email === identifier || item.username === identifier
+  const identifier = request.nextUrl.searchParams.get('identifier')?.trim() ?? '';
+  const external = await requestParentChildApi(
+    `/api/child/lookup?identifier=${encodeURIComponent(identifier)}`
   );
-  if (!child)
+  if (!external)
+    return NextResponse.json({
+      valid: false,
+      message: 'Parent/Child API is not configured.',
+    }, { status: 503 });
+  if (external.status === 404)
     return NextResponse.json({
       valid: false,
       message: 'No matching child username or email found.',
     });
-
-  return NextResponse.json({
-    valid: true,
-    user: {
-      name: child.username,
-      identifier: child.username,
-      email: child.email,
-    },
-  });
+  return NextResponse.json(external.payload, { status: external.status });
 }

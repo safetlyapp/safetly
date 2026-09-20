@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Download Safetly',
-  description: 'Download Safetly for your family devices.',
+  title: 'Download Seftly',
+  description: 'Download Seftly for your family devices.',
   robots: { index: false, follow: false },
 };
 

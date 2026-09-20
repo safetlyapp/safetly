@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requestParentChildApi } from '@/lib/parent-child-source';
 
-export async function POST(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
+  const authorization = request.headers.get('authorization') ?? '';
+  if (!authorization)
+    return NextResponse.json(
+      { error: 'Authentication is required.' },
+      { status: 401 }
+    );
+
   const body = await request.json().catch(() => null);
-  const external = await requestParentChildApi('/api/child/login', {
-    method: 'POST',
+  const external = await requestParentChildApi('/api/account/email', {
+    method: 'PATCH',
+    headers: { Authorization: authorization },
     body,
   });
   if (!external)

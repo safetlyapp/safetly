@@ -6,44 +6,44 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     title: 'General Information',
     items: [
       {
-        q: 'What is Safetly?',
-        a: "Safetly is a parental control and family safety application designed to help parents and legal guardians better understand, guide, and manage their children's device use, digital activities, and online safety.",
+        q: 'What is Seftly?',
+        a: "Seftly is a parental control and family safety application designed to help parents and legal guardians better understand, guide, and manage their children's device use, digital activities, and online safety.",
       },
       {
-        q: 'Why should I use Safetly?',
-        a: "Safetly helps parents stay informed about their children's screen time, app usage, online content, location, and other safety-related activities. It is designed to support safer and more responsible technology use within families.",
+        q: 'Why should I use Seftly?',
+        a: "Seftly helps parents stay informed about their children's screen time, app usage, online content, location, and other safety-related activities. It is designed to support safer and more responsible technology use within families.",
       },
       {
-        q: 'Is Safetly only for children?',
-        a: "Safetly is primarily designed for parents, legal guardians, and their children. It should only be used on your own child's device, your own device, or a device that you have the legal right and appropriate authority to supervise.",
+        q: 'Is Seftly only for children?',
+        a: "Seftly is primarily designed for parents, legal guardians, and their children. It should only be used on your own child's device, your own device, or a device that you have the legal right and appropriate authority to supervise.",
       },
       {
-        q: 'Who can use Safetly?',
-        a: "Safetly may be used by parents or legal guardians. Children's devices should be managed under appropriate parental or legal guardian supervision.",
+        q: 'Who can use Seftly?',
+        a: "Seftly may be used by parents or legal guardians. Children's devices should be managed under appropriate parental or legal guardian supervision.",
       },
       {
-        q: 'Is Safetly free to use?',
-        a: 'Some Safetly features may be available free of charge or with limited access. A paid subscription may be required to access certain premium features or services.',
+        q: 'Is Seftly free to use?',
+        a: 'Some Seftly features may be available free of charge or with limited access. A paid subscription may be required to access certain premium features or services.',
       },
       {
-        q: 'Does Safetly work on Android and iPhone?',
-        a: 'Safetly is designed to support both Android and iPhone devices. However, feature availability and functionality may differ depending on the device, operating system, permissions, and platform policies.',
+        q: 'Does Seftly work on Android and iPhone?',
+        a: 'Seftly is designed to support both Android and iPhone devices. However, feature availability and functionality may differ depending on the device, operating system, permissions, and platform policies.',
       },
       {
         q: 'Do all features work on every device?',
         a: 'No. Some features may work differently or may not be available on certain devices because of device models, Android or iOS versions, system restrictions, permissions, or technical limitations.',
       },
       {
-        q: 'Does Safetly work without an internet connection?',
+        q: 'Does Seftly work without an internet connection?',
         a: 'Some information may remain temporarily available on a device, but an internet connection is generally required for live location, remote features, report updates, synchronization, and other online services.',
       },
       {
-        q: 'Is Safetly an emergency service?',
-        a: 'No. Safetly is not a police, ambulance, medical, emergency-response, or rescue service. In an emergency, contact the appropriate local emergency services or authorities.',
+        q: 'Is Seftly an emergency service?',
+        a: 'No. Seftly is not a police, ambulance, medical, emergency-response, or rescue service. In an emergency, contact the appropriate local emergency services or authorities.',
       },
       {
-        q: 'Is Safetly a replacement for parental supervision?',
-        a: 'No. Safetly is a technology tool designed to support parents and guardians. It is not a replacement for responsible parenting, direct supervision, education, communication, or family trust.',
+        q: 'Is Seftly a replacement for parental supervision?',
+        a: 'No. Seftly is a technology tool designed to support parents and guardians. It is not a replacement for responsible parenting, direct supervision, education, communication, or family trust.',
       },
     ],
   },
@@ -51,28 +51,28 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     title: 'Account and Setup',
     items: [
       {
-        q: 'How do I create a Safetly account?',
-        a: "Install the Safetly application and create a Parent Account by providing the required information. Then follow the in-app instructions to connect and manage your child's device.",
+        q: 'How do I create a Seftly account?',
+        a: "Install the Seftly application and create a Parent Account by providing the required information. Then follow the in-app instructions to connect and manage your child's device.",
       },
       {
         q: 'Can I add more than one child to my account?',
-        a: 'The number of children or devices that can be added may depend on your selected subscription plan and the current features available in Safetly.',
+        a: 'The number of children or devices that can be added may depend on your selected subscription plan and the current features available in Seftly.',
       },
       {
         q: 'Can I connect multiple devices to one parent account?',
-        a: "This may depend on your selected subscription plan and Safetly's current device limits.",
+        a: "This may depend on your selected subscription plan and Seftly's current device limits.",
       },
       {
         q: "How do I connect my child's device?",
-        a: 'Open your parent account, select the option to add or connect a device, and follow the instructions displayed in the Safetly application. Required permissions may need to be granted during setup.',
+        a: 'Open your parent account, select the option to add or connect a device, and follow the instructions displayed in the Seftly application. Required permissions may need to be granted during setup.',
       },
       {
         q: 'Do both devices need to use the same Wi-Fi network?',
         a: 'No. The devices generally do not need to be connected to the same Wi-Fi network. Remote features may work when the relevant devices have an active internet connection.',
       },
       {
-        q: 'What permissions may Safetly require?',
-        a: 'Depending on the features you use, Safetly may request permissions related to location, notifications, app usage, camera, microphone, screen sharing, or other device functions.',
+        q: 'What permissions may Seftly require?',
+        a: 'Depending on the features you use, Seftly may request permissions related to location, notifications, app usage, camera, microphone, screen sharing, or other device functions.',
       },
       {
         q: 'What happens if I do not grant the required permissions?',
@@ -87,8 +87,8 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         a: 'Use the "Forgot Password" option on the login screen and follow the instructions to reset your password.',
       },
       {
-        q: 'How can I delete my Safetly account?',
-        a: 'If account deletion is available in the app, you may use the Account or Settings section. You may also contact us at support@safetly.app for assistance.',
+        q: 'How can I delete my Seftly account?',
+        a: 'If account deletion is available in the app, you may use the Account or Settings section. You may also contact us at support@Seftly.app for assistance.',
       },
     ],
   },
@@ -113,11 +113,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'What is Geofencing?',
-        a: 'A geofence is a virtual boundary created around a selected area on a map. Safetly may send an alert when a connected device enters or leaves that area.',
+        a: 'A geofence is a virtual boundary created around a selected area on a map. Seftly may send an alert when a connected device enters or leaves that area.',
       },
       {
         q: 'How many geofences can I create?',
-        a: "The number of available geofences may depend on your subscription plan and Safetly's current feature limits.",
+        a: "The number of available geofences may depend on your subscription plan and Seftly's current feature limits.",
       },
       {
         q: 'What should I do if I do not receive Geofence alerts?',
@@ -129,11 +129,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'Can location be updated when the internet is turned off?',
-        a: 'Without an internet connection, new location information may not be transmitted or updated in Safetly.',
+        a: 'Without an internet connection, new location information may not be transmitted or updated in Seftly.',
       },
       {
-        q: 'Can I use Safetly to secretly track someone?',
-        a: 'No. Safetly should only be used to supervise your own child, your own device, or a device that you are legally authorized to manage. Users are responsible for complying with applicable laws and consent requirements.',
+        q: 'Can I use Seftly to secretly track someone?',
+        a: 'No. Seftly should only be used to supervise your own child, your own device, or a device that you are legally authorized to manage. Users are responsible for complying with applicable laws and consent requirements.',
       },
     ],
   },
@@ -166,11 +166,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'What should I do if App Blocking does not work?',
-        a: 'Check the required permissions, usage access, accessibility settings, and other relevant device settings. If the problem continues, contact Safetly Support.',
+        a: 'Check the required permissions, usage access, accessibility settings, and other relevant device settings. If the problem continues, contact Seftly Support.',
       },
       {
         q: 'Can I view app usage reports?',
-        a: 'Yes. On supported devices, Safetly may provide information about application usage and usage duration.',
+        a: 'Yes. On supported devices, Seftly may provide information about application usage and usage duration.',
       },
       {
         q: 'How often are app usage reports updated?',
@@ -235,16 +235,16 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         a: 'Screen mirroring may allow a parent or authorized guardian to view the screen of a connected device for authorized parental supervision.',
       },
       {
-        q: "Is screen mirroring information stored on Safetly's servers?",
-        a: "Screen mirroring information is transmitted using encrypted methods and is not permanently stored on Safetly's servers.",
+        q: "Is screen mirroring information stored on Seftly's servers?",
+        a: "Screen mirroring information is transmitted using encrypted methods and is not permanently stored on Seftly's servers.",
       },
       {
         q: 'What is remote camera?',
         a: 'Remote camera may provide camera-related functionality on an authorized connected device for family-safety purposes, subject to device compatibility, permissions, and applicable laws.',
       },
       {
-        q: "Are remote camera images or videos stored on Safetly's servers?",
-        a: "Remote camera-related information is transmitted using encrypted methods and is not permanently stored on Safetly's servers.",
+        q: "Are remote camera images or videos stored on Seftly's servers?",
+        a: "Remote camera-related information is transmitted using encrypted methods and is not permanently stored on Seftly's servers.",
       },
       {
         q: 'What are Surrounding Sound features?',
@@ -252,23 +252,23 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'Is surrounding sound recorded or stored?',
-        a: "Surrounding sound-related information is transmitted using encrypted methods and is not permanently stored on Safetly's servers.",
+        a: "Surrounding sound-related information is transmitted using encrypted methods and is not permanently stored on Seftly's servers.",
       },
       {
         q: 'What call or SMS information may be available?',
         a: 'Depending on the device, operating system, permissions, and technical limitations, certain call- or SMS-related information may be available.',
       },
       {
-        q: "Is call or SMS information permanently stored on Safetly's servers?",
-        a: "Call- or SMS-related information may be transmitted using encrypted methods as necessary to operate the relevant feature and is not permanently stored on Safetly's servers.",
+        q: "Is call or SMS information permanently stored on Seftly's servers?",
+        a: "Call- or SMS-related information may be transmitted using encrypted methods as necessary to operate the relevant feature and is not permanently stored on Seftly's servers.",
       },
       {
         q: 'How does Notification Monitoring work?',
         a: 'When the required permissions are granted, certain notifications received on a connected device may be displayed in the authorized Parent Account.',
       },
       {
-        q: "Is notification information stored on Safetly's servers?",
-        a: "Notification-related information is transmitted using encrypted methods and is not permanently stored on Safetly's servers.",
+        q: "Is notification information stored on Seftly's servers?",
+        a: "Notification-related information is transmitted using encrypted methods and is not permanently stored on Seftly's servers.",
       },
     ],
   },
@@ -276,44 +276,44 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     title: 'Privacy and Data Security',
     items: [
       {
-        q: 'Does Safetly collect personal information?',
-        a: 'Safetly may collect or process information such as names, email addresses, phone numbers, device information, and necessary usage-related information to create and manage accounts, provide services, maintain security, provide support, and manage subscriptions.',
+        q: 'Does Seftly collect personal information?',
+        a: 'Seftly may collect or process information such as names, email addresses, phone numbers, device information, and necessary usage-related information to create and manage accounts, provide services, maintain security, provide support, and manage subscriptions.',
       },
       {
-        q: 'Why does Safetly use personal information?',
-        a: "Information may be used to operate accounts and features, maintain security, generate reports, provide customer support, manage subscriptions and payments, and improve Safetly's services.",
+        q: 'Why does Seftly use personal information?',
+        a: "Information may be used to operate accounts and features, maintain security, generate reports, provide customer support, manage subscriptions and payments, and improve Seftly's services.",
       },
       {
-        q: 'Does Safetly sell personal information?',
-        a: "Safetly does not generally sell users' personal information.",
+        q: 'Does Seftly sell personal information?',
+        a: "Seftly does not generally sell users' personal information.",
       },
       {
-        q: 'Does Safetly share information with third parties?',
+        q: 'Does Seftly share information with third parties?',
         a: 'Limited information may be shared with authorized service providers, payment providers, or cloud or technology partners when necessary to operate the service. Information may also be disclosed when required by applicable law.',
       },
       {
         q: 'Is my information secure?',
-        a: 'Safetly uses reasonable technical and organizational measures designed to protect user information. However, no online or electronic system can be guaranteed to be completely secure.',
+        a: 'Seftly uses reasonable technical and organizational measures designed to protect user information. However, no online or electronic system can be guaranteed to be completely secure.',
       },
       {
         q: 'How is sensitive feature information protected?',
         a: 'Information related to screen mirroring, remote camera, surrounding sound, call/SMS information, and notifications is transmitted using encrypted methods.',
       },
       {
-        q: 'Does Safetly permanently store screen, camera, or audio information?',
-        a: "No. Information associated with these live features is not permanently stored on Safetly's servers.",
+        q: 'Does Seftly permanently store screen, camera, or audio information?',
+        a: "No. Information associated with these live features is not permanently stored on Seftly's servers.",
       },
       {
         q: 'How can I request deletion of my information?',
-        a: 'You may use available account or data-deletion options in the Safetly app or contact support@safetly.app.',
+        a: 'You may use available account or data-deletion options in the Seftly app or contact support@Seftly.app.',
       },
       {
         q: 'Is all information deleted immediately after account deletion?',
         a: 'Some information may be deleted promptly, while limited information may be retained for a reasonable period for security, payment records, backups, fraud prevention, legal obligations, or other legitimate purposes.',
       },
       {
-        q: "Where can I find Safetly's Privacy Policy?",
-        a: "Safetly's Privacy Policy is available in the Privacy Policy section of the app and on the Safetly website.",
+        q: "Where can I find Seftly's Privacy Policy?",
+        a: "Seftly's Privacy Policy is available in the Privacy Policy section of the app and on the Seftly website.",
       },
     ],
   },
@@ -321,20 +321,20 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     title: 'Subscriptions and Payments',
     items: [
       {
-        q: 'What subscription plans does Safetly offer?',
-        a: 'Safetly may offer subscription plans for 30 days, 90 days, 180 days, and 360 days.',
+        q: 'What subscription plans does Seftly offer?',
+        a: 'Seftly may offer subscription plans for 30 days, 90 days, 180 days, and 360 days.',
       },
       {
         q: 'Where can I see subscription prices?',
-        a: 'Current subscription prices are displayed on the Subscription or Payment page in the Safetly app or on the official website.',
+        a: 'Current subscription prices are displayed on the Subscription or Payment page in the Seftly app or on the official website.',
       },
       {
-        q: 'How can I pay for a Safetly subscription?',
+        q: 'How can I pay for a Seftly subscription?',
         a: 'Select your preferred subscription plan and complete the payment using one of the available payment methods.',
       },
       {
         q: 'Which payment methods are accepted?',
-        a: 'Safetly may currently accept payments through bKash, Nagad, and Rocket.',
+        a: 'Seftly may currently accept payments through bKash, Nagad, and Rocket.',
       },
       {
         q: 'When will my subscription be activated after payment?',
@@ -342,11 +342,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'What should I do if money was deducted but my subscription was not activated?',
-        a: 'Contact Safetly Support and provide your transaction ID, payment date and time, payment amount, payment method, and Safetly account information.',
+        a: 'Contact Seftly Support and provide your transaction ID, payment date and time, payment amount, payment method, and Seftly account information.',
       },
       {
-        q: 'Does Safetly store my bKash, Nagad, or Rocket PIN?',
-        a: 'No. Safetly does not normally request or store your PIN, OTP, or confidential payment password.',
+        q: 'Does Seftly store my bKash, Nagad, or Rocket PIN?',
+        a: 'No. Seftly does not normally request or store your PIN, OTP, or confidential payment password.',
       },
       {
         q: 'What happens when my subscription expires?',
@@ -358,7 +358,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'Can I transfer my subscription to another account?',
-        a: "Subscription transfer may depend on Safetly's current policies and verification requirements. Please contact Support for assistance.",
+        a: "Subscription transfer may depend on Seftly's current policies and verification requirements. Please contact Support for assistance.",
       },
     ],
   },
@@ -366,20 +366,20 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     title: 'Refunds and Support',
     items: [
       {
-        q: 'Does Safetly provide refunds?',
-        a: 'Refunds may be considered in eligible circumstances. Refunds are not automatically guaranteed, and each request may be reviewed individually under the Safetly Refund Policy and applicable law.',
+        q: 'Does Seftly provide refunds?',
+        a: 'Refunds may be considered in eligible circumstances. Refunds are not automatically guaranteed, and each request may be reviewed individually under the Seftly Refund Policy and applicable law.',
       },
       {
         q: 'When may a refund be considered?',
-        a: 'A refund may be considered in situations such as verified duplicate payments, successful payments where a subscription was not activated, verified technical issues caused by Safetly that cannot be reasonably resolved, or where a refund is required by applicable law.',
+        a: 'A refund may be considered in situations such as verified duplicate payments, successful payments where a subscription was not activated, verified technical issues caused by Seftly that cannot be reasonably resolved, or where a refund is required by applicable law.',
       },
       {
         q: 'How do I request a refund?',
-        a: 'Email support@safetly.app and provide your Safetly account information, transaction ID, payment details, and a clear description of the issue.',
+        a: 'Email support@Seftly.app and provide your Seftly account information, transaction ID, payment details, and a clear description of the issue.',
       },
       {
         q: 'How long does a refund take?',
-        a: 'If approved, Safetly aims to process refunds within 10 business days. Additional time may be required because of payment-provider processing, verification, public holidays, or other circumstances.',
+        a: 'If approved, Seftly aims to process refunds within 10 business days. Additional time may be required because of payment-provider processing, verification, public holidays, or other circumstances.',
       },
       {
         q: 'Can I receive a refund after using the subscription?',
@@ -391,19 +391,19 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'What should I do if I was charged twice?',
-        a: 'Contact Safetly Support and provide both transaction IDs and the relevant payment information. The matter will be reviewed, and appropriate action may be taken after verification.',
+        a: 'Contact Seftly Support and provide both transaction IDs and the relevant payment information. The matter will be reviewed, and appropriate action may be taken after verification.',
       },
       {
         q: 'How will an approved refund be issued?',
-        a: 'Approved refunds will generally be issued through the original payment method or another appropriate method approved by Safetly.',
+        a: 'Approved refunds will generally be issued through the original payment method or another appropriate method approved by Seftly.',
       },
       {
         q: 'How can I check the status of my refund request?',
-        a: 'You may contact Safetly Support by email at support@safetly.app to request an update regarding your refund.',
+        a: 'You may contact Seftly Support by email at support@Seftly.app to request an update regarding your refund.',
       },
       {
-        q: 'Where can I find the Safetly Refund Policy?',
-        a: 'The Refund Policy is available in the Refund Policy section of the Safetly app and on the Safetly official website.',
+        q: 'Where can I find the Seftly Refund Policy?',
+        a: 'The Refund Policy is available in the Refund Policy section of the Seftly app and on the Seftly official website.',
       },
     ],
   },
@@ -412,43 +412,43 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     items: [
       {
         q: "Can I secretly monitor another adult's phone?",
-        a: 'No. Safetly must not be used to secretly monitor, track, or conduct unauthorized surveillance of another adult or any person whose device you do not have the legal right to supervise.',
+        a: 'No. Seftly must not be used to secretly monitor, track, or conduct unauthorized surveillance of another adult or any person whose device you do not have the legal right to supervise.',
       },
       {
-        q: 'Do I need to use Safetly in compliance with the law?',
-        a: 'Yes. You are responsible for using Safetly in compliance with applicable privacy, data-protection, child-safety, communications, consent, and other relevant laws.',
+        q: 'Do I need to use Seftly in compliance with the law?',
+        a: 'Yes. You are responsible for using Seftly in compliance with applicable privacy, data-protection, child-safety, communications, consent, and other relevant laws.',
       },
       {
-        q: 'Should I discuss Safetly with my child?',
+        q: 'Should I discuss Seftly with my child?',
         a: "Yes. When appropriate for the child's age and circumstances, we encourage open conversations about digital safety, online risks, responsible technology use, and family expectations.",
       },
       {
-        q: 'Can Safetly prevent every online risk?',
-        a: 'No. Safetly is designed to help reduce risks and support parental supervision, but it cannot guarantee protection from every online or digital risk.',
+        q: 'Can Seftly prevent every online risk?',
+        a: 'No. Seftly is designed to help reduce risks and support parental supervision, but it cannot guarantee protection from every online or digital risk.',
       },
       {
-        q: 'Will Safetly use more battery?',
+        q: 'Will Seftly use more battery?',
         a: 'Features such as location tracking, background synchronization, and other active services may use additional battery power. Battery use may vary depending on the device, settings, and features enabled.',
       },
       {
-        q: 'Why is it important to keep Safetly updated?',
+        q: 'Why is it important to keep Seftly updated?',
         a: 'Updates may provide new features, security improvements, bug fixes, performance enhancements, and better compatibility with supported devices.',
       },
       {
-        q: 'What should I do if Safetly is not working?',
-        a: 'Check your internet connection, app version, device permissions, background settings, and account status. If the issue continues, contact Safetly Support.',
+        q: 'What should I do if Seftly is not working?',
+        a: 'Check your internet connection, app version, device permissions, background settings, and account status. If the issue continues, contact Seftly Support.',
       },
       {
-        q: 'How can I contact Safetly Support?',
-        a: 'You can contact Safetly Support by email at support@safetly.app.',
+        q: 'How can I contact Seftly Support?',
+        a: 'You can contact Seftly Support by email at support@Seftly.app.',
       },
       {
-        q: 'Where can I find the Safetly Terms of Service?',
-        a: 'The Terms of Service are available in the Terms of Service section of the Safetly app and on the Safetly official website.',
+        q: 'Where can I find the Seftly Terms of Service?',
+        a: 'The Terms of Service are available in the Terms of Service section of the Seftly app and on the Seftly official website.',
       },
       {
-        q: 'Where can I learn more about Safetly?',
-        a: 'You can visit the Safetly official website, explore the Help or Support section in the app, or contact us at support@safetly.app.',
+        q: 'Where can I learn more about Seftly?',
+        a: 'You can visit the Seftly official website, explore the Help or Support section in the app, or contact us at support@Seftly.app.',
       },
     ],
   },

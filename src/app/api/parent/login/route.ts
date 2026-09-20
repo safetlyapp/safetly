@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createToken, parents, verifyPassword } from '@/lib/demo-auth';
 import { requestParentChildApi } from '@/lib/parent-child-source';
 
 export async function POST(request: NextRequest) {
@@ -8,20 +7,10 @@ export async function POST(request: NextRequest) {
     method: 'POST',
     body,
   });
-  if (external)
-    return NextResponse.json(external.payload, { status: external.status });
-  const email =
-    typeof body?.email === 'string' ? body.email.trim().toLowerCase() : '';
-  const password = typeof body?.password === 'string' ? body.password : '';
-  const parent = parents.find((item) => item.email === email);
-  console.log('login', { email, password, parent });
-  if (!parent || !verifyPassword(password, parent.passwordHash))
+  if (!external)
     return NextResponse.json(
-      { error: 'Invalid email or password.' },
-      { status: 401 }
+      { error: 'Parent/Child API is not configured.' },
+      { status: 503 }
     );
-  return NextResponse.json({
-    token: createToken({ sub: parent.id, role: 'parent' }),
-    profile: { id: parent.id, name: parent.name, email: parent.email },
-  });
+  return NextResponse.json(external.payload, { status: external.status });
 }

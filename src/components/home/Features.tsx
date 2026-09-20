@@ -10,12 +10,13 @@ import {
   AlarmClock,
   MonitorSmartphone,
 } from 'lucide-react';
+import Link from 'next/link';
 
 const FEATURES_LEFT = [
-  // "Live Screen Mirroring",
-  // "Inappropriate Image & Video Detection",
-  // "Remote Camera",
-  // "Sound around Child",
+  "Live Screen Mirroring",
+  "Inappropriate Image & Video Detection",
+  "Remote Camera",
+  "Sound around Child",
   'Location & Route Tracking',
   'App/Game & Web Blocker',
   'Downtime App',
@@ -24,10 +25,10 @@ const FEATURES_LEFT = [
 const FEATURES_RIGHT = [
   'App Time Limits',
   'Geofencing',
-  // "Calls & SMS Monitoring",
+  "Calls & SMS Monitoring",
   'Social Content Monitoring',
   'View App Notifications',
-  // "Browsing History",
+  "Browsing History",
   'Usage Report',
 ];
 
@@ -112,7 +113,7 @@ export default function Features() {
           </div>
 
           <Button className="mt-6 bg-blue-600  cursor-pointer hover:bg-blue-800 ">
-            Try it free
+            <Link href="/pricing">Try it free</Link>
           </Button>
         </div>
       </div>

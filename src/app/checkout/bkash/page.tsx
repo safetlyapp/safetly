@@ -1,4 +1,4 @@
-import BkashCheckout from '@/components/checkout/bkash-checkout';
+import GatewayCheckout from '@/components/gateway-checkout';
 
 export default async function BkashCheckoutPage({
   searchParams,
@@ -15,7 +15,8 @@ export default async function BkashCheckoutPage({
 }) {
   const query = await searchParams;
   return (
-    <BkashCheckout
+    <GatewayCheckout
+      gateway="bkash"
       orderId={query.order_id ?? ''}
       amount={query.amount ?? '0.00'}
       customerEmail={query.customer_email ?? ''}

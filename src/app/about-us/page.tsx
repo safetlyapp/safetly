@@ -22,9 +22,9 @@ import {
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Safetly',
+  title: 'About Seftly',
   description:
-    'Learn how Safetly helps parents protect children with connected family safety and parental control tools.',
+    'Learn how Seftly helps parents protect children with connected family safety and parental control tools.',
   alternates: { canonical: '/about-us' },
 };
 
@@ -114,12 +114,12 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
-          <p className="text-sm font-medium text-secondary">About Safetly</p>
+          <p className="text-sm font-medium text-secondary">About Seftly</p>
           <h1 className="mx-auto mt-2 max-w-2xl text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
             A safer, more balanced digital world for every family.
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-            Safetly is a modern parental control and family safety platform that
+            Seftly is a modern parental control and family safety platform that
             helps parents and legal guardians create a safer, more responsible
             digital environment for their children — with simple tools and
             appropriate guidance, not constant surveillance.
@@ -165,12 +165,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* How Safetly helps — feature grid */}
+      {/* How Seftly helps — feature grid */}
       <section className="border-y border-slate-100 bg-slate-50/60 py-16">
         <div className="mx-auto max-w-6xl px-4">
           <div className="mx-auto max-w-xl text-center">
             <p className="text-sm font-medium text-secondary">
-              How Safetly helps
+              How Seftly helps
             </p>
             <h2 className="mt-1 text-2xl font-bold text-slate-900 md:text-3xl">
               Tools that support real family safety
@@ -215,12 +215,12 @@ export default function AboutPage() {
                 Information associated with screen mirroring, remote camera,
                 surrounding sound, call/SMS information, and notifications is
                 transmitted using encrypted methods and is not permanently
-                stored on Safetly&apos;s servers. It is only processed as
+                stored on Seftly&apos;s servers. It is only processed as
                 necessary to operate the relevant feature and display it to the
                 authorized parent account.
               </p>
               <p>
-                Safetly does not intentionally use this sensitive live-feature
+                Seftly does not intentionally use this sensitive live-feature
                 data for advertising, and does not sell it to third parties. No
                 internet-based system can be guaranteed completely secure, but
                 we apply reasonable technical, organizational, and security
@@ -277,7 +277,7 @@ export default function AboutPage() {
             Built for supervision, not secret surveillance
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-600">
-            Safetly is designed to be used only for your own child&apos;s
+            Seftly is designed to be used only for your own child&apos;s
             device, your own device, or a device you have the legal right and
             appropriate authority to supervise. It is not intended for secretly
             monitoring or tracking another person or adult. Users are
@@ -330,11 +330,11 @@ export default function AboutPage() {
             Try it free
           </a>
           <a
-            href="mailto:support@safetly.app"
+            href="mailto:support@Seftly.app"
             className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50"
           >
             <Mail className="h-4 w-4" />
-            support@safetly.app
+            support@Seftly.app
           </a>
         </div>
       </section>

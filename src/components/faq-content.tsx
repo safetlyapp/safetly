@@ -191,11 +191,11 @@ export default function FaqContent({ categories }: FaqContentProps) {
           Our support team is available to help with anything not covered here.
         </p>
         <a
-          href="mailto:support@safetly.app"
+          href="mailto:support@Seftly.app"
           className="mt-2 inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-md"
         >
           <Mail className="h-4 w-4" />
-          support@safetly.app
+          support@Seftly.app
         </a>
       </div>
     </div>

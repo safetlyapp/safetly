@@ -4,32 +4,33 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import FacebookCustomerChat from '@/components/facebook-customer-chat';
 import ScrollToTop from '@/components/scroll-to-top';
 
 const figtree = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 
 const fallbackMetadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://safetly.app'
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://Seftly.app'
   ),
   title: {
-    default: 'Safetly | Smart Parental Control & Family Safety',
-    template: '%s | Safetly',
+    default: 'Seftly | Smart Parental Control & Family Safety',
+    template: '%s | Seftly',
   },
   description:
-    'Safetly helps parents keep children safer with parental controls, screen-time tools, location monitoring, and family protection.',
+    'Seftly helps parents keep children safer with parental controls, screen-time tools, location monitoring, and family protection.',
   keywords: [
     'parental control app',
     'family safety app',
     'child safety',
     'screen time management',
-    'Safetly',
+    'Seftly',
   ],
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    siteName: 'Safetly',
-    title: 'Safetly | Smart Parental Control & Family Safety',
+    siteName: 'Seftly',
+    title: 'Seftly | Smart Parental Control & Family Safety',
     description:
       'Smart tools that help families stay connected, protected, and in control.',
     url: '/',
@@ -38,13 +39,13 @@ const fallbackMetadata: Metadata = {
         url: '/hero.png',
         width: 1200,
         height: 630,
-        alt: 'Safetly family safety app',
+        alt: 'Seftly family safety app',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Safetly | Smart Parental Control & Family Safety',
+    title: 'Seftly | Smart Parental Control & Family Safety',
     description:
       'Smart tools that help families stay connected, protected, and in control.',
     images: ['/hero.png'],
@@ -78,11 +79,11 @@ export async function generateMetadata(): Promise<Metadata> {
     const siteUrl =
       settings.canonicalSiteUrl ??
       process.env.NEXT_PUBLIC_SITE_URL ??
-      'https://safetly.app';
+      'https://Seftly.app';
     const image = settings.ogImage ?? '/hero.png';
     return {
       ...fallbackMetadata,
-      title: { default: settings.homepageTitle, template: '%s | Safetly' },
+      title: { default: settings.homepageTitle, template: '%s | Seftly' },
       description: settings.homepageDescription,
       keywords: settings.keywords,
       metadataBase: new URL(siteUrl),
@@ -91,7 +92,7 @@ export async function generateMetadata(): Promise<Metadata> {
         ...fallbackMetadata.openGraph,
         title: settings.homepageTitle,
         description: settings.homepageDescription,
-        images: [{ url: image, alt: 'Safetly family safety app' }],
+        images: [{ url: image, alt: 'Seftly family safety app' }],
       },
       twitter: {
         ...fallbackMetadata.twitter,
@@ -121,6 +122,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FacebookCustomerChat />
         <ScrollToTop />
       </body>
     </html>

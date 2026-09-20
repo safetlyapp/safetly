@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Safetly',
+  title: 'Terms of Service | Seftly',
   description:
-    "Safetly's Terms of Service covering authorized use, accounts, subscriptions, prohibited uses, and liability.",
+    "Seftly's Terms of Service covering authorized use, accounts, subscriptions, prohibited uses, and liability.",
 };
 
 export default function TermsOfServicePage() {
@@ -11,37 +11,37 @@ export default function TermsOfServicePage() {
     <div className="space-y-8 text-sm leading-relaxed text-slate-600">
       <div>
         <h2 className="text-xl font-bold text-slate-900">
-          Safetly Terms of Service
+          Seftly Terms of Service
         </h2>
         <p className="mt-3 text-slate-600">
-          Welcome to Safetly. Safetly (&quot;Safetly,&quot; &quot;we,&quot;
-          &quot;us,&quot; &quot;our,&quot; or the &quot;Safetly Authority&quot;)
+          Welcome to Seftly. Seftly (&quot;Seftly,&quot; &quot;we,&quot;
+          &quot;us,&quot; &quot;our,&quot; or the &quot;Seftly Authority&quot;)
           is a parental control and family safety application designed to help
           parents and legal guardians support their children&apos;s digital
           safety, online activities, and responsible device use.
         </p>
         <p className="mt-2 text-slate-600">
           By downloading, installing, registering for, subscribing to,
-          accessing, or using the Safetly application, website, software, or
+          accessing, or using the Seftly application, website, software, or
           related services (collectively, the &quot;Services&quot;), you confirm
           that you have read, understood, and agreed to these Terms of Service
           (&quot;Terms&quot;).
         </p>
         <p className="mt-2 rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
           If you do not agree to any part of these Terms, you must not use
-          Safetly.
+          Seftly.
         </p>
       </div>
 
       <div className="space-y-8">
-        <Section num="1" title="Purpose of Safetly">
+        <Section num="1" title="Purpose of Seftly">
           <p>
-            Safetly is designed to help parents and legal guardians support
+            Seftly is designed to help parents and legal guardians support
             children&apos;s digital safety and responsible use of technology.
           </p>
           <p>
             Depending on the device, operating system, permissions, subscription
-            plan, and availability, Safetly may provide features such as:
+            plan, and availability, Seftly may provide features such as:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Live location</li>
@@ -65,8 +65,8 @@ export default function TermsOfServicePage() {
           </p>
         </Section>
 
-        <Section num="2" title="Who May Use Safetly">
-          <p>Safetly is intended only for:</p>
+        <Section num="2" title="Who May Use Seftly">
+          <p>Seftly is intended only for:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Parents or legal guardians</li>
             <li>Their children or minors under their care</li>
@@ -82,20 +82,20 @@ export default function TermsOfServicePage() {
           <p>
             Children under the age of 16 may not independently create or manage
             a parent or guardian account. A child&apos;s device may be connected
-            to Safetly only by or under the supervision of a parent or legal
+            to Seftly only by or under the supervision of a parent or legal
             guardian.
           </p>
           <p>
             Parents and legal guardians are responsible for ensuring that they
             provide any notices and obtain any permissions or consents required
-            by applicable law before using Safetly in connection with a child or
+            by applicable law before using Seftly in connection with a child or
             a child&apos;s device.
           </p>
         </Section>
 
         <Section num="3" title="Authorized Use">
           <p>
-            You may use Safetly only to monitor, manage, or protect the
+            You may use Seftly only to monitor, manage, or protect the
             following:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -107,16 +107,16 @@ export default function TermsOfServicePage() {
             </li>
           </ul>
           <p className="rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
-            You must not use Safetly to secretly monitor, track, control, or
+            You must not use Seftly to secretly monitor, track, control, or
             surveil another adult&apos;s device, including the device of a
             spouse, partner, friend, colleague, employee, or any other person,
             unless that person has provided clear consent and the use is lawful
             under applicable law.
           </p>
-          <p>By using Safetly, you represent and confirm that:</p>
+          <p>By using Seftly, you represent and confirm that:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>
-              You have the legal right or authority to use Safetly on each
+              You have the legal right or authority to use Seftly on each
               connected device
             </li>
             <li>You have obtained all required permissions and consents</li>
@@ -124,7 +124,7 @@ export default function TermsOfServicePage() {
               You will not violate any law, privacy right, or third-party right
             </li>
             <li>
-              You will use Safetly only for lawful parental control and
+              You will use Seftly only for lawful parental control and
               family-safety purposes
             </li>
           </ul>
@@ -132,7 +132,7 @@ export default function TermsOfServicePage() {
 
         <Section num="4" title="Account Registration and Security">
           <p>
-            You may be required to create a Safetly account to access certain
+            You may be required to create a Seftly account to access certain
             services.
           </p>
           <p>
@@ -150,17 +150,17 @@ export default function TermsOfServicePage() {
           <p>
             You are responsible for activities performed through your account.
             If you suspect unauthorized access, account misuse, or suspicious
-            activity, you should contact Safetly Support promptly.
+            activity, you should contact Seftly Support promptly.
           </p>
           <p>
-            Safetly will never ask for your password, OTP, bKash PIN, Nagad PIN,
+            Seftly will never ask for your password, OTP, bKash PIN, Nagad PIN,
             Rocket PIN, or other confidential payment security information.
           </p>
         </Section>
 
         <Section num="5" title="Device Connection and Required Permissions">
           <p>
-            Certain Safetly features may require permissions on a connected
+            Certain Seftly features may require permissions on a connected
             device. Depending on the feature and platform, these permissions may
             include:
           </p>
@@ -176,7 +176,7 @@ export default function TermsOfServicePage() {
             <li>Other permissions required by the device operating system</li>
           </ul>
           <p>
-            Safetly may use granted permissions only to provide, operate,
+            Seftly may use granted permissions only to provide, operate,
             maintain, secure, and improve the relevant services and features,
             subject to the applicable privacy policy.
           </p>
@@ -236,7 +236,7 @@ export default function TermsOfServicePage() {
             consent requirements before using these features.
           </p>
           <p className="rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
-            You must not use Safetly to secretly record private conversations,
+            You must not use Seftly to secretly record private conversations,
             monitor individuals in private locations, harass or intimidate
             anyone, blackmail anyone, or unlawfully collect or disclose personal
             information.
@@ -248,7 +248,7 @@ export default function TermsOfServicePage() {
           title="Call, SMS, and Notification-Related Information"
         >
           <p>
-            Certain Safetly features may display call-related information,
+            Certain Seftly features may display call-related information,
             SMS-related information, or device notifications, where technically
             supported and legally permitted.
           </p>
@@ -277,7 +277,7 @@ export default function TermsOfServicePage() {
 
         <Section num="9" title="Content Filtering and App Blocking">
           <p>
-            Safetly may help identify, filter, restrict, or block websites,
+            Seftly may help identify, filter, restrict, or block websites,
             applications, or content that may be inappropriate, harmful, or
             unsuitable for a child&apos;s age.
           </p>
@@ -302,14 +302,14 @@ export default function TermsOfServicePage() {
             online activity and take appropriate safety measures.
           </p>
           <p>
-            Safetly does not guarantee that all harmful or inappropriate content
+            Seftly does not guarantee that all harmful or inappropriate content
             will be identified, filtered, or blocked.
           </p>
         </Section>
 
         <Section num="10" title="Screen Time and App Usage Reports">
           <p>
-            Safetly may provide information about device usage, screen time,
+            Seftly may provide information about device usage, screen time,
             application activity, and related reports.
           </p>
           <p>
@@ -325,7 +325,7 @@ export default function TermsOfServicePage() {
             <li>Device or software errors</li>
           </ul>
           <p>
-            Safetly reports are intended as helpful informational tools and
+            Seftly reports are intended as helpful informational tools and
             should not be treated as the sole or conclusive evidence of a
             person&apos;s activity or behavior.
           </p>
@@ -333,11 +333,11 @@ export default function TermsOfServicePage() {
 
         <Section num="11" title="Information Collection and Privacy">
           <p>
-            Safetly may collect, process, store, or use certain information to
+            Seftly may collect, process, store, or use certain information to
             provide, operate, maintain, secure, support, and improve the
             Services.
           </p>
-          <p>Depending on how you use Safetly, such information may include:</p>
+          <p>Depending on how you use Seftly, such information may include:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>Name, email address, mobile phone number</li>
             <li>Account information</li>
@@ -347,16 +347,16 @@ export default function TermsOfServicePage() {
             <li>Location information</li>
             <li>App-usage information</li>
             <li>Screen-time information</li>
-            <li>Safetly feature-usage information</li>
+            <li>Seftly feature-usage information</li>
             <li>Support requests and communications</li>
           </ul>
           <p>
-            Information about how Safetly collects, uses, stores, protects,
-            retains, and shares information will be described in the Safetly
+            Information about how Seftly collects, uses, stores, protects,
+            retains, and shares information will be described in the Seftly
             Privacy Policy.
           </p>
           <p>
-            By using Safetly, you acknowledge that information may be processed
+            By using Seftly, you acknowledge that information may be processed
             in accordance with the applicable privacy policy and these terms.
           </p>
         </Section>
@@ -366,8 +366,8 @@ export default function TermsOfServicePage() {
           title="Children's Information and Parental Responsibilities"
         >
           <p>
-            Safetly is designed to support child safety. Parents and legal
-            guardians are responsible for how Safetly is used in connection with
+            Seftly is designed to support child safety. Parents and legal
+            guardians are responsible for how Seftly is used in connection with
             children and children&apos;s devices.
           </p>
           <p>Parents and guardians must ensure that:</p>
@@ -390,7 +390,7 @@ export default function TermsOfServicePage() {
             </li>
           </ul>
           <p>
-            Safetly is a support tool and is not a replacement for responsible
+            Seftly is a support tool and is not a replacement for responsible
             parenting, communication, education, or appropriate direct
             supervision.
           </p>
@@ -398,11 +398,11 @@ export default function TermsOfServicePage() {
 
         <Section num="13" title="Subscriptions and Premium Services">
           <p>
-            Some Safetly features may be available free of charge, while other
+            Some Seftly features may be available free of charge, while other
             features may require a paid subscription or premium plan.
           </p>
           <p>
-            Safetly may offer subscription plans with the following durations:
+            Seftly may offer subscription plans with the following durations:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>30 days</li>
@@ -416,14 +416,14 @@ export default function TermsOfServicePage() {
             completed.
           </p>
           <p>
-            Safetly may add, remove, modify, or discontinue subscription plans,
+            Seftly may add, remove, modify, or discontinue subscription plans,
             prices, features, or benefits where permitted by applicable law.
           </p>
         </Section>
 
         <Section num="14" title="Payments and Renewals">
           <p>
-            Safetly may accept payments through authorized payment gateways or
+            Seftly may accept payments through authorized payment gateways or
             mobile financial services in Bangladesh, including:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -441,7 +441,7 @@ export default function TermsOfServicePage() {
             or authorizes the relevant payment.
           </p>
           <p>
-            Safetly will not intentionally collect an automatic payment without
+            Seftly will not intentionally collect an automatic payment without
             the authorization or consent required by applicable law and the
             relevant payment provider.
           </p>
@@ -451,17 +451,17 @@ export default function TermsOfServicePage() {
           </p>
           <p>
             Additional payment, billing, subscription, and renewal terms may be
-            described in the Safetly Payment Policy.
+            described in the Seftly Payment Policy.
           </p>
         </Section>
 
         <Section num="15" title="Refunds">
           <p>
-            Under the Safetly Refund Policy, refund requests generally must be
+            Under the Seftly Refund Policy, refund requests generally must be
             submitted within 7 (seven) calendar days from the date of purchase.
           </p>
           <p>
-            If a refund is approved, Safetly will generally aim to process the
+            If a refund is approved, Seftly will generally aim to process the
             refund within 10 (ten) business days from the date of approval.
           </p>
           <p>
@@ -476,12 +476,12 @@ export default function TermsOfServicePage() {
             refund for unused subscription time.
           </p>
           <p>
-            Additional refund terms are described in the Safetly Refund Policy.
+            Additional refund terms are described in the Seftly Refund Policy.
           </p>
         </Section>
 
         <Section num="16" title="Prohibited Uses">
-          <p>You must not use Safetly to:</p>
+          <p>You must not use Seftly to:</p>
           <ul className="list-disc space-y-1 pl-5">
             <li>
               Secretly monitor, track, or control another adult&apos;s device
@@ -501,12 +501,12 @@ export default function TermsOfServicePage() {
               communications, or surveillance laws
             </li>
             <li>
-              Bypass, disable, interfere with, or damage Safetly&apos;s security
+              Bypass, disable, interfere with, or damage Seftly&apos;s security
               systems
             </li>
             <li>
               Reverse engineer, modify, copy, decompile, or unlawfully
-              distribute the Safetly application or software
+              distribute the Seftly application or software
             </li>
             <li>Introduce malware, harmful code, or unauthorized software</li>
             <li>Access another person&apos;s account without authorization</li>
@@ -515,7 +515,7 @@ export default function TermsOfServicePage() {
               requests
             </li>
             <li>
-              Use Safetly for any unlawful, harmful, deceptive, abusive, or
+              Use Seftly for any unlawful, harmful, deceptive, abusive, or
               unethical purpose
             </li>
           </ul>
@@ -523,12 +523,12 @@ export default function TermsOfServicePage() {
 
         <Section num="17" title="Account Suspension or Termination">
           <p>
-            Safetly may restrict, suspend, or terminate your account or access
+            Seftly may restrict, suspend, or terminate your account or access
             to some or all services where reasonably necessary, including if:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>You violate these Terms</li>
-            <li>Safetly identifies unlawful or unauthorized surveillance</li>
+            <li>Seftly identifies unlawful or unauthorized surveillance</li>
             <li>Fraudulent, abusive, or harmful activity is detected</li>
             <li>
               Another person&apos;s safety, privacy, or rights may be at risk
@@ -539,22 +539,22 @@ export default function TermsOfServicePage() {
             </li>
             <li>
               Action is necessary to protect the security or integrity of
-              Safetly
+              Seftly
             </li>
           </ul>
           <p>
-            In cases of serious or repeated violations, Safetly may restrict
+            In cases of serious or repeated violations, Seftly may restrict
             future access to the Services.
           </p>
           <p>
-            Where appropriate and legally required, Safetly may provide notice
+            Where appropriate and legally required, Seftly may provide notice
             or an opportunity to address the issue.
           </p>
         </Section>
 
         <Section num="18" title="Third-Party Services">
           <p>
-            Certain Safetly features may rely on third-party services,
+            Certain Seftly features may rely on third-party services,
             including:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -568,18 +568,18 @@ export default function TermsOfServicePage() {
           </ul>
           <p>
             Changes, outages, restrictions, or discontinuation of third-party
-            services may affect Safetly&apos;s functionality.
+            services may affect Seftly&apos;s functionality.
           </p>
           <p>
             Third-party services may be governed by their own terms, privacy
-            policies, and other rules. Safetly is not responsible for
+            policies, and other rules. Seftly is not responsible for
             third-party services beyond the extent required by applicable law.
           </p>
         </Section>
 
         <Section num="19" title="Service Availability and Limitations">
           <p>
-            Safetly aims to provide reliable and secure services. However, we do
+            Seftly aims to provide reliable and secure services. However, we do
             not guarantee that:
           </p>
           <ul className="list-disc space-y-1 pl-5">
@@ -601,13 +601,13 @@ export default function TermsOfServicePage() {
 
         <Section num="20" title="Emergency Situations">
           <p>
-            Safetly is not an emergency service, law-enforcement service,
+            Seftly is not an emergency service, law-enforcement service,
             medical service, emergency-response system, or guaranteed safety
             solution.
           </p>
           <p className="rounded-lg bg-amber-50 px-4 py-3 text-amber-800">
             In an emergency, dangerous situation, or situation involving an
-            immediate risk of harm, do not rely solely on Safetly&apos;s
+            immediate risk of harm, do not rely solely on Seftly&apos;s
             location, alerts, or other features. Contact local emergency
             services, law-enforcement authorities, medical services, or another
             appropriate authority directly.
@@ -616,7 +616,7 @@ export default function TermsOfServicePage() {
 
         <Section num="21" title="Limitation of Liability">
           <p>
-            To the maximum extent permitted by applicable law, Safetly will not
+            To the maximum extent permitted by applicable law, Seftly will not
             be liable for indirect, incidental, special, consequential, or
             similar losses arising from:
           </p>
@@ -633,7 +633,7 @@ export default function TermsOfServicePage() {
             <li>Third-party service interruptions or limitations</li>
             <li>User error, negligence, misuse, or unauthorized use</li>
             <li>
-              Decisions made solely or primarily based on Safetly information or
+              Decisions made solely or primarily based on Seftly information or
               reports
             </li>
           </ul>
@@ -645,7 +645,7 @@ export default function TermsOfServicePage() {
 
         <Section num="22" title="User Responsibility">
           <p>
-            You are responsible for ensuring that your use of Safetly complies
+            You are responsible for ensuring that your use of Seftly complies
             with applicable laws and respects the rights of children and other
             individuals.
           </p>
@@ -655,10 +655,10 @@ export default function TermsOfServicePage() {
             your:
           </p>
           <ul className="list-disc space-y-1 pl-5">
-            <li>Unlawful use of Safetly</li>
+            <li>Unlawful use of Seftly</li>
             <li>Unauthorized monitoring or surveillance</li>
             <li>Violation of privacy or data-protection rights</li>
-            <li>Misuse of information obtained through Safetly</li>
+            <li>Misuse of information obtained through Seftly</li>
             <li>Violation of these Terms</li>
           </ul>
           <p>
@@ -671,28 +671,28 @@ export default function TermsOfServicePage() {
 
         <Section num="23" title="Intellectual Property">
           <p>
-            The Safetly application, name, logo, software, code, design,
+            The Seftly application, name, logo, software, code, design,
             content, graphics, trademarks, and other intellectual-property
-            materials are owned by Safetly or its licensors and are protected by
+            materials are owned by Seftly or its licensors and are protected by
             applicable laws.
           </p>
           <p>
             Except as expressly permitted by law or with prior written
             authorization, you may not copy, reproduce, modify, distribute,
-            sell, publish, license, or commercially exploit Safetly materials.
+            sell, publish, license, or commercially exploit Seftly materials.
           </p>
         </Section>
 
         <Section num="24" title="Changes to These Terms">
-          <p>Safetly may modify or update these Terms when necessary.</p>
+          <p>Seftly may modify or update these Terms when necessary.</p>
           <p>
-            If a change is material, Safetly may provide notice through the app,
+            If a change is material, Seftly may provide notice through the app,
             website, email, notification, or another appropriate method, where
             required by applicable law.
           </p>
           <p>
             The updated Terms may take effect on the date stated in the updated
-            version. Your continued use of Safetly after the updated Terms take
+            version. Your continued use of Seftly after the updated Terms take
             effect may constitute acceptance of those Terms, where permitted by
             applicable law.
           </p>
@@ -706,7 +706,7 @@ export default function TermsOfServicePage() {
           </p>
           <p>
             If a dispute, concern, or complaint arises, the parties should first
-            attempt to resolve the matter through Safetly Support.
+            attempt to resolve the matter through Seftly Support.
           </p>
           <p>
             If the matter cannot be resolved informally, it may be referred to
@@ -721,18 +721,18 @@ export default function TermsOfServicePage() {
 
         <Section num="26" title="Contact Information">
           <p>
-            If you have questions about these Terms, Safetly, your account,
+            If you have questions about these Terms, Seftly, your account,
             payments, refunds, or the Services, please contact:
           </p>
           <p className="font-medium text-slate-800">
-            Safetly Authority
+            Seftly Authority
             <br />
             Support Email:{' '}
             <a
-              href="mailto:support@safetly.app"
+              href="mailto:support@Seftly.app"
               className="text-violet-600 hover:underline"
             >
-              support@safetly.app
+              support@Seftly.app
             </a>
           </p>
         </Section>
@@ -740,18 +740,18 @@ export default function TermsOfServicePage() {
         <Section num="27" title="Acceptance of These Terms">
           <p>
             By downloading, installing, registering for, subscribing to,
-            accessing, or using Safetly, you confirm that:
+            accessing, or using Seftly, you confirm that:
           </p>
           <ul className="list-disc space-y-1 pl-5">
             <li>You have read and understood these Terms</li>
             <li>You agree to comply with these Terms</li>
             <li>
-              You will use Safetly only for lawful parental-control and
+              You will use Seftly only for lawful parental-control and
               family-safety purposes
             </li>
             <li>You will not secretly monitor another adult&apos;s device</li>
             <li>
-              You will use Safetly only on your child&apos;s device, your own
+              You will use Seftly only on your child&apos;s device, your own
               device, or another device that you are legally authorized to
               supervise
             </li>
@@ -761,7 +761,7 @@ export default function TermsOfServicePage() {
               monitoring, and surveillance
             </li>
             <li>
-              You understand that Safetly is a support tool and does not
+              You understand that Seftly is a support tool and does not
               guarantee complete safety, uninterrupted service, or perfect
               accuracy
             </li>

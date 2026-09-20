@@ -67,13 +67,25 @@ type FaqItemsResponse = {
   }[];
 };
 
+type SeoResponse = {
+  settings?: {
+    tutorialVideoUrl?: string | null;
+  };
+};
+
 export default async function HomePage() {
-  const [pricingResponse, reviewsResponse, categoriesResponse, itemsResponse] =
-    await Promise.all([
+  const [
+    pricingResponse,
+    reviewsResponse,
+    categoriesResponse,
+    itemsResponse,
+    seoResponse,
+  ] = await Promise.all([
       fetchBackendJson<PricingResponse>('/api/pricing'),
       fetchBackendJson<ReviewsResponse>('/api/reviews'),
       fetchBackendJson<FaqCategoriesResponse>('/api/faq/categories'),
       fetchBackendJson<FaqItemsResponse>('/api/faq/items'),
+      fetchBackendJson<SeoResponse>('/api/seo'),
     ]);
 
   const categoriesById = new Map<string, FaqCategory>();
@@ -95,7 +107,7 @@ export default async function HomePage() {
     <>
       <Hero />
       <Features />
-      <HowToInstall />
+      <HowToInstall tutorialVideoUrl={seoResponse.settings?.tutorialVideoUrl} />
 
       <Pricing plans={pricingResponse.plans} />
       {reviewsResponse.reviews.length > 0 ? (

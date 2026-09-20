@@ -36,6 +36,9 @@ type Child = {
   device: string;
   active: boolean;
   lastSeen: string;
+  expireDate: string | null;
+  isPremium: boolean;
+  daysRemaining: number;
 };
 type DashboardData =
   | {
@@ -49,6 +52,7 @@ type DashboardData =
       device: { active: boolean; status: string; message: string };
       subscription: {
         packageName: string;
+        isTrial?: boolean;
         originalAmount: number;
         discountAmount: number;
         paidAmount: number;
@@ -84,7 +88,7 @@ export default function DashboardPage() {
       return null;
     }
 
-    const raw = window.localStorage.getItem('safetly-account');
+    const raw = window.localStorage.getItem('Seftly-account');
     if (!raw) {
       return null;
     }
@@ -92,7 +96,7 @@ export default function DashboardPage() {
     try {
       return JSON.parse(raw) as Account;
     } catch {
-      window.localStorage.removeItem('safetly-account');
+      window.localStorage.removeItem('Seftly-account');
       return null;
     }
   });
@@ -106,8 +110,10 @@ export default function DashboardPage() {
       return;
     }
 
+    const token = window.localStorage.getItem('Seftly-token') ?? '';
     fetch(
-      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`
+      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
     )
       .then((response) => {
         if (!response.ok) throw new Error('Could not load dashboard data.');
@@ -120,7 +126,8 @@ export default function DashboardPage() {
   }, [account, router]);
 
   function signOut() {
-    window.localStorage.removeItem('safetly-account');
+    window.localStorage.removeItem('Seftly-account');
+    window.localStorage.removeItem('Seftly-token');
     router.replace('/login');
   }
 
@@ -177,7 +184,7 @@ export default function DashboardPage() {
                   href="#premium"
                   className="block rounded-lg py-2 text-[13.5px] text-slate-500 hover:text-slate-900"
                 >
-                  Safetly Parental Control
+                  Seftly Parental Control
                 </a>
                 <a
                   href="/dashboard/billing-history"
@@ -205,7 +212,7 @@ export default function DashboardPage() {
           <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-orange-600">
-                <ShieldCheck className="h-5 w-5" /> Safetly dashboard
+                <ShieldCheck className="h-5 w-5" /> Seftly dashboard
               </div>
               <h1 className="text-xl font-semibold text-slate-900">
                 Account Settings
@@ -304,7 +311,9 @@ export default function DashboardPage() {
                           {data.subscription.packageName}
                         </h2>
                       </div>
-                      <PaymentStatus status={data.subscription.paymentStatus} />
+                      {data.subscription.isTrial ? (
+                        <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700">Active trial</span>
+                      ) : <PaymentStatus status={data.subscription.paymentStatus} />}
                     </div>
                     <div className="grid gap-3 sm:grid-cols-3">
                       <SubscriptionStat
@@ -322,12 +331,9 @@ export default function DashboardPage() {
                       />
                     </div>
                     <div className="mt-4 space-y-1 text-xs text-slate-500">
-                      <p>
-                        Paid on{' '}
-                        {new Date(data.subscription.paidAt).toLocaleString()}
-                      </p>
-                      <p>Order ID: {data.subscription.orderId}</p>
-                      <p>Transaction ID: {data.subscription.transactionId}</p>
+                      {!data.subscription.isTrial && data.subscription.paidAt ? <p>Paid on {new Date(data.subscription.paidAt).toLocaleString()}</p> : <p>Trial started for your child account</p>}
+                      {!data.subscription.isTrial && data.subscription.orderId ? <p>Order ID: {data.subscription.orderId}</p> : null}
+                      {!data.subscription.isTrial && data.subscription.transactionId ? <p>Transaction ID: {data.subscription.transactionId}</p> : null}
                       <p>
                         Expires on{' '}
                         {new Date(
@@ -391,9 +397,18 @@ function PaymentStatus({
 }
 
 function AccountDetails({ account }: { account: Account }) {
-  const [editing, setEditing] = useState<
-    'email' | 'username' | 'password' | null
-  >(null);
+  const [editing, setEditing] = useState<'email' | 'password' | null>(null);
+  const [newEmail, setNewEmail] = useState(account.email ?? '');
+  const [emailPassword, setEmailPassword] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [savingEmail, setSavingEmail] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [savingPassword, setSavingPassword] = useState(false);
   const email =
     account.email ??
     (account.identifier.includes('@') ? account.identifier : 'Not provided');
@@ -401,10 +416,13 @@ function AccountDetails({ account }: { account: Account }) {
     account.username ??
     (!account.identifier.includes('@') ? account.identifier : 'Not provided');
   return (
-    <Card className="mb-6 rounded-xl border border-slate-100 shadow-sm">
+    <Card id="account-details" className="mb-6 rounded-xl border border-slate-100 shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">Account details</CardTitle>
+          <span className="text-xs text-slate-400">
+            Username is fixed; email can be updated
+          </span>
           <span className="text-xs capitalize text-slate-500">
             {account.role} account
           </span>
@@ -418,31 +436,88 @@ function AccountDetails({ account }: { account: Account }) {
         <DetailRow
           label="Username"
           value={username}
-          onChange={() => setEditing('username')}
         />
         <DetailRow
           label="Email"
           value={email}
-          onChange={() => setEditing('email')}
+          onChange={() => {
+            setEditing('email');
+            setNewEmail(account.email ?? email);
+            setEmailError('');
+            setEmailMessage('');
+          }}
         />
         <DetailRow
           label="Password"
           value="••••••••"
           onChange={() => setEditing('password')}
         />
-        {editing ? (
+        {editing === 'email' ? (
           <div className="border-t border-slate-100 bg-slate-50 px-6 py-4">
-            <p className="mb-2 text-sm font-medium text-slate-700">
-              Change {editing}
-            </p>
-            <div className="flex gap-2">
+            <p className="mb-3 text-sm font-medium text-slate-700">Change email</p>
+            <form
+              className="flex flex-wrap gap-2"
+              onSubmit={async (event) => {
+                event.preventDefault();
+                setEmailError('');
+                setEmailMessage('');
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail.trim())) {
+                  setEmailError('Enter a valid email address.');
+                  return;
+                }
+                if (!emailPassword) {
+                  setEmailError('Enter your current password to continue.');
+                  return;
+                }
+                const token = window.localStorage.getItem('Seftly-token');
+                setSavingEmail(true);
+                try {
+                  const response = await fetch('/api/account/email', {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token ?? ''}`,
+                    },
+                    body: JSON.stringify({
+                      newEmail: newEmail.trim().toLowerCase(),
+                      currentPassword: emailPassword,
+                    }),
+                  });
+                  const payload = (await response.json().catch(() => null)) as {
+                    message?: string;
+                    error?: string;
+                  } | null;
+                  if (!response.ok) {
+                    setEmailError(payload?.error ?? 'Could not change email.');
+                    return;
+                  }
+                  setEmailPassword('');
+                  setEmailMessage(payload?.message ?? 'Email changed successfully.');
+                } catch {
+                  setEmailError('Unable to reach the account service.');
+                } finally {
+                  setSavingEmail(false);
+                }
+              }}
+            >
               <input
-                type={editing === 'password' ? 'password' : 'text'}
-                placeholder={`Enter new ${editing}`}
-                className="h-9 flex-1 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
+                type="email"
+                placeholder="New email address"
+                autoComplete="email"
+                value={newEmail}
+                onChange={(event) => setNewEmail(event.target.value)}
+                className="h-9 min-w-56 flex-1 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
               />
-              <Button type="button" size="sm" onClick={() => setEditing(null)}>
-                Save
+              <input
+                type="password"
+                placeholder="Current password"
+                autoComplete="current-password"
+                value={emailPassword}
+                onChange={(event) => setEmailPassword(event.target.value)}
+                className="h-9 min-w-48 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
+              />
+              <Button type="submit" size="sm" disabled={savingEmail}>
+                {savingEmail ? 'Saving…' : 'Save email'}
               </Button>
               <Button
                 type="button"
@@ -452,10 +527,109 @@ function AccountDetails({ account }: { account: Account }) {
               >
                 Cancel
               </Button>
-            </div>
-            <p className="mt-2 text-xs text-slate-500">
-              Secure account update will be connected to the account API.
-            </p>
+            </form>
+            {emailError ? <p className="mt-2 text-xs text-red-600">{emailError}</p> : null}
+            {emailMessage ? <p className="mt-2 text-xs text-emerald-700">{emailMessage}</p> : null}
+          </div>
+        ) : editing === 'password' ? (
+          <div className="border-t border-slate-100 bg-slate-50 px-6 py-4">
+            <p className="mb-3 text-sm font-medium text-slate-700">Change password</p>
+            <form
+              className="grid gap-3 sm:grid-cols-3"
+              onSubmit={async (event) => {
+                event.preventDefault();
+                setPasswordError('');
+                setPasswordMessage('');
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                  setPasswordError('Complete all password fields.');
+                  return;
+                }
+                if (newPassword !== confirmPassword) {
+                  setPasswordError('New passwords do not match.');
+                  return;
+                }
+                const token = window.localStorage.getItem('Seftly-token');
+                setSavingPassword(true);
+                try {
+                  const response = await fetch('/api/account/password', {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token ?? ''}`,
+                    },
+                    body: JSON.stringify({
+                      currentPassword,
+                      newPassword,
+                      confirmPassword,
+                    }),
+                  });
+                  const payload = (await response.json().catch(() => null)) as {
+                    message?: string;
+                    error?: string;
+                  } | null;
+                  if (!response.ok) {
+                    setPasswordError(payload?.error ?? 'Could not change password.');
+                    return;
+                  }
+                  setCurrentPassword('');
+                  setNewPassword('');
+                  setConfirmPassword('');
+                  setPasswordMessage(payload?.message ?? 'Password changed successfully.');
+                } catch {
+                  setPasswordError('Unable to reach the account service.');
+                } finally {
+                  setSavingPassword(false);
+                }
+              }}
+            >
+              <input
+                type="password"
+                placeholder="Current password"
+                autoComplete="current-password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
+              />
+              <input
+                type="password"
+                placeholder="New password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
+              />
+              <input
+                type="password"
+                placeholder="Confirm new password"
+                autoComplete="new-password"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-primary"
+              />
+              <div className="flex gap-2 sm:col-span-3">
+                <Button type="submit" size="sm" disabled={savingPassword}>
+                  {savingPassword ? 'Saving…' : 'Save password'}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setEditing(null);
+                    setPasswordError('');
+                    setPasswordMessage('');
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+            {passwordError ? (
+              <p className="mt-2 text-xs text-red-600">{passwordError}</p>
+            ) : null}
+            {passwordMessage ? (
+              <p className="mt-2 text-xs text-emerald-700">{passwordMessage}</p>
+            ) : null}
           </div>
         ) : null}
       </CardContent>
@@ -552,6 +726,10 @@ function ChildCard({ child }: { child: Child }) {
         {child.active ? 'Active now' : 'Offline'}
       </div>
       <p className="mt-2 text-xs text-slate-500">{child.lastSeen}</p>
+      <div className={`mt-3 rounded-lg px-3 py-2 text-xs font-medium ${child.isPremium ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-50 text-slate-500'}`}>
+        {child.isPremium ? `Premium active · ${child.daysRemaining} day${child.daysRemaining === 1 ? '' : 's'} left` : 'Premium inactive'}
+        {child.expireDate ? <span className="block mt-1 font-normal">Expires {new Date(child.expireDate).toLocaleDateString()}</span> : null}
+      </div>
     </div>
   );
 }

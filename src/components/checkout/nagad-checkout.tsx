@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, Copy, ShoppingCart } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -33,7 +33,21 @@ export default function NagadCheckout({
   const [trxId, setTrxId] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const phoneInputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const normalizedPhone = phone.replace(/\D/g, '');
+  const phoneGroups = [phone.slice(0, 3), phone.slice(3, 7), phone.slice(7, 11)];
+
+  function updatePhoneGroup(groupIndex: number, value: string) {
+    const lengths = [3, 4, 4];
+    const groups = [...phoneGroups];
+    groups[groupIndex] = value.replace(/\D/g, '').slice(0, lengths[groupIndex]);
+    setPhone(groups.join(''));
+    if (groups[groupIndex].length === lengths[groupIndex] && groupIndex < 2) phoneInputRefs.current[groupIndex + 1]?.focus();
+  }
+
+  function handlePhoneKeyDown(groupIndex: number, event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Backspace' && !phoneGroups[groupIndex] && groupIndex > 0) phoneInputRefs.current[groupIndex - 1]?.focus();
+  }
   const formattedAmount = Number(amount || 0).toLocaleString('en-BD', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -107,15 +121,24 @@ export default function NagadCheckout({
               <h2 className="text-center text-[18px] font-extrabold text-[#f5d4d4]">
                 Your Nagad Account Number
               </h2>
-              <Input
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                inputMode="numeric"
-                autoComplete="tel"
-                aria-label="Your Nagad Account Number"
-                className="mt-2.25 h-8 w-full rounded-[5px] border-0 bg-white px-2 text-center text-[20px] font-bold tracking-[5px] text-[#222] outline-none"
-                placeholder=""
-              />
+              <div className="mt-2.25 flex w-full items-center justify-center gap-1.5" role="group" aria-label="Your Nagad Account Number">
+                {phoneGroups.map((group, groupIndex) => (
+                  <div key={groupIndex} className="flex items-center gap-1.5">
+                    <Input
+                      ref={(element: HTMLInputElement | null) => { phoneInputRefs.current[groupIndex] = element; }}
+                      value={group}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => updatePhoneGroup(groupIndex, event.target.value)}
+                      onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => handlePhoneKeyDown(groupIndex, event)}
+                      inputMode="numeric"
+                      autoComplete={groupIndex === 0 ? 'tel' : 'off'}
+                      aria-label={`Nagad number group ${groupIndex + 1}`}
+                      maxLength={groupIndex === 0 ? 3 : 4}
+                      className="h-12 w-16 rounded-[5px] border-0 bg-white px-1 text-center text-[22px] font-bold tracking-[2px] text-[#222] outline-none sm:h-16 sm:w-20 sm:text-[28px]"
+                    />
+                    {groupIndex < 2 && <span className="text-2xl font-bold text-white">-</span>}
+                  </div>
+                ))}
+              </div>
               {error && (
                 <p
                   className="mt-2 text-center text-[12px] font-semibold text-white"

@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { children } from '@/lib/demo-auth';
-
-const userIds: Record<string, string> = {
-  'parent@safetly.test': '00000000-0000-4000-8000-000000000001',
-  'ayan@safetly.test': '00000000-0000-4000-8000-000000000002',
-  'ayan-01': '00000000-0000-4000-8000-000000000002',
-  'maliha@safetly.test': '00000000-0000-4000-8000-000000000003',
-  'maliha-02': '00000000-0000-4000-8000-000000000003',
-  'rafi@safetly.test': '00000000-0000-4000-8000-000000000004',
-  'rafi-03': '00000000-0000-4000-8000-000000000004',
-};
+import { createHash } from 'node:crypto';
+import { requestParentChildApi } from '@/lib/parent-child-source';
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
-  const identifier =
-    typeof body?.identifier === 'string'
-      ? body.identifier.trim().toLowerCase()
-      : '';
+  const identifier = typeof body?.identifier === 'string' ? body.identifier.trim() : '';
   const code =
     typeof body?.couponCode === 'string'
       ? body.couponCode.trim().toUpperCase()
@@ -27,21 +15,35 @@ export async function POST(request: NextRequest) {
       { error: 'Enter your email or username first.' },
       { status: 400 }
     );
-  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-  const isUsername = /^[a-z0-9][a-z0-9._-]{2,31}$/.test(identifier);
-  if (!isEmail && !isUsername)
+  if (!identifier)
     return NextResponse.json(
       { error: 'Enter a valid email address or username.' },
       { status: 400 }
     );
 
-  const userExists = children.some(
-    (child) => child.email === identifier || child.username === identifier
+  const childLookup = await requestParentChildApi(
+    `/api/child/lookup?identifier=${encodeURIComponent(identifier)}`
   );
-  if (!userExists)
+  if (!childLookup)
     return NextResponse.json(
-      { error: 'No Safetly user was found with this email or username.' },
+      { error: 'Parent/Child API is not configured.' },
+      { status: 503 }
+    );
+  if (childLookup.status === 404)
+    return NextResponse.json(
+      { error: 'No Seftly user was found with this email or username.' },
       { status: 404 }
+    );
+  if (childLookup.status < 200 || childLookup.status >= 300)
+    return NextResponse.json(childLookup.payload, { status: childLookup.status });
+
+  const child = childLookup.payload as {
+    user?: { id?: string; email?: string };
+  };
+  if (!child.user?.email)
+    return NextResponse.json(
+      { error: 'Child email was not returned by the API.' },
+      { status: 502 }
     );
 
   const backendUrl = process.env.BACKEND_API_URL;
@@ -57,7 +59,10 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
         accept: 'application/json',
       },
-      body: JSON.stringify({ userId: userIds[identifier], couponCode: code }),
+      body: JSON.stringify({
+        userId: toStableUuid(child.user.id ?? child.user.email),
+        couponCode: code,
+      }),
       cache: 'no-store',
     });
     const payload = await response
@@ -70,4 +75,9 @@ export async function POST(request: NextRequest) {
       { status: 503 }
     );
   }
+}
+
+function toStableUuid(value: string) {
+  const hex = createHash('sha256').update(value.trim().toLowerCase()).digest('hex');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-8${hex.slice(17, 20)}-${hex.slice(20, 32)}`;
 }

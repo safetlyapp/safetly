@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const SAFETLY_LINKS = [
+const Seftly_LINKS = [
   { label: 'About us', href: '/about-us' },
   { label: 'Contact us', href: '/contact-us' },
   { label: 'Privacy Policy', href: '/policy/privacy-policy' },
@@ -12,7 +12,11 @@ const SAFETLY_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://facebook.com', icon: FacebookIcon },
+  {
+    label: 'Facebook',
+    href: process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL ?? 'https://facebook.com',
+    icon: FacebookIcon,
+  },
   { label: 'LinkedIn', href: 'https://linkedin.com', icon: LinkedinIcon },
   { label: 'X', href: 'https://x.com', icon: XIcon },
   { label: 'YouTube', href: 'https://youtube.com', icon: YoutubeIcon },
@@ -21,15 +25,15 @@ const SOCIAL_LINKS = [
   { label: 'Threads', href: 'https://threads.net', icon: ThreadsIcon },
 ];
 
-export default function SafetlyFooter() {
+export default function SeftlyFooter() {
   return (
     <footer className="w-full bg-slate-100">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 md:grid-cols-3">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900">Safetly</h3>
+          <h3 className="text-lg font-semibold text-slate-900">Seftly</h3>
           <div className="mt-2 h-px w-16 bg-slate-300" />
           <p className="mt-4 max-w-xs text-sm text-slate-600">
-            &quot;Safetly&quot; is a trusted digital security app designed for
+            &quot;Seftly&quot; is a trusted digital security app designed for
             parents, children, and families. Block harmful content, reduce
             unnecessary time waste, and create a safe online environment for
             your family.
@@ -37,10 +41,10 @@ export default function SafetlyFooter() {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-slate-900">Safetly</h3>
+          <h3 className="text-lg font-semibold text-slate-900">Seftly</h3>
           <div className="mt-2 h-px w-16 bg-slate-300" />
           <ul className="mt-4 space-y-2">
-            {SAFETLY_LINKS.map((link) => (
+            {Seftly_LINKS.map((link) => (
               <li key={link.label}>
                 <Link
                   href={link.href}
@@ -74,7 +78,7 @@ export default function SafetlyFooter() {
       </div>
 
       <div className="border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} Safetly. All rights reserved.
+        © {new Date().getFullYear()} Seftly. All rights reserved.
       </div>
     </footer>
   );

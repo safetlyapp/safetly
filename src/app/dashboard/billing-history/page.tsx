@@ -24,14 +24,16 @@ export default function BillingHistoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem('safetly-account');
+    const raw = window.localStorage.getItem('Seftly-account');
     if (!raw) {
       setLoading(false);
       return;
     }
     const account = JSON.parse(raw) as { role?: string; identifier?: string };
+    const token = window.localStorage.getItem('Seftly-token') ?? '';
     fetch(
-      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier ?? '')}`
+      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier ?? '')}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
     )
       .then((response) => response.json())
       .then((data) => setPayments(data.paymentHistory ?? []))

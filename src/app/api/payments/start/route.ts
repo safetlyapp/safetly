@@ -48,20 +48,21 @@ export async function POST(request: NextRequest) {
 
   const redirectUrl = process.env[gatewayEnv[gateway]];
   if (!redirectUrl) {
-    const mockUrl = new URL(`/checkout/${gateway}`, request.url);
-    mockUrl.searchParams.set(
+    // Use Safetly's manual transaction form when no gateway redirect URL is configured.
+    const checkoutUrl = new URL(`/checkout/${gateway}`, request.url);
+    checkoutUrl.searchParams.set(
       'order_id',
       `ORDER-${randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}`
     );
-    mockUrl.searchParams.set('amount', finalAmount.toFixed(2));
-    mockUrl.searchParams.set('customer_email', email);
+    checkoutUrl.searchParams.set('amount', finalAmount.toFixed(2));
+    checkoutUrl.searchParams.set('customer_email', email);
     for (const [key, value] of Object.entries(metadata)) {
-      if (value) mockUrl.searchParams.set(key, value);
+      if (value) checkoutUrl.searchParams.set(key, value);
     }
     return NextResponse.json({
-      orderId: mockUrl.searchParams.get('order_id'),
-      redirectUrl: mockUrl.toString(),
-      mock: true,
+      orderId: checkoutUrl.searchParams.get('order_id'),
+      redirectUrl: checkoutUrl.toString(),
+      manualCheckout: true,
     });
   }
 

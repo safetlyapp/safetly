@@ -20,8 +20,8 @@ const CONTACT_INFO = [
   {
     icon: Mail,
     label: 'Email us',
-    value: 'support@safetly.app',
-    href: 'mailto:support@safetly.app',
+    value: 'support@Seftly.app',
+    href: 'mailto:support@Seftly.app',
     color: 'primary',
   },
   {

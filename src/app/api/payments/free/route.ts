@@ -1,22 +1,29 @@
 import { randomUUID } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import { children } from '@/lib/demo-auth';
+import { requestParentChildApi } from '@/lib/parent-child-source';
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
-  const identifier =
-    typeof body?.identifier === 'string'
-      ? body.identifier.trim().toLowerCase()
-      : '';
+  const identifier = typeof body?.identifier === 'string' ? body.identifier.trim() : '';
   const planId = typeof body?.plan_id === 'string' ? body.plan_id.trim() : '';
-  const child = children.find(
-    (item) => item.email === identifier || item.username === identifier
-  );
-  if (!child || !planId)
+  if (!identifier || !planId)
     return NextResponse.json(
       { error: 'A valid child and plan are required.' },
       { status: 400 }
     );
+  const childLookup = await requestParentChildApi(
+    `/api/child/lookup?identifier=${encodeURIComponent(identifier)}`
+  );
+  if (!childLookup)
+    return NextResponse.json(
+      { error: 'Parent/Child API is not configured.' },
+      { status: 503 }
+    );
+  if (childLookup.status < 200 || childLookup.status >= 300)
+    return NextResponse.json(childLookup.payload, { status: childLookup.status });
+  const child = (childLookup.payload as { user?: { email?: string } }).user;
+  if (!child?.email)
+    return NextResponse.json({ error: 'Child email was not returned by the API.' }, { status: 502 });
 
   const backendUrl = process.env.BACKEND_API_URL;
   const internalKey = process.env.INTERNAL_API_SECRET;
