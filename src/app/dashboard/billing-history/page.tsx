@@ -30,8 +30,10 @@ export default function BillingHistoryPage() {
       return;
     }
     const account = JSON.parse(raw) as { role?: string; identifier?: string };
+    const token = window.localStorage.getItem('Seftly-token') ?? '';
     fetch(
-      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier ?? '')}`
+      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier ?? '')}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
     )
       .then((response) => response.json())
       .then((data) => setPayments(data.paymentHistory ?? []))

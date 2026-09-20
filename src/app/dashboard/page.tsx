@@ -36,6 +36,9 @@ type Child = {
   device: string;
   active: boolean;
   lastSeen: string;
+  expireDate: string | null;
+  isPremium: boolean;
+  daysRemaining: number;
 };
 type DashboardData =
   | {
@@ -49,6 +52,7 @@ type DashboardData =
       device: { active: boolean; status: string; message: string };
       subscription: {
         packageName: string;
+        isTrial?: boolean;
         originalAmount: number;
         discountAmount: number;
         paidAmount: number;
@@ -106,8 +110,10 @@ export default function DashboardPage() {
       return;
     }
 
+    const token = window.localStorage.getItem('Seftly-token') ?? '';
     fetch(
-      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`
+      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
     )
       .then((response) => {
         if (!response.ok) throw new Error('Could not load dashboard data.');
@@ -121,6 +127,7 @@ export default function DashboardPage() {
 
   function signOut() {
     window.localStorage.removeItem('Seftly-account');
+    window.localStorage.removeItem('Seftly-token');
     router.replace('/login');
   }
 
@@ -304,7 +311,9 @@ export default function DashboardPage() {
                           {data.subscription.packageName}
                         </h2>
                       </div>
-                      <PaymentStatus status={data.subscription.paymentStatus} />
+                      {data.subscription.isTrial ? (
+                        <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700">Active trial</span>
+                      ) : <PaymentStatus status={data.subscription.paymentStatus} />}
                     </div>
                     <div className="grid gap-3 sm:grid-cols-3">
                       <SubscriptionStat
@@ -322,12 +331,9 @@ export default function DashboardPage() {
                       />
                     </div>
                     <div className="mt-4 space-y-1 text-xs text-slate-500">
-                      <p>
-                        Paid on{' '}
-                        {new Date(data.subscription.paidAt).toLocaleString()}
-                      </p>
-                      <p>Order ID: {data.subscription.orderId}</p>
-                      <p>Transaction ID: {data.subscription.transactionId}</p>
+                      {!data.subscription.isTrial && data.subscription.paidAt ? <p>Paid on {new Date(data.subscription.paidAt).toLocaleString()}</p> : <p>Trial started for your child account</p>}
+                      {!data.subscription.isTrial && data.subscription.orderId ? <p>Order ID: {data.subscription.orderId}</p> : null}
+                      {!data.subscription.isTrial && data.subscription.transactionId ? <p>Transaction ID: {data.subscription.transactionId}</p> : null}
                       <p>
                         Expires on{' '}
                         {new Date(
@@ -720,6 +726,10 @@ function ChildCard({ child }: { child: Child }) {
         {child.active ? 'Active now' : 'Offline'}
       </div>
       <p className="mt-2 text-xs text-slate-500">{child.lastSeen}</p>
+      <div className={`mt-3 rounded-lg px-3 py-2 text-xs font-medium ${child.isPremium ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-50 text-slate-500'}`}>
+        {child.isPremium ? `Premium active · ${child.daysRemaining} day${child.daysRemaining === 1 ? '' : 's'} left` : 'Premium inactive'}
+        {child.expireDate ? <span className="block mt-1 font-normal">Expires {new Date(child.expireDate).toLocaleDateString()}</span> : null}
+      </div>
     </div>
   );
 }

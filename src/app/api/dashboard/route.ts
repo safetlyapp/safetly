@@ -58,6 +58,9 @@ export async function GET(request: NextRequest) {
         device?: string;
         active?: boolean;
         lastSeen?: string;
+        expireDate?: string | null;
+        isPremium?: boolean;
+        daysRemaining?: number;
       }>;
       summary?: { activeChildren?: number };
     };
@@ -67,6 +70,9 @@ export async function GET(request: NextRequest) {
       device: child.device ?? 'Connected device',
       active: child.active ?? false,
       lastSeen: child.lastSeen ?? 'No recent activity',
+      expireDate: child.expireDate ?? null,
+      isPremium: child.isPremium ?? false,
+      daysRemaining: child.daysRemaining ?? 0,
     }));
     return NextResponse.json({
       role,
@@ -97,23 +103,23 @@ export async function GET(request: NextRequest) {
         payload.device?.message ??
         'Seftly device status is available from the Parent/Child API.',
     },
-    subscription:
-      latestApproved && premium
-        ? {
-            packageName: latestApproved.packageName,
-            originalAmount:
-              latestApproved.originalAmount ?? latestApproved.submittedAmount,
-            discountAmount: latestApproved.discountAmount ?? 0,
-            paidAmount:
-              latestApproved.verifiedAmount ?? latestApproved.submittedAmount,
-            paidAt: latestApproved.paidAt,
-            paymentStatus: latestApproved.status,
-            orderId: latestApproved.orderId,
-            transactionId: latestApproved.transactionId,
-            expireDate: premium.expireDate ?? '',
-            daysRemaining: premium.daysRemaining ?? 0,
-          }
-        : null,
+    subscription: premium
+      ? {
+          packageName: latestApproved?.packageName ?? '3-day free trial',
+          isTrial: !latestApproved,
+          originalAmount:
+            latestApproved?.originalAmount ?? latestApproved?.submittedAmount ?? 0,
+          discountAmount: latestApproved?.discountAmount ?? 0,
+          paidAmount:
+            latestApproved?.verifiedAmount ?? latestApproved?.submittedAmount ?? 0,
+          paidAt: latestApproved?.paidAt ?? '',
+          paymentStatus: 'approved',
+          orderId: latestApproved?.orderId ?? '',
+          transactionId: latestApproved?.transactionId ?? '',
+          expireDate: premium.expireDate ?? '',
+          daysRemaining: premium.daysRemaining ?? 0,
+        }
+      : null,
     paymentHistory,
   });
 }

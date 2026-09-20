@@ -2,9 +2,15 @@
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, ChevronDown, Copy, Phone } from 'lucide-react';
+import { Check, Copy, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import Image from 'next/image';
 
 const gateways = {
@@ -37,12 +43,12 @@ export default function GatewayCheckout({
   originalAmount = '',
   discountAmount = '',
   logoUrl,
-  brandName = 'payConfirm',
-  businessName = 'Your Business',
+  brandName = 'Pay-Confirm',
+  businessName = 'Seftly',
   businessLogoUrl,
   invoiceNo,
-  supportPhone = '09600000000',
-  copyrightOwner = 'PayConfirm',
+  supportPhone = process.env.NEXT_PUBLIC_SUPPORT_PHONE ?? '01700000000',
+  copyrightOwner = 'Pay-Confirm',
 }: {
   gateway: keyof typeof gateways;
   orderId: string;
@@ -70,7 +76,6 @@ export default function GatewayCheckout({
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const phoneInputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const phoneDigits = phone
     .padEnd(11, ' ')
@@ -267,38 +272,34 @@ export default function GatewayCheckout({
             </>
           ) : (
             <>
-              <button
-                type="button"
-                onClick={() => setShowHelp((prev) => !prev)}
-                aria-expanded={showHelp}
-                className="mx-auto flex w-full max-w-sm items-center justify-between gap-2 rounded-xl bg-white/10 px-3 py-2 text-left text-xs font-medium text-white sm:text-sm"
+              <Accordion
+                type="single"
+                collapsible
+                className="mx-auto w-full max-w-sm"
               >
-                <span>কিভাবে সেন্ড মানি  করবেন? (দেখুন)</span>
-                <ChevronDown
-                  className={`h-4 w-4 shrink-0 transition-transform ${showHelp ? 'rotate-180' : ''
-                    }`}
-                />
-              </button>
+                <AccordionItem value="help" className="border-none">
+                  <AccordionTrigger className="rounded-xl bg-white/10 px-3 py-2 text-xs font-medium text-white hover:no-underline sm:text-sm">
+                    কিভাবে সেন্ড মানি করবেন?
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-0 pt-2">
+                    <div className="rounded-xl bg-white/10 px-3 text-left text-xs leading-5 text-white sm:px-4 sm:py-3 sm:text-sm sm:leading-6">
+                      <p>১. আপনার {details.name} অ্যাপ অথবা USSD ব্যবহার করুন।</p>
+                      <p>২. Send Money সিলেক্ট করুন।</p>
+                    </div>
 
-              {showHelp ? (
-                <div className="mx-auto mt-2 max-w-sm">
-                  <div className="rounded-xl bg-white/10 px-3 text-left text-xs leading-5 text-white sm:px-4 sm:py-3 sm:text-sm sm:leading-6">
-                    <p>১. আপনার {details.name} অ্যাপ অথবা USSD ব্যবহার করুন।</p>
-                    <p>২. Send Money সিলেক্ট করুন।</p>
-                  </div>
-
-                  <div className="mx-auto mt-3 w-full max-w-xs overflow-hidden rounded-xl bg-white p-1.5 shadow-sm sm:max-w-sm sm:p-2">
-                    <Image
-                      src={details.image}
-                      alt={`${details.name} payment instructions`}
-                      width={320}
-                      height={180}
-                      sizes="(max-width: 640px) calc(100vw - 64px), 384px"
-                      className="h-auto max-h-20 w-full rounded-lg object-contain sm:max-h-40"
-                    />
-                  </div>
-                </div>
-              ) : null}
+                    <div className="mx-auto mt-3 w-full max-w-xs overflow-hidden rounded-xl bg-white p-1.5 shadow-sm sm:max-w-sm sm:p-2">
+                      <Image
+                        src={details.image}
+                        alt={`${details.name} payment instructions`}
+                        width={320}
+                        height={180}
+                        sizes="(max-width: 640px) calc(100vw - 64px), 384px"
+                        className="h-auto max-h-20 w-full rounded-lg object-contain sm:max-h-40"
+                      />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
 
               <p className="mt-2 text-center text-xs font-medium text-white sm:mt-2 sm:text-sm">
                 ৩. অনুগ্রহ করে নিচের নম্বরে সেন্ড মানি করুন।

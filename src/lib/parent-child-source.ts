@@ -9,10 +9,7 @@ export async function requestParentChildApi(
   request: ExternalRequest = {}
 ) {
   const baseUrl = process.env.PARENT_CHILD_API_URL?.trim();
-  if (!baseUrl) {
-    if (process.env.NODE_ENV === 'production') return null;
-    return requestDemoParentChildApi(path, request);
-  }
+  if (!baseUrl) return null;
 
   try {
     const response = await fetch(new URL(path, baseUrl), {
@@ -36,4 +33,3 @@ export async function requestParentChildApi(
     };
   }
 }
-import { requestDemoParentChildApi } from '@/lib/parent-child-demo';
