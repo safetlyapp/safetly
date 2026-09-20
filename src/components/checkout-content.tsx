@@ -17,6 +17,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 type PaymentMethodId = 'bkash' | 'nagad' | 'rocket';
@@ -28,28 +29,28 @@ const PAYMENT_METHODS: {
   color: string;
   bg: string;
 }[] = [
-  {
-    id: 'bkash',
-    label: 'bKash',
-    logo: '/bKash.png',
-    color: '#E2136E',
-    bg: '#FDF2F8',
-  },
-  {
-    id: 'nagad',
-    label: 'Nagad',
-    logo: '/Nagad.png',
-    color: '#F42B4E',
-    bg: '#FEF1F3',
-  },
-  {
-    id: 'rocket',
-    label: 'Rocket',
-    logo: '/rocket.png',
-    color: '#8C3494',
-    bg: '#F6F0FA',
-  },
-];
+    {
+      id: 'bkash',
+      label: 'bKash',
+      logo: '/bKash.png',
+      color: '#E2136E',
+      bg: '#FDF2F8',
+    },
+    {
+      id: 'nagad',
+      label: 'Nagad',
+      logo: '/Nagad.png',
+      color: '#F42B4E',
+      bg: '#FEF1F3',
+    },
+    {
+      id: 'rocket',
+      label: 'Rocket',
+      logo: '/rocket.png',
+      color: '#8C3494',
+      bg: '#F6F0FA',
+    },
+  ];
 
 type CheckoutPlan = {
   planId: string;
@@ -64,8 +65,42 @@ type CheckoutContentProps = {
   plan: CheckoutPlan;
 };
 
+type CheckoutAccount = {
+  role: 'parent' | 'kid';
+  email?: string;
+};
+
+type ChildOption = {
+  id: string;
+  name?: string;
+  username?: string;
+  email?: string;
+  expireDate?: string | null;
+  isPremium?: boolean;
+};
+
+function readCheckoutAccount(): CheckoutAccount | null {
+  if (typeof window === 'undefined') return null;
+  const raw = window.localStorage.getItem('Seftly-account');
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as CheckoutAccount;
+  } catch {
+    return null;
+  }
+}
+
 export default function CheckoutContent({ plan }: CheckoutContentProps) {
+  const router = useRouter();
   const [agreed, setAgreed] = useState(false);
+  // Read browser storage after mount so the server and first client render
+  // produce identical markup and do not trigger a hydration mismatch.
+  const [account, setAccount] = useState<CheckoutAccount | null>(null);
+  const [children, setChildren] = useState<ChildOption[]>([]);
+  const [selectedChildId, setSelectedChildId] = useState('');
+  const [childrenLoading, setChildrenLoading] = useState(false);
+  const [childrenError, setChildrenError] = useState('');
   const [accountId, setAccountId] = useState('');
   const [userCheck, setUserCheck] = useState<
     'idle' | 'loading' | 'valid' | 'invalid'
@@ -109,19 +144,72 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
     [plan.price, discountAmount]
   );
 
+  const isParentLoggedIn = account?.role === 'parent';
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setAccount(readCheckoutAccount());
+    }, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem('Seftly-token');
+    if (account?.role !== 'parent' || !token) return;
+
+    const loadingTimeoutId = window.setTimeout(
+      () => setChildrenLoading(true),
+      0
+    );
+
+    fetch('/api/parent/children', {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    })
+      .then(async (response) => {
+        const payload = (await response.json()) as {
+          children?: ChildOption[];
+          error?: string;
+        };
+        if (!response.ok) {
+          throw new Error(payload.error ?? 'Could not load children.');
+        }
+        setChildren(payload.children ?? []);
+      })
+      .catch((error: unknown) => {
+        setChildrenError(
+          error instanceof Error ? error.message : 'Could not load your children.'
+        );
+      })
+      .finally(() => setChildrenLoading(false));
+
+    return () => window.clearTimeout(loadingTimeoutId);
+  }, [account]);
+
+  function selectChild(childId: string) {
+    setSelectedChildId(childId);
+    const child = children.find((item) => item.id === childId);
+    const identifier = child?.username ?? child?.email ?? '';
+    setAccountId(identifier);
+    setUserCheck('idle');
+    setUserCheckMessage('');
+    setValidatedEmail('');
+    setCouponStatus('idle');
+    setCouponMessage('');
+    setDiscountPercent(0);
+  }
+
   useEffect(() => {
     const identifier = accountId.trim();
     if (!identifier) {
-      setUserCheck('idle');
-      setUserCheckMessage('');
-      setValidatedEmail('');
       return;
     }
 
-    setUserCheck('loading');
-    setUserCheckMessage('');
-    setValidatedEmail('');
     const timeoutId = window.setTimeout(async () => {
+      setUserCheck('loading');
+      setUserCheckMessage('');
+      setValidatedEmail('');
+
       try {
         const response = await fetch(
           `/api/users/validate?identifier=${encodeURIComponent(identifier)}`,
@@ -137,7 +225,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
         setValidatedEmail(payload.valid ? (payload.user?.email ?? '') : '');
         setUserCheckMessage(
           payload.message ??
-            (payload.valid ? 'User found.' : 'No matching user found.')
+          (payload.valid ? 'User found.' : 'No matching user found.')
         );
       } catch {
         setUserCheck('invalid');
@@ -200,7 +288,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
   async function handlePay() {
     const newErrors: string[] = [];
     if (!accountId.trim()) {
-      newErrors.push('Please enter your email, nickname, or kids ID.');
+      newErrors.push('Please select or enter the child username or email.');
     }
     if (accountId.trim() && userCheck !== 'valid') {
       newErrors.push(
@@ -242,7 +330,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
             ]);
             return;
           }
-          window.location.assign(
+          router.push(
             `/checkout/success?order_id=${encodeURIComponent(freePayload.orderId)}&customer_email=${encodeURIComponent(freePayload.customerEmail ?? accountId)}`
           );
           return;
@@ -253,7 +341,8 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
           body: JSON.stringify({
             gateway: paymentMethod,
             amount: Number(total.toFixed(2)),
-            customer_email: validatedEmail,
+            customer_email: validatedEmail || account?.email || '',
+            child_identifier: accountId,
             plan_id: plan.planId,
             package_name: plan.name,
             original_amount: plan.price.toFixed(2),
@@ -396,20 +485,72 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                     1. Account details
                   </h2>
                   <p className="mb-3 text-xs text-slate-500">
-                    Enter the child&apos;s email address or username{' '}
-                    <span className="text-[11px]">
-                      (which you received after installing the kid&apos;s app)
-                    </span>
-                    .
+                    {isParentLoggedIn
+                      ? 'Select the child who should receive this subscription.'
+                      : 'Enter the child email or username.'}
                   </p>
-                  <Input
-                    placeholder="Child email or username"
-                    value={accountId}
-                    onChange={(e) => setAccountId(e.target.value)}
-                  />
-                  <p className="mt-1.5 text-xs text-slate-500">
-                    Use the child&apos;s registered email address or username.
-                  </p>
+
+                  {isParentLoggedIn && !childrenError ? (
+                    <div>
+                      <Label
+                        htmlFor="child-account"
+                        className="mb-1.5 block text-xs font-medium text-slate-600"
+                      >
+                        Select child
+                      </Label>
+                      <select
+                        id="child-account"
+                        value={selectedChildId}
+                        onChange={(event) => selectChild(event.target.value)}
+                        disabled={childrenLoading || children.length === 0}
+                        className="h-10 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        <option value="">
+                          {childrenLoading
+                            ? 'Loading children…'
+                            : children.length === 0
+                              ? 'No children found'
+                              : 'Choose a child'}
+                        </option>
+                        {children.map((child) => (
+                          <option key={child.id} value={child.id}>
+                            {child.name ?? child.username ?? child.email ?? child.id}
+                            {child.username ? ` (${child.username})` : ''}
+                          </option>
+                        ))}
+                      </select>
+                      {children.length > 0 && selectedChildId && (
+                        <p className="mt-2 text-xs text-slate-500">
+                          Selected child:{' '}
+                          {children.find((child) => child.id === selectedChildId)
+                            ?.email ?? accountId}
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <Label
+                        htmlFor="child-account"
+                        className="mb-1.5 block text-xs font-medium text-slate-600"
+                      >
+                        Child email or username
+                      </Label>
+                      <Input
+                        id="child-account"
+                        placeholder="Child email or username"
+                        value={accountId}
+                        onChange={(e) => {
+                          setAccountId(e.target.value);
+                          setSelectedChildId('');
+                        }}
+                      />
+                    </div>
+                  )}
+                  {childrenError && (
+                    <p className="mt-2 text-xs text-destructive">
+                      {childrenError} Enter the child email or username manually.
+                    </p>
+                  )}
                   {userCheck !== 'idle' && (
                     <p
                       className={cn(
@@ -454,9 +595,9 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                           style={
                             isSelected
                               ? {
-                                  borderColor: method.color,
-                                  backgroundColor: method.bg,
-                                }
+                                borderColor: method.color,
+                                backgroundColor: method.bg,
+                              }
                               : undefined
                           }
                           className={cn(
@@ -498,18 +639,6 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                     })}
                   </div>
 
-                  {selectedMethod && (
-                    <p
-                      className="mb-4 rounded-md px-3 py-2 text-xs font-medium"
-                      style={{
-                        backgroundColor: selectedMethod.bg,
-                        color: selectedMethod.color,
-                      }}
-                    >
-                      You&apos;re paying via {selectedMethod.label}
-                    </p>
-                  )}
-
                   <div className="mb-4 flex items-start gap-2">
                     <Checkbox
                       id="terms"
@@ -526,7 +655,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                         href="/policy/terms-of-service"
                         className="text-blue-600 hover:underline"
                       >
-                        Terms and Conditions
+                        Terms and Service
                       </a>
                       ,{' '}
                       <a
@@ -582,7 +711,7 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                   )}
 
                   <p className="mt-3 text-xs leading-relaxed text-slate-500">
-                    Click &quot;Pay&quot; to complete your subscription.
+                    Click &quot;Pay&quot; with {selectedMethod ? ` ${selectedMethod.label}` : 'Now'} to complete your subscription.
                     You&apos;ll be redirected to your selected payment provider
                     and then return to this page.
                   </p>

@@ -1,4 +1,4 @@
-import RocketCheckout from '@/components/checkout/rocket-checkout';
+import GatewayCheckout from '@/components/gateway-checkout';
 
 export default async function NagadCheckoutPage({
   searchParams,
@@ -16,7 +16,8 @@ export default async function NagadCheckoutPage({
   const query = await searchParams;
 
   return (
-    <RocketCheckout
+    <GatewayCheckout
+      gateway="rocket"
       orderId={query.order_id ?? 'ORDER-001'}
       amount={query.amount ?? '0.00'}
       customerEmail={query.customer_email ?? ''}

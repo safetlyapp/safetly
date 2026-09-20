@@ -117,7 +117,7 @@ export default function BkashCheckout({
           ) : (
             <>
               <p className="text-sm font-medium text-white/90">
-                Send ৳{formattedAmount} to this bKash number
+               ১. আপনার  িবকাশ অাপ অথবা ইউএসএসিড ববহার করুন।
               </p>
               <p className="mt-1 text-2xl font-bold tracking-wide text-white">
                 {receiverNumber}
