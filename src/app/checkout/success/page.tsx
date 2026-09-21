@@ -20,17 +20,36 @@ export default function CheckoutSuccessPage() {
 function SuccessContent() {
   const params = useSearchParams();
   const [seconds, setSeconds] = useState(5);
+  const [destination, setDestination] = useState('/login');
   const orderId = params.get('order_id') ?? '';
   const email = params.get('customer_email') ?? '';
   const trackingNumber = params.get('tracking_number') ?? '';
 
   useEffect(() => {
+    let nextPath = '/login';
+    const token = window.localStorage.getItem('Seftly-token');
+    const account = window.localStorage.getItem('Seftly-account');
+    if (token && account) {
+      try {
+        const parsed = JSON.parse(account) as { role?: string; identifier?: string };
+        if (
+          (parsed.role === 'parent' || parsed.role === 'kid') &&
+          parsed.identifier
+        ) {
+          nextPath = '/dashboard';
+        }
+      } catch {
+        window.localStorage.removeItem('Seftly-account');
+      }
+    }
+    setDestination(nextPath);
+
     const interval = window.setInterval(
       () => setSeconds((value) => Math.max(0, value - 1)),
       1000
     );
     const timeout = window.setTimeout(() => {
-      window.location.assign(`/dashboard`);
+      window.location.assign(nextPath);
     }, 5000);
     return () => {
       window.clearInterval(interval);
@@ -80,7 +99,9 @@ function SuccessContent() {
             Opening your dashboard in {seconds} seconds…
           </p>
           <Button asChild className="w-full">
-            <Link href="/dashboard">Open dashboard</Link>
+            <Link href={destination}>
+              {destination === '/dashboard' ? 'Open dashboard' : 'Log in to continue'}
+            </Link>
           </Button>
         </CardContent>
       </Card>

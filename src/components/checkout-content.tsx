@@ -15,6 +15,7 @@ import {
   AlertCircle,
   ShieldCheck,
   Loader2,
+  Phone,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -714,6 +715,10 @@ export default function CheckoutContent({ plan }: CheckoutContentProps) {
                     Click &quot;Pay&quot; with {selectedMethod ? ` ${selectedMethod.label}` : 'Now'} to complete your subscription.
                     You&apos;ll be redirected to your selected payment provider
                     and then return to this page.
+                  </p>
+                  <p className="mt-4 flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-700">
+                    <Phone className="h-4 w-4 text-primary" />
+                    Helpline: {process.env.NEXT_PUBLIC_SUPPORT_PHONE ?? '01700000000'}
                   </p>
                 </div>
               </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AUTH_STATE_CHANGED_EVENT } from '@/components/header';
 import {
   Activity,
   Baby,
@@ -111,23 +112,54 @@ export default function DashboardPage() {
     }
 
     const token = window.localStorage.getItem('Seftly-token') ?? '';
-    fetch(
-      `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
-    )
+    const requestDashboard = (accessToken: string) =>
+      fetch(
+        `/api/dashboard?role=${account.role}&identifier=${encodeURIComponent(account.identifier)}`,
+        { headers: { Authorization: `Bearer ${accessToken}` }, cache: 'no-store' }
+      );
+
+    requestDashboard(token)
       .then((response) => {
-        if (!response.ok) throw new Error('Could not load dashboard data.');
-        return response.json() as Promise<DashboardData>;
+        if (response.status !== 401) {
+          if (!response.ok) throw new Error('Could not load dashboard data.');
+          return response.json() as Promise<DashboardData>;
+        }
+        const refreshToken = window.localStorage.getItem('Seftly-refresh-token');
+        if (!refreshToken) throw new Error('SESSION_EXPIRED');
+        return fetch('/api/auth/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+        }).then(async (refreshResponse) => {
+          const payload = (await refreshResponse.json()) as { token?: string };
+          if (!refreshResponse.ok || !payload.token) throw new Error('SESSION_EXPIRED');
+          window.localStorage.setItem('Seftly-token', payload.token);
+          const retry = await requestDashboard(payload.token);
+          if (!retry.ok) {
+            if (retry.status === 401) throw new Error('SESSION_EXPIRED');
+            throw new Error('Could not load dashboard data.');
+          }
+          return retry.json() as Promise<DashboardData>;
+        });
       })
       .then(setData)
-      .catch(() =>
-        setError('Could not load your dashboard. Please try again.')
-      );
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.message === 'SESSION_EXPIRED') {
+          window.localStorage.removeItem('Seftly-account');
+          window.localStorage.removeItem('Seftly-token');
+          window.localStorage.removeItem('Seftly-refresh-token');
+          window.dispatchEvent(new Event(AUTH_STATE_CHANGED_EVENT));
+          router.replace('/login');
+          return;
+        }
+        setError('Could not load your dashboard. Please try again.');
+      });
   }, [account, router]);
 
   function signOut() {
     window.localStorage.removeItem('Seftly-account');
     window.localStorage.removeItem('Seftly-token');
+    window.localStorage.removeItem('Seftly-refresh-token');
     router.replace('/login');
   }
 
