@@ -88,9 +88,13 @@ export async function GET(request: NextRequest) {
   const payload = external.payload as ExternalChildDashboard;
   const email = payload.profile?.email ?? '';
   const paymentHistory = email ? await getPaymentHistory(email) : [];
-  const latestApproved = paymentHistory.find(
-    (payment) => payment.status === 'approved'
-  );
+  const latestApproved = paymentHistory
+    .filter((payment) => payment.status === 'approved')
+    .sort((a, b) => {
+      const aTime = a.paidAt ? new Date(a.paidAt).getTime() : 0;
+      const bTime = b.paidAt ? new Date(b.paidAt).getTime() : 0;
+      return bTime - aTime;
+    })[0];
   const premium = payload.premium;
 
   return NextResponse.json({

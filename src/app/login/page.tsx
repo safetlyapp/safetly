@@ -226,6 +226,7 @@ function SignInFields({
       );
       const payload = (await response.json()) as {
         token?: string;
+        refreshToken?: string;
         profile?: {
           id?: string;
           email?: string;
@@ -239,6 +240,9 @@ function SignInFields({
         return;
       }
       window.localStorage.setItem('Seftly-token', payload.token);
+      if (payload.refreshToken) {
+        window.localStorage.setItem('Seftly-refresh-token', payload.refreshToken);
+      }
       window.localStorage.setItem(
         'Seftly-account',
         JSON.stringify({
